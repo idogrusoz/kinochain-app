@@ -8,7 +8,7 @@ type RootStackParamList = {
   // Add other screen names here
 };
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Auth'>;
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Game'>;
 
 const SplashScreen = () => {
   const navigation = useNavigation<NavigationProp>();
@@ -18,7 +18,7 @@ const SplashScreen = () => {
     setTimeout(() => {
       // Check if user is authenticated and navigate accordingly
       // For now, we'll just navigate to the AuthScreen
-      navigation.navigate('Auth');
+      navigation.navigate('Game');
     }, 2000);
   }, [navigation]);
 
