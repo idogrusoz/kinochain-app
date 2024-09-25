@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { View, Image, ScrollView } from 'react-native';
-import { Text, Card, Title, Paragraph } from 'react-native-paper';
-import { Game, Actor } from '../../types';
-import { CreditsList } from '../components/CreditsList';
+import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import { Card, Title } from 'react-native-paper';
+import { useState, useEffect } from 'react';
+import type { Game, ActorModel, CreditModel } from '../../types';
 import { startNewGame } from '../services/gameService';
+import { CreditsList } from '../components/CreditsList';
+import i18n from '../i18n/i18n';
+import { theme } from '../../theme';
 
 export default function GameScreen() {
   const [game, setGame] = useState<Game | null>(null);
-  const [currentActor, setCurrentActor] = useState<Actor | null>(null);
+  const [currentActor, setCurrentActor] = useState<ActorModel | null>(null);
 
   useEffect(() => {
     const fetchGame = async () => {
       try {
         const newGame = await startNewGame();
         setGame(newGame);
-        setCurrentActor(newGame.startingActor);
+        setCurrentActor(newGame.starting);
       } catch (error) {
         console.error('Error starting new game:', error);
       }
@@ -23,40 +25,107 @@ export default function GameScreen() {
     fetchGame();
   }, []);
 
-  if (!game || !currentActor) return <Text>Loading...</Text>;
+  return !game || !currentActor ? (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>{i18n.t('loading')}</Text>
+    </View>
+  ) : (
+    <View style={styles.container}>
+        {/* Target Movie Section */}
+        <View
+          style={{
+            backgroundColor: theme.secondary,
+            padding: 8,
 
-  return (
-    <View style={{ flex: 1, backgroundColor: '#FFFDE7' }}>
-      {/* Target Actor Section */}
-      <View style={{ backgroundColor: 'black', padding: 16 }}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#FFF176', marginBottom: 8 }}>Target Actor</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Image
-            source={{ uri: game.targetActor.profile_path ? `https://image.tmdb.org/t/p/w200${game.targetActor.profile_path}` : "/placeholder.svg" }}
-            style={{ width: 80, height: 80, borderRadius: 40, borderWidth: 2, borderColor: '#FFF176' }}
-          />
-          <Text style={{ fontSize: 18, color: '#FFF176', marginLeft: 16 }}>{game.targetActor.name}</Text>
-        </View>
-      </View>
-
-      {/* Current Selection Section */}
-      <Card style={{ margin: 16, backgroundColor: '#FFF9C4' }}>
-        <Card.Content>
-          <Title>Current Actor</Title>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image
-              source={{ uri: currentActor.profile_path ? `https://image.tmdb.org/t/p/w200${currentActor.profile_path}` : "/placeholder.svg" }}
-              style={{ width: 96, height: 96, borderRadius: 8 }}
+              source={{
+                uri: game?.target.poster
+                  ? `https://image.tmdb.org/t/p/w200${game.target.poster}`
+                  : '/placeholder.svg',
+                }}
+              style={{
+                width: 80,
+                height: 120,
+                borderRadius: 8,
+                borderWidth: 2,
+                borderColor: '#FFF176',
+              }}
             />
-            <Text style={{ fontSize: 20, marginLeft: 16 }}>{currentActor.name}</Text>
+            <View style={{ marginLeft: 16 }}>
+              <Text style={{ fontSize: 18, color: '#FFF176' }}>
+                {game?.target.title}
+              </Text>
+              <Text style={{ fontSize: 14, color: '#FFF176' }}>
+                {game?.target.releaseDate.split('-')[0]}
+              </Text>
+            </View>
           </View>
-        </Card.Content>
-      </Card>
+        </View>
 
-      {/* Credits List */}
-      <ScrollView style={{ flex: 1 }}>
-        <CreditsList credits={currentActor.combinedCredits || []} />
+        {/* Current Actor Section */}
+        <Card style={{ margin: 16, backgroundColor: '#FFF9C4' }}>
+          <Card.Content>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 8,
+              }}
+            >
+              <Image
+                source={{
+                  uri: currentActor?.poster
+                    ? `https://image.tmdb.org/t/p/w200${currentActor.poster}`
+                    : '/placeholder.svg',
+                  }}
+                style={{ width: 96, height: 96, borderRadius: 8 }}
+              />
+              <Text style={{ fontSize: 20, marginLeft: 16 }}>
+                {currentActor?.name}
+              </Text>
+            </View>
+          </Card.Content>
+        </Card>
+
+        {/* Credits List */}
+        <ScrollView contentContainerStyle={styles.content}> 
+        <CreditsList
+          credits={
+            currentActor?.combinedCredits?.map((credit) => ({
+              ...credit,
+              titleId: credit.id,
+              poster_path: credit.poster,
+            })) || []
+          }
+        />
       </ScrollView>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.background,
+  },
+  header: {
+    paddingTop: 40, // Adjust this value as needed
+    paddingBottom: 10,
+    // Add any other styles for your header
+  },
+  content: {
+    paddingTop: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: theme.primary,
+  },
+});

@@ -1,70 +1,77 @@
-// Basic person type
-export interface Person {
+// Base entity type
+export interface BaseEntity {
   id: number;
+}
+
+// Media type enum
+export enum MediaType {
+  Movie = 'movie',
+  TV = 'tv'
+}
+
+// Actor types
+export interface ActorModel extends BaseEntity {
   name: string;
-  profile_path: string | null;
+  poster: string | null;
+  role: string;
+  combinedCredits: CreditModel[];
 }
 
-// Cast member type
-export interface CastMember extends Person {
+export interface CreditModel extends BaseEntity {
+  title: string;
+  originalTitle: string;
+  releaseDate: string;
+  poster: string | null;
   character: string;
-  order: number;
 }
 
-// Crew member type
-export interface CrewMember extends Person {
-  department: string;
+// Movie types
+export interface MovieSummaryModel extends BaseEntity {
+  title: string;
+  originalTitle: string;
+  poster: string | null;
+  releaseDate: string;
+  mediaType: MediaType;
+}
+
+export interface MovieDetailsModel extends MovieSummaryModel {
+  overview: string;
+  genres: string[];
+  cast: MovieCastModel[];
+  crew: MovieCrewModel[];
+}
+
+export interface MovieCreditBaseModel extends BaseEntity {
+  name: string;
+  poster: string | null;
+}
+
+export interface MovieCastModel extends MovieCreditBaseModel {
+  character: string;
+}
+
+export interface MovieCrewModel extends MovieCreditBaseModel {
   job: string;
 }
 
-// Movie credits type
-export interface MovieCredits {
-  id: number;
-  cast: CastMember[];
-  crew: CrewMember[];
-}
-
-// Movie type (if needed)
-export interface Movie {
-  id: number;
-  title: string;
-  // Add other movie properties as needed
-}
-
-// Game state types (example)
+// Game state types
 export interface GameState {
-  currentMovie: Movie;
-  guessedActors: CastMember[];
+  targetMovie: MovieDetailsModel;
+  currentActor: ActorModel;
+  guessedActors: ActorModel[];
   remainingGuesses: number;
   score: number;
 }
 
-// API response type
-export interface TMDbResponse {
-  results: MovieCredits;
-}
-
-// Actor type (more detailed than the previous Person type)
-export interface Actor {
-  adult: boolean;
-  cast_id: number;
-  character: string;
-  credit_id: string;
-  gender: number;
-  id: number;
-  known_for_department: string;
-  name: string;
-  order: number;
-  original_name: string;
-  popularity: number;
-  profile_path: string | null;
-  combinedCredits?: any[]; // You might want to define a more specific type for this
-}
-
 // Game interface
-export interface Game {
-  gameId: string;
+export interface Game extends BaseEntity {
+  target: MovieSummaryModel;
+  starting: ActorModel;
   level: number;
-  startingActor: Actor;
-  targetActor: Actor;
+};
+
+
+// API response type (if needed)
+export interface TMDbResponse {
+  results: MovieDetailsModel;
 }

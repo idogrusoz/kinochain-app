@@ -1,0 +1,40 @@
+/* Coolors Exported Palette - https://coolors.co/f72585-b5179e-7209b7-560bad-480ca8-3a0ca3-3f37c9-4361ee-4895ef-4cc9f0 */
+
+- Tailwind
+
+{ 'rose': { DEFAULT: '#f72585', 100: '#37021a', 200: '#6e0434', 300: '#a5064e', 400: '#dc0868', 500: '#f72585', 600: '#f9529d', 700: '#fa7db5', 800: '#fca8ce', 900: '#fdd4e6' }, 'fandango': { DEFAULT: '#b5179e', 100: '#24051f', 200: '#48093f', 300: '#6c0e5e', 400: '#90137e', 500: '#b5179e', 600: '#e326c7', 700: '#ea5dd5', 800: '#f193e3', 900: '#f8c9f1' }, 'grape': { DEFAULT: '#7209b7', 100: '#170225', 200: '#2e034a', 300: '#45056f', 400: '#5c0794', 500: '#7209b7', 600: '#980df4', 700: '#b14af6', 800: '#cb86f9', 900: '#e5c3fc' }, 'chrysler_blue': { DEFAULT: '#560bad', 100: '#110223', 200: '#230445', 300: '#340768', 400: '#45098a', 500: '#560bad', 600: '#750fea', 700: '#9747f3', 800: '#ba84f7', 900: '#dcc2fb' }, 'dark_blue': { DEFAULT: '#480ca8', 100: '#0e0221', 200: '#1c0543', 300: '#2b0764', 400: '#390986', 500: '#480ca8', 600: '#6210e5', 700: '#8745f2', 800: '#af83f6', 900: '#d7c1fb' }, 'zaffre': { DEFAULT: '#3a0ca3', 100: '#0b0220', 200: '#170541', 300: '#220761', 400: '#2e0a81', 500: '#3a0ca3', 600: '#4f11e0', 700: '#7743f1', 800: '#a582f6', 900: '#d2c0fa' }, 'palatinate_blue': { DEFAULT: '#3f37c9', 100: '#0c0b28', 200: '#191650', 300: '#252178', 400: '#322ca0', 500: '#3f37c9', 600: '#655fd3', 700: '#8b87de', 800: '#b2afe9', 900: '#d8d7f4' }, 'neon_blue': { DEFAULT: '#4361ee', 100: '#050f38', 200: '#0a1d70', 300: '#102ca8', 400: '#153ae0', 500: '#4361ee', 600: '#6a83f1', 700: '#8fa2f5', 800: '#b4c1f8', 900: '#dae0fc' }, 'chefchaouen_blue': { DEFAULT: '#4895ef', 100: '#051d39', 200: '#0a3b72', 300: '#0f58ac', 400: '#1475e5', 500: '#4895ef', 600: '#6dabf2', 700: '#91c0f5', 800: '#b6d5f9', 900: '#daeafc' }, 'vivid_sky_blue': { DEFAULT: '#4cc9f0', 100: '#052e3a', 200: '#095c75', 300: '#0e8aaf', 400: '#13b8ea', 500: '#4cc9f0', 600: '#70d5f3', 700: '#93dff6', 800: '#b7eaf9', 900: '#dbf4fc' } }
+
+- CSV
+
+f72585,b5179e,7209b7,560bad,480ca8,3a0ca3,3f37c9,4361ee,4895ef,4cc9f0
+
+- With #
+
+#f72585, #b5179e, #7209b7, #560bad, #480ca8, #3a0ca3, #3f37c9, #4361ee, #4895ef, #4cc9f0
+
+- Array
+
+["f72585","b5179e","7209b7","560bad","480ca8","3a0ca3","3f37c9","4361ee","4895ef","4cc9f0"]
+
+- Object
+
+{"Rose":"f72585","Fandango":"b5179e","Grape":"7209b7","Chrysler blue":"560bad","Dark blue":"480ca8","Zaffre":"3a0ca3","Palatinate blue":"3f37c9","Neon blue":"4361ee","Chefchaouen Blue":"4895ef","Vivid sky blue":"4cc9f0"}
+
+- Extended Array
+
+[{"name":"Rose","hex":"f72585","rgb":[247,37,133],"cmyk":[0,85,46,3],"hsb":[333,85,97],"hsl":[333,93,56],"lab":[55,79,1]},{"name":"Fandango","hex":"b5179e","rgb":[181,23,158],"cmyk":[0,87,13,29],"hsb":[309,87,71],"hsl":[309,77,40],"lab":[43,70,-34]},{"name":"Grape","hex":"7209b7","rgb":[114,9,183],"cmyk":[38,95,0,28],"hsb":[276,95,72],"hsl":[276,91,38],"lab":[32,66,-66]},{"name":"Chrysler blue","hex":"560bad","rgb":[86,11,173],"cmyk":[50,94,0,32],"hsb":[268,94,68],"hsl":[268,88,36],"lab":[27,60,-68]},{"name":"Dark blue","hex":"480ca8","rgb":[72,12,168],"cmyk":[57,93,0,34],"hsb":[263,93,66],"hsl":[263,87,35],"lab":[25,58,-69]},{"name":"Zaffre","hex":"3a0ca3","rgb":[58,12,163],"cmyk":[64,93,0,36],"hsb":[258,93,64],"hsl":[258,86,34],"lab":[23,55,-70]},{"name":"Palatinate blue","hex":"3f37c9","rgb":[63,55,201],"cmyk":[69,73,0,21],"hsb":[243,73,79],"hsl":[243,57,50],"lab":[34,48,-74]},{"name":"Neon blue","hex":"4361ee","rgb":[67,97,238],"cmyk":[72,59,0,7],"hsb":[229,72,93],"hsl":[229,83,60],"lab":[47,36,-74]},{"name":"Chefchaouen Blue","hex":"4895ef","rgb":[72,149,239],"cmyk":[70,38,0,6],"hsb":[212,70,94],"hsl":[212,84,61],"lab":[61,5,-52]},{"name":"Vivid sky blue","hex":"4cc9f0","rgb":[76,201,240],"cmyk":[68,16,0,6],"hsb":[194,68,94],"hsl":[194,85,62],"lab":[76,-22,-29]}]
+
+- XML
+
+<palette>
+  <color name="Rose" hex="f72585" r="247" g="37" b="133" />
+  <color name="Fandango" hex="b5179e" r="181" g="23" b="158" />
+  <color name="Grape" hex="7209b7" r="114" g="9" b="183" />
+  <color name="Chrysler blue" hex="560bad" r="86" g="11" b="173" />
+  <color name="Dark blue" hex="480ca8" r="72" g="12" b="168" />
+  <color name="Zaffre" hex="3a0ca3" r="58" g="12" b="163" />
+  <color name="Palatinate blue" hex="3f37c9" r="63" g="55" b="201" />
+  <color name="Neon blue" hex="4361ee" r="67" g="97" b="238" />
+  <color name="Chefchaouen Blue" hex="4895ef" r="72" g="149" b="239" />
+  <color name="Vivid sky blue" hex="4cc9f0" r="76" g="201" b="240" />
+</palette>

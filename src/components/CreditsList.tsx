@@ -7,8 +7,7 @@ titleId: number;
   title?: string;
   name?: string;
   poster_path: string | null;
-  release_date?: string;
-  first_air_date?: string;
+  releaseDate?: string;
 }
 
 interface CreditsListProps {
@@ -16,7 +15,7 @@ interface CreditsListProps {
 }
 
 export function CreditsList({ credits }: CreditsListProps) {
-    console.log(credits[0])
+    console.log(credits)
   return (
     <View style={{ padding: 16 }}>
       {credits.map((credit) => (
@@ -29,7 +28,7 @@ export function CreditsList({ credits }: CreditsListProps) {
               />
               <View style={{ marginLeft: 16 }}>
                 <Title>{credit.title || credit.name}</Title>
-                <Paragraph>Release Date: {credit.release_date || credit.first_air_date || 'Unknown'}</Paragraph>
+                <Paragraph>{credit.releaseDate?.split('-')[0] || 'Unknown'}</Paragraph>
               </View>
             </Card.Content>
           </Card>
