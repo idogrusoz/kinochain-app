@@ -31,70 +31,88 @@ export default function GameScreen() {
     </View>
   ) : (
     <View style={styles.container}>
-        {/* Target Movie Section */}
+      {/* Target Movie Section */}
+      <View
+        style={{
+          backgroundColor: theme.background,
+          padding: 8,
+
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
         <View
           style={{
-            backgroundColor: theme.secondary,
-            padding: 8,
-
-            display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image
-              source={{
-                uri: game?.target.poster
-                  ? `https://image.tmdb.org/t/p/w200${game.target.poster}`
-                  : '/placeholder.svg',
-                }}
+          <Image
+            source={{
+              uri: game?.target.poster
+                ? `https://image.tmdb.org/t/p/w200${game.target.poster}`
+                : '/placeholder.svg',
+            }}
+            style={{
+              width: 80,
+              height: 120,
+              borderRadius: 8,
+              borderWidth: 2,
+            }}
+          />
+          <View style={{ marginLeft: 16 }}>
+            <Text
               style={{
-                width: 80,
-                height: 120,
-                borderRadius: 8,
-                borderWidth: 2,
-                borderColor: '#FFF176',
-              }}
-            />
-            <View style={{ marginLeft: 16 }}>
-              <Text style={{ fontSize: 18, color: '#FFF176' }}>
-                {game?.target.title}
-              </Text>
-              <Text style={{ fontSize: 14, color: '#FFF176' }}>
-                {game?.target.releaseDate.split('-')[0]}
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Current Actor Section */}
-        <Card style={{ margin: 16, backgroundColor: '#FFF9C4' }}>
-          <Card.Content>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 8,
+                fontSize: 16,
+                color: theme.text,
+                flexWrap: 'wrap',
+                width: 300,
               }}
             >
-              <Image
-                source={{
-                  uri: currentActor?.poster
-                    ? `https://image.tmdb.org/t/p/w200${currentActor.poster}`
-                    : '/placeholder.svg',
-                  }}
-                style={{ width: 96, height: 96, borderRadius: 8 }}
-              />
-              <Text style={{ fontSize: 20, marginLeft: 16 }}>
-                {currentActor?.name}
-              </Text>
-            </View>
-          </Card.Content>
-        </Card>
+              {game?.target.title}
+            </Text>
+            <Text style={{ fontSize: 14, color: theme.text }}>
+              {game?.target.releaseDate.split('-')[0]}
+            </Text>
+          </View>
+        </View>
+      </View>
+      {/* Current Actor Section */}
+      <Card style={{ margin: 16, backgroundColor: theme.background }}>
+        <Card.Content>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 8,
+            }}
+          >
+            <Image
+              source={{
+                uri: currentActor?.poster
+                  ? `https://image.tmdb.org/t/p/w185${currentActor.poster}`
+                  : '/placeholder.svg',
+              }}
+              style={{ width: 96, height: 96, borderRadius: 8 }}
+            />
+            <Text
+              style={{
+                fontSize: 20,
+                marginLeft: 16,
+                color: theme.text,
+                flexWrap: 'wrap',
+                width: 300,
+              }}
+            >
+              {currentActor?.name}
+            </Text>
+          </View>
+        </Card.Content>
+      </Card>
 
-        {/* Credits List */}
-        <ScrollView contentContainerStyle={styles.content}> 
+      {/* Credits List */}
+      <ScrollView contentContainerStyle={styles.content}>
         <CreditsList
           credits={
             currentActor?.combinedCredits?.map((credit) => ({
@@ -112,7 +130,7 @@ export default function GameScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.background,
+    backgroundColor: 'black',
   },
   header: {
     paddingTop: 40, // Adjust this value as needed

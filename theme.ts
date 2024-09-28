@@ -1,13 +1,14 @@
 export const palette = {
-  purple: '#800080',
-  gold: '#FFD700',
-  silver: '#C0C0C0',
-  // Add all other colors from palette.txt
+  black: '#171717',
+  darkGray: '#444444',
+  red: '#DA0037',
+  lightGray: '#EDEDED',
 };
 
 export const theme = {
-  primary: palette.purple,
-  secondary: palette.gold,
-  background: palette.silver,
+  primary: palette.red,
+  secondary: palette.darkGray,
+  background: palette.black,
+  text: palette.lightGray,
   // Define other theme colors using the palette
 };
