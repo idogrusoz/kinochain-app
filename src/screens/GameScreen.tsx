@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Animated,
+  Dimensions,
+} from 'react-native';
 import { Card } from 'react-native-paper';
 import type {
   Game,
@@ -12,9 +20,12 @@ import type {
 } from '../../types';
 import { startNewGame } from '../services/gameService';
 import { CreditsList } from '../components/CreditsList';
+import { WinningScreen } from '../components/WinningScreen';
 import i18n from '../i18n/i18n';
 import { theme } from '../../theme';
 import { fetchMovieDetails, fetchActorDetails } from '../services/gameService';
+
+const { height } = Dimensions.get('window');
 
 export default function GameScreen() {
   const [game, setGame] = useState<Game | null>(null);
@@ -25,6 +36,10 @@ export default function GameScreen() {
   const [credits, setCredits] = useState<
     (CreditModel | MovieCastModel | MovieCrewModel)[]
   >([]);
+  const [gameWon, setGameWon] = useState<boolean>(false);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const moveAnim = useRef(new Animated.Value(height)).current;
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -44,6 +59,11 @@ export default function GameScreen() {
   const handleCreditSelect = async (creditId: number) => {
     try {
       if (isActor) {
+        // Check if the game is won
+        if (game?.target.id === creditId) {
+          setGameWon(true);
+          animateWin();
+        }
         const movieDetails = await fetchMovieDetails(creditId);
         setCurrentItem(movieDetails);
         setCredits([...movieDetails.cast, ...movieDetails.crew]);
@@ -63,6 +83,23 @@ export default function GameScreen() {
     } catch (error) {
       console.error('Error fetching details:', error);
     }
+  };
+
+  const animateWin = () => {
+    setGameWon(true);
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.spring(moveAnim, {
+        toValue: 0,
+        tension: 50,
+        friction: 7,
+        useNativeDriver: true,
+      }),
+    ]).start();
   };
 
   const renderCurrentItem = () => {
@@ -143,6 +180,14 @@ export default function GameScreen() {
     </View>
   ) : (
     <View style={styles.container}>
+      {gameWon && game && (
+        <WinningScreen
+          targetMovie={game.target}
+          fadeAnim={fadeAnim}
+          moveAnim={moveAnim}
+        />
+      )}
+
       {/* Target Movie Section */}
       <View style={styles.targetSection}>
         <Image
