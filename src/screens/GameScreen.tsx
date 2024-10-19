@@ -118,7 +118,6 @@ export default function GameScreen() {
         releaseDate: credit.releaseDate,
       }));
     } else {
-      console.log('credits', credits[0], credits[1]);
       return (credits as MovieCastModel[] | MovieCrewModel[]).map((credit) => ({
         titleId: credit.id,
         title: credit.name,
