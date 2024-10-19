@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ActorModel, MovieDetailsModel } from '../../types';
 
 const API_BASE_URL = 'https://your-api-base-url.com';
 
@@ -7,11 +8,3 @@ const api = axios.create({
 });
 
 
-export const getUserData = async (token: string) => {
-    try {
-      const response = await api.post('/user', { token });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  };

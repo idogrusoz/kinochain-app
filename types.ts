@@ -75,3 +75,11 @@ export interface Game extends BaseEntity {
 export interface TMDbResponse {
   results: MovieDetailsModel;
 }
+
+export interface Credit {
+  titleId: number;
+  title?: string;
+  name?: string;
+  poster_path: string | null;
+  releaseDate?: string;
+}
