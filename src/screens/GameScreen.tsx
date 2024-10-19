@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 import { Card } from 'react-native-paper';
-import type { Game, ActorModel, MovieDetailsModel, CreditModel, MovieCastModel, MovieCrewModel, Credit } from '../../types';
+import type {
+  Game,
+  ActorModel,
+  MovieDetailsModel,
+  CreditModel,
+  MovieCastModel,
+  MovieCrewModel,
+  Credit,
+} from '../../types';
 import { startNewGame } from '../services/gameService';
 import { CreditsList } from '../components/CreditsList';
 import i18n from '../i18n/i18n';
@@ -10,9 +18,13 @@ import { fetchMovieDetails, fetchActorDetails } from '../services/gameService';
 
 export default function GameScreen() {
   const [game, setGame] = useState<Game | null>(null);
-  const [currentItem, setCurrentItem] = useState<ActorModel | MovieDetailsModel | null>(null);
+  const [currentItem, setCurrentItem] = useState<
+    ActorModel | MovieDetailsModel | null
+  >(null);
   const [isActor, setIsActor] = useState<boolean>(true);
-  const [credits, setCredits] = useState<(CreditModel | MovieCastModel | MovieCrewModel)[]>([]);
+  const [credits, setCredits] = useState<
+    (CreditModel | MovieCastModel | MovieCrewModel)[]
+  >([]);
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -56,13 +68,19 @@ export default function GameScreen() {
   const renderCurrentItem = () => {
     if (!currentItem) return null;
 
-    const title = isActor ? (currentItem as ActorModel).name : (currentItem as MovieDetailsModel).title;
-    const posterPath = isActor ? (currentItem as ActorModel).poster : (currentItem as MovieDetailsModel).poster;
+    const title = isActor
+      ? (currentItem as ActorModel).name
+      : (currentItem as MovieDetailsModel).title;
+    const posterPath = isActor
+      ? (currentItem as ActorModel).poster
+      : (currentItem as MovieDetailsModel).poster;
 
     return (
       <Card style={{ margin: 16, backgroundColor: theme.background }}>
         <Card.Content>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+          <View
+            style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}
+          >
             <Image
               source={{
                 uri: posterPath
@@ -88,14 +106,36 @@ export default function GameScreen() {
     );
   };
 
-  const mapCreditsToCommonFormat = (credits: (CreditModel | MovieCastModel | MovieCrewModel)[]): Credit[] => {
-    return credits.map(credit => ({
-      titleId: credit.id,
-      title: 'title' in credit ? credit.title : credit.name,
-      name: 'name' in credit ? credit.name : undefined,
-      poster_path: 'poster' in credit ? credit.poster : (credit as MovieCrewModel).poster,
-      releaseDate: 'releaseDate' in credit ? credit.releaseDate : undefined,
-    }));
+  const mapCreditsToCommonFormat = (
+    credits: (CreditModel | MovieCastModel | MovieCrewModel)[]
+  ): Credit[] => {
+    if (isActor) {
+      return (credits as CreditModel[]).map((credit) => ({
+        titleId: credit.id,
+        title: credit.title || credit.originalTitle,
+        poster_path: credit.poster,
+        name: credit.character,
+        releaseDate: credit.releaseDate,
+      }));
+    } else {
+      console.log('credits', credits[0], credits[1]);
+      return (credits as MovieCastModel[] | MovieCrewModel[]).map((credit) => ({
+        titleId: credit.id,
+        title: credit.name,
+        name:
+          'character' in credit
+            ? credit.character
+            : 'job' in credit
+            ? credit.job
+            : undefined,
+        poster_path:
+          'poster' in credit
+            ? credit.poster
+            : (credit as MovieCrewModel).poster,
+        releaseDate:
+          'releaseDate' in credit ? (credit.releaseDate as string) : undefined,
+      }));
+    }
   };
 
   return !game || !currentItem ? (
@@ -116,7 +156,9 @@ export default function GameScreen() {
         />
         <View style={styles.targetInfo}>
           <Text style={styles.targetTitle}>{game.target.title}</Text>
-          <Text style={styles.targetYear}>{game.target.releaseDate.split('-')[0]}</Text>
+          <Text style={styles.targetYear}>
+            {game.target.releaseDate.split('-')[0]}
+          </Text>
         </View>
       </View>
 

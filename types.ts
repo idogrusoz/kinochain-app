@@ -80,6 +80,8 @@ export interface Credit {
   titleId: number;
   title?: string;
   name?: string;
+  job?: string;
+  character?: string;
   poster_path: string | null;
   releaseDate?: string;
 }
