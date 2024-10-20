@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
-  Image, Animated,
+  Image,
+  Animated,
 } from 'react-native';
-import { Card } from 'react-native-paper';
+import { Card, Paragraph } from 'react-native-paper';
 import type {
   Game,
   ActorModel,
@@ -22,7 +23,8 @@ import i18n from '../i18n/i18n';
 import { theme } from '../../theme';
 import { fetchMovieDetails, fetchActorDetails } from '../services/gameService';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-import {RootStackParamList} from "../../App";
+import { RootStackParamList } from '../../App';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function GameScreen() {
   const [game, setGame] = useState<Game | null>(null);
@@ -34,6 +36,15 @@ export default function GameScreen() {
     (CreditModel | MovieCastModel | MovieCrewModel)[]
   >([]);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const resetGame = useCallback(() => {
+    startAGame();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      resetGame();
+    }, [resetGame])
+  );
 
   useEffect(() => {
     startAGame();
@@ -42,7 +53,6 @@ export default function GameScreen() {
   const startAGame = async () => {
     try {
       const newGame = await startNewGame();
-      console.log('newGame', newGame);
       setGame(newGame);
       setCurrentItem(newGame.starting);
       setCredits(newGame.starting.combinedCredits);
@@ -86,8 +96,13 @@ export default function GameScreen() {
       : (currentItem as MovieDetailsModel).poster;
 
     return (
-      <Card style={{ margin: 16, backgroundColor: theme.background }}>
+      <>
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerText}>{i18n.t('current')}</Text>
+        </View>
+        <Card style={{ margin: 16, backgroundColor: theme.background }}>
         <Card.Content>
+
           <View
             style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}
           >
@@ -113,6 +128,7 @@ export default function GameScreen() {
           </View>
         </Card.Content>
       </Card>
+      </>
     );
   };
 
@@ -154,6 +170,9 @@ export default function GameScreen() {
   ) : (
     <View style={styles.container}>
       {/* Target Movie Section */}
+      <View style={styles.headerContainer}>
+      <Text style={styles.headerText}>{i18n.t('target')}</Text>
+      </View>
       <View style={styles.targetSection}>
         <Image
           source={{
@@ -215,12 +234,14 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 8,
     borderWidth: 2,
+    marginLeft: 16,
   },
   targetInfo: {
     marginLeft: 16,
   },
   targetTitle: {
-    fontSize: 16,
+    fontSize: 22,
+    fontWeight: 'bold',
     color: theme.text,
     flexWrap: 'wrap',
     width: 300,
@@ -228,5 +249,18 @@ const styles = StyleSheet.create({
   targetYear: {
     fontSize: 14,
     color: theme.text,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginHorizontal: 16,
+    color: theme.text,
+    padding: 4,
+    textAlign: 'center',
+  },
+  headerContainer: {
+    backgroundColor: theme.primary,
+    borderRadius: 16,
+    marginHorizontal: 16,
   },
 });

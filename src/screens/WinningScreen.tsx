@@ -10,6 +10,7 @@ import {
 import { theme } from '../../theme';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App'; // Import this to define route prop
+import i18n from '../i18n/i18n';
 
 const { width, height } = Dimensions.get('window');
 
@@ -23,8 +24,10 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
   const { targetMovie } = route.params; // Destructure targetMovie from route params
 
   const handleStartNewGame = () => {
-    // Navigate to the screen where a new game starts
-    navigation.navigate('Game'); // Replace 'Home' with your actual starting screen name
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Game' }],
+    });
   };
 
   return (
@@ -39,9 +42,9 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
       <View style={styles.overlay}>
         <View style={styles.textContainer}>
           <Text style={styles.winTitle}>{targetMovie.title}</Text>
-          <Text style={styles.winText}>Cinematic Genius!</Text>
+          <Text style={styles.winText}>{i18n.t('winning.text')}</Text>
           <Text style={styles.winSubtext}>
-            Your movie knowledge is Oscar-worthy!
+            {i18n.t('winning.subtext')}
           </Text>
           <TouchableOpacity
             style={styles.newGameButton}

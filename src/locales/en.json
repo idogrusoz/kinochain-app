@@ -1,6 +1,13 @@
 {
   "loading": "Loading...",
   "goal": "Goal",
-  "currentActor": "Current Actor"
+  "current": "Current",
+  "target": "Target",
+  "winning": {
+    "title": "Winning",
+    "text": "Cinematic Genius!",
+    "subtext": "Your movie knowledge is Oscar-worthy!"
+
+  }
 }
 
