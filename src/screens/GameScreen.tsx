@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
-  Image,
-  Animated,
-  Dimensions,
+  Image, Animated,
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import type {
@@ -20,12 +18,11 @@ import type {
 } from '../../types';
 import { startNewGame } from '../services/gameService';
 import { CreditsList } from '../components/CreditsList';
-import { WinningScreen } from '../components/WinningScreen';
 import i18n from '../i18n/i18n';
 import { theme } from '../../theme';
 import { fetchMovieDetails, fetchActorDetails } from '../services/gameService';
-
-const { height } = Dimensions.get('window');
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import {RootStackParamList} from "../../App";
 
 export default function GameScreen() {
   const [game, setGame] = useState<Game | null>(null);
@@ -36,70 +33,46 @@ export default function GameScreen() {
   const [credits, setCredits] = useState<
     (CreditModel | MovieCastModel | MovieCrewModel)[]
   >([]);
-  const [gameWon, setGameWon] = useState<boolean>(false);
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const moveAnim = useRef(new Animated.Value(height)).current;
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
-    const fetchGame = async () => {
-      try {
-        const newGame = await startNewGame();
-        setGame(newGame);
-        setCurrentItem(newGame.starting);
-        setCredits(newGame.starting.combinedCredits);
-      } catch (error) {
-        console.error('Error starting new game:', error);
-      }
-    };
-
-    fetchGame();
+    startAGame();
   }, []);
+
+  const startAGame = async () => {
+    try {
+      const newGame = await startNewGame();
+      console.log('newGame', newGame);
+      setGame(newGame);
+      setCurrentItem(newGame.starting);
+      setCredits(newGame.starting.combinedCredits);
+      setIsActor(true);
+    } catch (error) {
+      console.error('Error starting new game:', error);
+    }
+  };
 
   const handleCreditSelect = async (creditId: number) => {
     try {
       if (isActor) {
-        // Check if the game is won
-        if (game?.target.id === creditId) {
-          setGameWon(true);
-          animateWin();
-        }
         const movieDetails = await fetchMovieDetails(creditId);
         setCurrentItem(movieDetails);
         setCredits([...movieDetails.cast, ...movieDetails.crew]);
         setIsActor(false);
+
+        // Check if the game is won
+        if (game?.target.id === creditId) {
+          navigation.navigate('Winning', { targetMovie: game.target });
+        }
       } else {
         const actorDetails = await fetchActorDetails(creditId);
         setCurrentItem(actorDetails);
         setCredits(actorDetails.combinedCredits);
         setIsActor(true);
       }
-
-      // Check if the game is won
-      if (!isActor && game?.target.id === creditId) {
-        // Handle game win
-        console.log('Game won!');
-      }
     } catch (error) {
       console.error('Error fetching details:', error);
     }
-  };
-
-  const animateWin = () => {
-    setGameWon(true);
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-      Animated.spring(moveAnim, {
-        toValue: 0,
-        tension: 50,
-        friction: 7,
-        useNativeDriver: true,
-      }),
-    ]).start();
   };
 
   const renderCurrentItem = () => {
@@ -180,14 +153,6 @@ export default function GameScreen() {
     </View>
   ) : (
     <View style={styles.container}>
-      {gameWon && game && (
-        <WinningScreen
-          targetMovie={game.target}
-          fadeAnim={fadeAnim}
-          moveAnim={moveAnim}
-        />
-      )}
-
       {/* Target Movie Section */}
       <View style={styles.targetSection}>
         <Image
@@ -210,12 +175,12 @@ export default function GameScreen() {
       {renderCurrentItem()}
 
       {/* Credits List */}
-      <ScrollView contentContainerStyle={styles.content}>
+      <View style={styles.content}>
         <CreditsList
           credits={mapCreditsToCommonFormat(credits)}
           onSelectCredit={handleCreditSelect}
         />
-      </ScrollView>
+      </View>
     </View>
   );
 }
@@ -231,7 +196,7 @@ const styles = StyleSheet.create({
     // Add any other styles for your header
   },
   content: {
-    paddingTop: 20,
+    flex: 1,
   },
   title: {
     fontSize: 24,
