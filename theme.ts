@@ -3,10 +3,11 @@ export const palette = {
   darkGray: '#444444',
   red: '#DA0037',
   lightGray: '#EDEDED',
+  lightBlue: '#01b4e4'
 };
 
 export const theme = {
-  primary: palette.red,
+  primary: palette.lightBlue,
   secondary: palette.darkGray,
   background: palette.black,
   text: palette.lightGray,
