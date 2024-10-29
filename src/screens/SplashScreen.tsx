@@ -1,16 +1,21 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { Image } from 'expo-image';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Logo from '../../assets/KinoChain.svg';
+import TmdbLogo from '../../assets/tmdb-logo.svg';
 import i18n from '../i18n/i18n';
-import Logo from '../../assets/tmdb-logo.svg';
+
 
 type RootStackParamList = {
-  Game: undefined;
+  Auth: undefined;
   // Add other screen names here
 };
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Game'>;
+const { width: screenWidth } = Dimensions.get('window');
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Auth'>;
 
 const SplashScreen = () => {
   const navigation = useNavigation<NavigationProp>();
@@ -18,16 +23,19 @@ const SplashScreen = () => {
   useEffect(() => {
     // Simulate a delay for the splash screen
     setTimeout(() => {
-      navigation.navigate('Game');
-    }, 2000);
+      navigation.navigate('Auth'); //TODO check that app is ready``
+    }, 3000);
   }, [navigation]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>KinoChain</Text>
+      <Logo width={screenWidth} />
       <View style={styles.footer}>
         <Text style={styles.poweredBy}>{i18n.t('poweredBy')}</Text>
-        <Logo width={100} height={50} />
+        <TmdbLogo
+          width={100}
+          height={50}
+        />
       </View>
     </View>
   );
@@ -40,11 +48,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#1E1E1E',
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
   footer: {
     position: 'absolute',
     bottom: 20,
@@ -55,10 +58,9 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     marginBottom: 5,
   },
-  // logo: {
-  //   width: 100,
-  //   height: 50,
-  // },
+  logo: {
+    width: '100%',
+  },
 });
 
 export default SplashScreen;
