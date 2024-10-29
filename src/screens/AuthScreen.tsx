@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { signInWithApple, signInWithGoogle } from '../services/authService';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { signInWithGoogle } from '../services/authService';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppleAuthenticationCredential } from 'expo-apple-authentication';
+import { setItem, setSecureItem } from '../services/storageService';
+import { theme } from '../../theme';
 
 type RootStackParamList = {
   Game: undefined;
@@ -13,13 +16,18 @@ type RootStackParamList = {
 const AuthScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const handleAppleSignIn = async () => {
-    try {
-      const user = await signInWithApple();
-      navigation.replace('Game');
-    } catch (error) {
-      console.error('Apple Sign-In Error:', error);
+  const handleAppleSignIn = async (credential: AppleAuthenticationCredential) => {
+    // Implement your Apple sign-in logic here
+    console.log('Signed in with Apple:', credential);
+    // Store the auth token securely
+    if (credential.identityToken) {
+      await setSecureItem('authToken', credential.identityToken);
     }
+    
+    // Store the user ID (non-sensitive) in AsyncStorage
+    await setItem('userId', credential.user);
+    // Navigate to the next screen or update app state
+    navigation.replace('Game');
   };
 
   const handleGoogleSignIn = async () => {
@@ -32,27 +40,47 @@ const AuthScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {Platform.OS === 'ios' && <Button mode="contained" onPress={handleAppleSignIn} style={styles.button}>
-        Sign in with Apple
-      </Button>}
-      <Button mode="contained" onPress={handleGoogleSignIn} style={styles.button}>
-        Sign in with Google
-      </Button>
-    </View>
+    Platform.OS === 'ios' &&
+<View style={styles.container}>
+  
+      <AppleAuthentication.AppleAuthenticationButton
+        buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
+        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE}
+        cornerRadius={5}
+        style={styles.button}
+        onPress={async () => {
+          try {
+            const credential = await AppleAuthentication.signInAsync({
+              requestedScopes: [
+                AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                AppleAuthentication.AppleAuthenticationScope.EMAIL,
+              ],
+            });
+            console.log('credential', credential);
+            handleAppleSignIn(credential);
+          } catch (e: any) {
+            if (e.code === 'ERR_REQUEST_CANCELED') {
+              // handle that the user canceled the sign-in flow
+            } else {
+              // handle other errors
+            }
+          }
+        }}
+      />
+    </View> // TODO add google sign in
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: theme.background,
   },
   button: {
-    marginVertical: 10,
-    width: '100%',
+    width: 200,
+    height: 44,
   },
 });
 

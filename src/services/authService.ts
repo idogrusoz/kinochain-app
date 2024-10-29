@@ -1,7 +1,5 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Google from 'expo-auth-session/providers/google';
-import { getUserData } from '../services/apiService';
-import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 export const signInWithApple = async () => {
   try {
@@ -36,8 +34,8 @@ export const signInWithGoogle = async () => {
 
     if (response?.type === 'success' && response.authentication) {
       // Send the token to your backend and get user data
-      const userData = await getUserData(response.authentication.accessToken);
-      return userData;
+      // const userData = await getUserData(response.authentication.accessToken);
+      // return userData;
     }
     throw new Error('Google sign-in failed');
   } catch (error) {
