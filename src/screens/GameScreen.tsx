@@ -25,6 +25,7 @@ import { fetchMovieDetails, fetchActorDetails } from '../services/gameService';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../App';
 import { useFocusEffect } from '@react-navigation/native';
+import Loading from '../components/Loading';
 
 export default function GameScreen() {
   const [game, setGame] = useState<Game | null>(null);
@@ -164,9 +165,7 @@ export default function GameScreen() {
   };
 
   return !game || !currentItem ? (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{i18n.t('loading')}</Text>
-    </View>
+   <Loading />
   ) : (
     <View style={styles.container}>
       {/* Target Movie Section */}
