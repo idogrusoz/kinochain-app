@@ -62,7 +62,7 @@ export function CreditsList({ credits, onSelectCredit }: CreditsListProps) {
 
   // Define fixed height for better performance
   const getItemLayout = (data: any, index: number) => ({
-    length: 96, // Card height (80) + marginBottom (8) + some padding
+    length: 96, 
     offset: 96 * index,
     index,
   });

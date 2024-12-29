@@ -23,6 +23,7 @@ const SplashScreen = () => {
   useEffect(() => {
     // Simulate a delay for the splash screen
     setTimeout(() => {
+      
       navigation.navigate('Auth'); //TODO check that app is ready``
     }, 3000);
   }, [navigation]);

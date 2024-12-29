@@ -1,26 +1,29 @@
 {
   "expo": {
-    "name": "kinochain-app",
+    "name": "Kinochain",
     "slug": "kinochain-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/KinochainLogo.png",
     "newArchEnabled": true,
+    "jsEngine": "hermes",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/SplashScreen.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "bundleIdentifier": "com.idogrusoz.kinochainapp",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.idogrusoz.kinochainapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -28,7 +31,29 @@
     "plugins": [
       "expo-apple-authentication",
       "expo-localization",
-      "expo-secure-store"
-    ]
+      "expo-secure-store",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#232323",
+          "image": "./assets/SplashScreen.png",
+          "resizeMode": "cover",
+          "dark": {
+            "image": "./assets/SplashScreen.png",
+            "backgroundColor": "#000000",
+            "resizeMode": "cover"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "41fe5f26-94f3-48fa-8fe9-29a7080e59fd"
+      }
+    },
+    "experiments": {
+      "tsconfigPaths": true,
+      "bridgeless": true
+    }
   }
 }

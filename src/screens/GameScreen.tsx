@@ -101,34 +101,38 @@ export default function GameScreen() {
         <View style={styles.headerContainer}>
           <Text style={styles.headerText}>{i18n.t('current')}</Text>
         </View>
-        <Card style={{ margin: 16, backgroundColor: theme.background }}>
-        <Card.Content>
-
-          <View
-            style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}
-          >
-            <Image
-              source={{
-                uri: posterPath
-                  ? `https://image.tmdb.org/t/p/w185${posterPath}`
-                  : '/placeholder.svg',
-              }}
-              style={{ width: 96, height: 96, borderRadius: 8 }}
-            />
-            <Text
+        <Card style={{ backgroundColor: theme.background }}>
+          <Card.Content>
+            <View
               style={{
-                fontSize: 20,
-                marginLeft: 16,
-                color: theme.text,
-                flexWrap: 'wrap',
-                width: 300,
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 8,
               }}
             >
-              {title}
-            </Text>
-          </View>
-        </Card.Content>
-      </Card>
+              <Image
+                source={{
+                  uri: posterPath
+                    ? `https://image.tmdb.org/t/p/w185${posterPath}`
+                    : '/placeholder.svg',
+                }}
+                style={{ width: 96, height: 96, borderRadius: 8 }}
+              />
+              <Text
+                style={{
+                  fontSize: 20,
+                  marginLeft: 16,
+                  color: theme.text,
+                  flexWrap: 'wrap',
+                  flex: 1,
+                  wordWrap: 'break-word',
+                }}
+              >
+                {title}
+              </Text>
+            </View>
+          </Card.Content>
+        </Card>
       </>
     );
   };
@@ -165,12 +169,12 @@ export default function GameScreen() {
   };
 
   return !game || !currentItem ? (
-   <Loading />
+    <Loading />
   ) : (
     <View style={styles.container}>
       {/* Target Movie Section */}
       <View style={styles.headerContainer}>
-      <Text style={styles.headerText}>{i18n.t('target')}</Text>
+        <Text style={styles.headerText}>{i18n.t('target')}</Text>
       </View>
       <View style={styles.targetSection}>
         <Image
@@ -252,14 +256,13 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginHorizontal: 16,
     color: theme.text,
     padding: 4,
     textAlign: 'center',
   },
   headerContainer: {
     backgroundColor: theme.primary,
-    borderRadius: 16,
-    marginHorizontal: 16,
+    borderRadius: 4,
+    marginHorizontal: 2,
   },
 });

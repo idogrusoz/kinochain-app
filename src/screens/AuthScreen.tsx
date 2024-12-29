@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { signInWithGoogle } from '../services/authService';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppleAuthenticationCredential } from 'expo-apple-authentication';
-import { setItem, setSecureItem } from '../services/storageService';
+import { getSecureItem, setItem, setSecureItem } from '../services/storageService';
 import { theme } from '../../theme';
 
 type RootStackParamList = {
@@ -15,6 +15,16 @@ type RootStackParamList = {
 
 const AuthScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authToken = await getSecureItem('authToken');
+      if (authToken) {
+        navigation.navigate('Game');
+      }
+    };
+    checkAuth();
+  }, []);
 
   const handleAppleSignIn = async (credential: AppleAuthenticationCredential) => {
     // Implement your Apple sign-in logic here

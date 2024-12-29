@@ -35,3 +35,10 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 .idea/
+
+.fake
+
+/android
+/ios
+
+.vscode
