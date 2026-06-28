@@ -7,18 +7,14 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_TMDB_API_KEY": "your_tmdb_api_key_here"
-      },
+      "environment": "development",
       "ios": {
         "resourceClass": "m-medium"
       }
     },
     "preview": {
       "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_TMDB_API_KEY": "your_tmdb_api_key_here"
-      },
+      "environment": "preview",
       "ios": {
         "resourceClass": "m-medium",
         "simulator": true
@@ -26,9 +22,7 @@
     },
     "production": {
       "autoIncrement": true,
-      "env": {
-        "EXPO_PUBLIC_TMDB_API_KEY": "your_tmdb_api_key_here"
-      },
+      "environment": "production",
       "ios": {
         "resourceClass": "m-medium"
       }

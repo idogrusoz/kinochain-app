@@ -7,27 +7,39 @@ import { colors, fonts, spacing } from '../../theme';
 const SECTIONS = [
   {
     title: 'Data Collection',
-    body: 'Kinochain does not collect, store, or transmit any personal data. There are no user accounts, no login, and no tracking.',
+    body: 'Kinochain does not require an account, create user profiles, or store personal data in an application database.',
   },
   {
     title: 'Network Requests',
-    body: 'The app connects to The Movie Database (TMDB) API to fetch movie and actor information. These requests are read-only and contain no personal data. No other network requests are made.',
+    body: 'To provide gameplay, the app contacts the Kinochain API hosted by Cloudflare. Cloudflare processes the device IP address and technical request data to deliver and protect the service. Kinochain does not keep persistent application request logs. The API sends movie and person identifiers and filters to TMDB; the user\'s IP address is not sent to TMDB.',
   },
   {
     title: 'Analytics & Tracking',
-    body: 'Kinochain does not use any analytics, crash-reporting, or advertising frameworks. No usage data is collected.',
+    body: 'Kinochain does not include analytics, crash-reporting, advertising, or tracking SDKs and does not use request information for advertising or tracking.',
   },
   {
     title: 'Local Storage',
     body: 'The app stores a small onboarding flag on your device to remember whether you have completed the tutorial. This data never leaves your device.',
   },
   {
-    title: 'Third-Party Services',
-    body: 'Movie data is provided by TMDB. Read the ',
+    title: 'Cloudflare',
+    body: 'Cloudflare provides network delivery, short-lived abuse prevention, and serverless processing. Read the ',
+    link: {
+      label: 'Cloudflare privacy policy.',
+      url: 'https://www.cloudflare.com/privacypolicy/',
+    },
+  },
+  {
+    title: 'The Movie Database',
+    body: 'Movie data and images are provided by TMDB. Read the ',
     link: {
       label: 'TMDB privacy policy.',
       url: 'https://www.themoviedb.org/privacy-policy',
     },
+  },
+  {
+    title: 'Retention & Deletion',
+    body: 'Kinochain does not retain personal data or persistent request logs. A salted, one-way representation of the device IP may be used briefly for rate limiting. Cached responses contain only public TMDB data. Delete the app to remove its local onboarding preference.',
   },
   {
     title: 'Contact',

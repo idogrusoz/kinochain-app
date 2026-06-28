@@ -7,15 +7,18 @@
     "icon": "./assets/icon.png",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.idogrusoz.kinochainapp",
-      "buildNumber": "1"
+      "bundleIdentifier": "com.rightword.kinochain",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0E0E10"
       },
-      "package": "com.idogrusoz.kinochainapp"
+      "package": "com.rightword.kinochain"
     },
     "web": {
       "favicon": "./assets/favicon.png"

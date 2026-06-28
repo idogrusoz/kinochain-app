@@ -3,13 +3,14 @@ import { View, Text, StyleSheet, Image, Animated } from 'react-native';
 import { colors } from '../../../theme';
 import { Icon } from '../ui/Icon';
 import { ChainNode } from '../../../types';
+import { tmdbImageUrl } from '../../services/tmdb/client';
 
 // Show the most recent nodes; collapse older ones into a "‹ N" chip. The current
 // node and the target always stay visible.
 const MAX_VISIBLE = 3;
 
 function posterSource(path?: string | null) {
-  return path ? { uri: `https://image.tmdb.org/t/p/w185${path}` } : null;
+  return path ? { uri: tmdbImageUrl(path) } : null;
 }
 
 function Connector({ dashed }: { dashed?: boolean }) {
