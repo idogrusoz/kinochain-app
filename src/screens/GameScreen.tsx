@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Image,
-  Animated,
-} from 'react-native';
-import { Card, Paragraph } from 'react-native-paper';
-import type {
+  useNavigation,
+  NavigationProp,
+  useFocusEffect,
+  useRoute,
+  RouteProp,
+} from '@react-navigation/native';
+import { RootStackParamList } from '../../App';
+import {
   Game,
   ActorModel,
   MovieDetailsModel,
@@ -16,192 +16,256 @@ import type {
   MovieCastModel,
   MovieCrewModel,
   Credit,
+  ChainNode,
+  Difficulty,
 } from '../../types';
-import { startNewGame } from '../services/gameService';
+import {
+  startNewGame,
+  fetchMovieDetails,
+  fetchActorDetails,
+} from '../services/gameService';
+import * as Haptics from 'expo-haptics';
+import NetInfo from '@react-native-community/netinfo';
 import { CreditsList } from '../components/CreditsList';
-import i18n from '../i18n/i18n';
-import { theme } from '../../theme';
-import { fetchMovieDetails, fetchActorDetails } from '../services/gameService';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../App';
-import { useFocusEffect } from '@react-navigation/native';
+import { TargetBanner } from '../components/game/TargetBanner';
+import { PathTracker } from '../components/game/PathTracker';
+import { Wordmark } from '../components/ui/Wordmark';
+import { Icon } from '../components/ui/Icon';
+import { SectionLabel } from '../components/ui/SectionLabel';
 import Loading from '../components/Loading';
+import { ErrorScreen } from '../components/ui/ErrorScreen';
+import { TmdbError } from '../services/tmdb/client';
+import { colors, fonts, spacing } from '../../theme';
+
+function formatTime(total: number): string {
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return `${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
+function errorInfo(e: unknown): { title: string; message: string } {
+  if (e instanceof TmdbError && e.kind === 'network') {
+    return {
+      title: "You're offline",
+      message: 'Check your internet connection and try again.',
+    };
+  }
+  return {
+    title: 'Something went wrong',
+    message: "We couldn't load the game. Please try again.",
+  };
+}
+
+async function ensureOnline() {
+  const state = await NetInfo.fetch().catch(() => null);
+  if (state?.isConnected === false || state?.isInternetReachable === false) {
+    throw new TmdbError('network', 'No internet connection.');
+  }
+}
+
+// Flatten the model lists into the common Credit row shape used by CreditsList.
+function toCredits(
+  items: (CreditModel | MovieCastModel | MovieCrewModel)[],
+  isActor: boolean
+): Credit[] {
+  if (isActor) {
+    return (items as CreditModel[]).map((c) => ({
+      titleId: c.id,
+      title: c.title || c.originalTitle,
+      poster_path: c.poster,
+      name: c.character,
+      releaseDate: c.releaseDate,
+    }));
+  }
+  return (items as (MovieCastModel | MovieCrewModel)[]).map((c) => ({
+    titleId: c.id,
+    title: c.name,
+    poster_path: c.poster,
+    name: 'character' in c ? c.character : 'job' in c ? c.job : undefined,
+    isDirector: 'job' in c,
+  }));
+}
 
 export default function GameScreen() {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'Game'>>();
+  const difficulty: Difficulty = route.params?.difficulty ?? 'medium';
   const [game, setGame] = useState<Game | null>(null);
   const [currentItem, setCurrentItem] = useState<
     ActorModel | MovieDetailsModel | null
   >(null);
-  const [isActor, setIsActor] = useState<boolean>(true);
+  const [isActor, setIsActor] = useState(true);
   const [credits, setCredits] = useState<
     (CreditModel | MovieCastModel | MovieCrewModel)[]
   >([]);
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const resetGame = useCallback(() => {
-    startAGame();
-  }, []);
+  const [path, setPath] = useState<ChainNode[]>([]);
+  const [seconds, setSeconds] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<{
+    title: string;
+    message: string;
+    retry?: () => void;
+  } | null>(null);
+
+  const startAGame = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await ensureOnline();
+      const ng = await startNewGame(difficulty);
+      setGame(ng);
+      setCurrentItem(ng.starting);
+      setCredits(ng.starting.combinedCredits);
+      setIsActor(true);
+      setPath([
+        { kind: 'actor', id: ng.starting.id, name: ng.starting.name, poster: ng.starting.poster },
+      ]);
+      setSeconds(0);
+    } catch (e) {
+      console.error('Error starting new game:', e);
+      setError(errorInfo(e));
+    } finally {
+      setLoading(false);
+    }
+  }, [difficulty]);
 
   useFocusEffect(
     useCallback(() => {
-      resetGame();
-    }, [resetGame])
+      startAGame();
+    }, [startAGame])
   );
 
   useEffect(() => {
-    startAGame();
-  }, []);
+    if (loading || error) return;
+    const id = setInterval(() => setSeconds((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, [loading, error]);
 
-  const startAGame = async () => {
-    try {
-      const newGame = await startNewGame();
-      setGame(newGame);
-      setCurrentItem(newGame.starting);
-      setCredits(newGame.starting.combinedCredits);
-      setIsActor(true);
-    } catch (error) {
-      console.error('Error starting new game:', error);
-    }
-  };
+  const moves = Math.max(0, path.length - 1);
+
+  // Stable row identity: only rebuilds when the underlying list/state changes —
+  // not on every per-second timer tick — so the list doesn't jump to the top.
+  const creditRows = useMemo(() => toCredits(credits, isActor), [credits, isActor]);
 
   const handleCreditSelect = async (creditId: number) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    setError(null);
     try {
       if (isActor) {
-        const movieDetails = await fetchMovieDetails(creditId);
-        setCurrentItem(movieDetails);
-        setCredits([...movieDetails.cast, ...movieDetails.crew]);
-        setIsActor(false);
-
-        // Check if the game is won
-        if (game?.target.id === creditId) {
-          navigation.navigate('Winning', { targetMovie: game.target });
+        // Picking a film. If it's the target, the player wins.
+        if (game && game.target.id === creditId) {
+          const finalChain: ChainNode[] = [
+            ...path,
+            {
+              kind: 'film',
+              id: game.target.id,
+              name: game.target.title,
+              poster: game.target.poster,
+            },
+          ];
+          navigation.navigate('Winning', {
+            targetMovie: game.target,
+            moves: moves + 1,
+            seconds,
+            chain: finalChain,
+          });
+          return;
         }
+        await ensureOnline();
+        const movie = await fetchMovieDetails(creditId);
+        setCurrentItem(movie);
+        // Director(s) first, then the cast.
+        setCredits([...movie.crew, ...movie.cast]);
+        setIsActor(false);
+        setPath((p) => [
+          ...p,
+          { kind: 'film', id: movie.id, name: movie.title, poster: movie.poster },
+        ]);
       } else {
-        const actorDetails = await fetchActorDetails(creditId);
-        setCurrentItem(actorDetails);
-        setCredits(actorDetails.combinedCredits);
+        // Picking a person from a film.
+        await ensureOnline();
+        const actor = await fetchActorDetails(creditId);
+        setCurrentItem(actor);
+        setCredits(actor.combinedCredits);
         setIsActor(true);
+        setPath((p) => [
+          ...p,
+          { kind: 'actor', id: actor.id, name: actor.name, poster: actor.poster },
+        ]);
       }
-    } catch (error) {
-      console.error('Error fetching details:', error);
+    } catch (e) {
+      console.error('Error fetching details:', e);
+      setError({ ...errorInfo(e), retry: () => handleCreditSelect(creditId) });
     }
   };
 
-  const renderCurrentItem = () => {
-    if (!currentItem) return null;
-
-    const title = isActor
-      ? (currentItem as ActorModel).name
-      : (currentItem as MovieDetailsModel).title;
-    const posterPath = isActor
-      ? (currentItem as ActorModel).poster
-      : (currentItem as MovieDetailsModel).poster;
-
+  if (error) {
     return (
-      <>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>{i18n.t('current')}</Text>
-        </View>
-        <Card style={{ backgroundColor: theme.background }}>
-          <Card.Content>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 8,
-              }}
-            >
-              <Image
-                source={{
-                  uri: posterPath
-                    ? `https://image.tmdb.org/t/p/w185${posterPath}`
-                    : '/placeholder.svg',
-                }}
-                style={{ width: 96, height: 96, borderRadius: 8 }}
-              />
-              <Text
-                style={{
-                  fontSize: 20,
-                  marginLeft: 16,
-                  color: theme.text,
-                  flexWrap: 'wrap',
-                  flex: 1,
-                  wordWrap: 'break-word',
-                }}
-              >
-                {title}
-              </Text>
-            </View>
-          </Card.Content>
-        </Card>
-      </>
+      <ErrorScreen
+        title={error.title}
+        message={error.message}
+        onRetry={error.retry ?? startAGame}
+        onGoBack={() => navigation.goBack()}
+      />
     );
-  };
+  }
 
-  const mapCreditsToCommonFormat = (
-    credits: (CreditModel | MovieCastModel | MovieCrewModel)[]
-  ): Credit[] => {
-    if (isActor) {
-      return (credits as CreditModel[]).map((credit) => ({
-        titleId: credit.id,
-        title: credit.title || credit.originalTitle,
-        poster_path: credit.poster,
-        name: credit.character,
-        releaseDate: credit.releaseDate,
-      }));
-    } else {
-      return (credits as MovieCastModel[] | MovieCrewModel[]).map((credit) => ({
-        titleId: credit.id,
-        title: credit.name,
-        name:
-          'character' in credit
-            ? credit.character
-            : 'job' in credit
-            ? credit.job
-            : undefined,
-        poster_path:
-          'poster' in credit
-            ? credit.poster
-            : (credit as MovieCrewModel).poster,
-        releaseDate:
-          'releaseDate' in credit ? (credit.releaseDate as string) : undefined,
-      }));
-    }
-  };
+  if (loading || !game || !currentItem) return <Loading />;
 
-  return !game || !currentItem ? (
-    <Loading />
-  ) : (
+  const currentName = isActor
+    ? (currentItem as ActorModel).name
+    : (currentItem as MovieDetailsModel).title;
+  const targetYear = game.target.releaseDate
+    ? game.target.releaseDate.split('-')[0]
+    : '';
+
+  return (
     <View style={styles.container}>
-      {/* Target Movie Section */}
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>{i18n.t('target')}</Text>
-      </View>
-      <View style={styles.targetSection}>
-        <Image
-          source={{
-            uri: game.target.poster
-              ? `https://image.tmdb.org/t/p/w200${game.target.poster}`
-              : '/placeholder.svg',
-          }}
-          style={styles.targetPoster}
-        />
-        <View style={styles.targetInfo}>
-          <Text style={styles.targetTitle}>{game.target.title}</Text>
-          <Text style={styles.targetYear}>
-            {game.target.releaseDate.split('-')[0]}
-          </Text>
-        </View>
+      <View style={styles.nav}>
+        <Pressable
+          onPress={() => navigation.goBack()}
+          hitSlop={8}
+          style={styles.navButton}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+        >
+          <Icon name="back" size={24} color={colors.textSecondary} />
+        </Pressable>
+        <Wordmark size={17} />
+        <Pressable
+          onPress={() => navigation.navigate('Onboarding')}
+          hitSlop={8}
+          style={styles.navButton}
+          accessibilityRole="button"
+          accessibilityLabel="Help"
+        >
+          <Icon name="help" size={22} color={colors.textSecondary} />
+        </Pressable>
       </View>
 
-      {/* Current Item Section */}
-      {renderCurrentItem()}
+      <TargetBanner
+        title={game.target.title}
+        year={targetYear}
+        poster={game.target.poster}
+      />
 
-      {/* Credits List */}
-      <View style={styles.content}>
-        <CreditsList
-          credits={mapCreditsToCommonFormat(credits)}
-          onSelectCredit={handleCreditSelect}
-        />
+      <View style={styles.pathHeader}>
+        <SectionLabel>Your path</SectionLabel>
+        <Text style={styles.meta} maxFontSizeMultiplier={1.5}>
+          Move <Text style={{ color: colors.goldBright }} maxFontSizeMultiplier={1.5}>{moves}</Text> ·{' '}
+          {formatTime(seconds)}
+        </Text>
+      </View>
+      <PathTracker path={path} targetPoster={game.target.poster} />
+      <Text style={styles.currentLine} numberOfLines={1} maxFontSizeMultiplier={1.5}>
+        <Text style={styles.currentName} maxFontSizeMultiplier={1.5}>{currentName}</Text>
+        <Text style={styles.currentHint} maxFontSizeMultiplier={1.5}>
+          {isActor ? '  —  pick a film' : '  —  pick a person'}
+        </Text>
+      </Text>
+
+      <View style={styles.listWrap}>
+        <CreditsList credits={creditRows} onSelectCredit={handleCreditSelect} />
       </View>
     </View>
   );
@@ -210,59 +274,26 @@ export default function GameScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: colors.background,
+    paddingHorizontal: spacing.screen,
   },
-  header: {
-    paddingTop: 40, // Adjust this value as needed
-    paddingBottom: 10,
-    // Add any other styles for your header
-  },
-  content: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: theme.primary,
-  },
-  targetSection: {
-    backgroundColor: theme.background,
-    padding: 8,
+  nav: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
   },
-  targetPoster: {
-    width: 80,
-    height: 120,
-    borderRadius: 8,
-    borderWidth: 2,
-    marginLeft: 16,
+  navButton: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
+  pathHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 14,
+    marginBottom: 10,
   },
-  targetInfo: {
-    marginLeft: 16,
-  },
-  targetTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: theme.text,
-    flexWrap: 'wrap',
-    width: 300,
-  },
-  targetYear: {
-    fontSize: 14,
-    color: theme.text,
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: theme.text,
-    padding: 4,
-    textAlign: 'center',
-  },
-  headerContainer: {
-    backgroundColor: theme.primary,
-    borderRadius: 4,
-    marginHorizontal: 2,
-  },
+  meta: { fontFamily: fonts.text.regular, fontSize: 11, color: colors.textSecondary },
+  currentLine: { textAlign: 'center', marginTop: 8 },
+  currentName: { fontFamily: fonts.display.medium, fontSize: 15, color: colors.textPrimary },
+  currentHint: { fontFamily: fonts.text.regular, fontSize: 12, color: colors.textSecondary },
+  listWrap: { flex: 1, marginTop: 12, marginBottom: 8 },
 });

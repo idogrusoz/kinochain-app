@@ -1,31 +1,19 @@
-import axios from 'axios';
-import { ActorModel, Game, MovieDetailsModel } from '../../types';
-import { api } from './apiService';
+import { ActorModel, Game, MovieDetailsModel, Difficulty } from '../../types';
+import { createGame } from './tmdb/gameService';
+import { getMovieDetails } from './tmdb/movieService';
+import { getActorDetails } from './tmdb/actorService';
 
-export const startNewGame = async () => {
-  try {
-    const response = await api.post<Game>('/create-game?level=1'); //TODO add code to get the level from the user
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// Public game API used by the screens. All logic runs on-device against TMDB
+// directly (no backend); see ./tmdb/* for the implementation.
 
-export const getUserData = async (token: string) => {
-  try {
-    const response = await api.post('/user', { token });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const startNewGame = async (
+  difficulty: Difficulty = 'medium'
+): Promise<Game> => createGame(difficulty);
 
-export const fetchMovieDetails = async (movieId: number): Promise<MovieDetailsModel> => {
-  const response = await api.get(`/movies/${movieId}`);
-  return response.data;
-};
+export const fetchMovieDetails = async (
+  movieId: number
+): Promise<MovieDetailsModel> => getMovieDetails(movieId);
 
-export const fetchActorDetails = async (actorId: number): Promise<ActorModel> => {
-  const response = await api.get(`/actors/${actorId}`);
-  return response.data;
-};
+export const fetchActorDetails = async (
+  actorId: number
+): Promise<ActorModel> => getActorDetails(actorId);

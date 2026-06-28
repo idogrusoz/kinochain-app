@@ -1,111 +1,115 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-import { theme } from '../../theme';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, Share } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App'; // Import this to define route prop
-import i18n from '../i18n/i18n';
+import { RootStackParamList } from '../../App';
+import { BrassButton } from '../components/ui/BrassButton';
+import { OutlineButton } from '../components/ui/OutlineButton';
+import { TextButton } from '../components/ui/TextButton';
+import { SectionLabel } from '../components/ui/SectionLabel';
+import { ChainView } from '../components/game/ChainView';
+import { colors, fonts, type, spacing } from '../../theme';
 
-const { width, height } = Dimensions.get('window');
+export type WinningScreenProps = StackScreenProps<RootStackParamList, 'Winning'>;
 
-// Define the expected route props for WinningScreen
-export type WinningScreenProps = StackScreenProps<
-  RootStackParamList,
-  'Winning'
->;
+function formatTime(total: number): string {
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return `${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
+function Stat({ value, label }: { value: string; label: string }) {
+  return (
+    <View style={{ alignItems: 'center' }}>
+      <Text style={[type.statLarge, { color: colors.textPrimary }]} maxFontSizeMultiplier={1.5}>{value}</Text>
+      <Text style={[type.microLabel, { color: colors.textSecondary, marginTop: 3 }]} maxFontSizeMultiplier={1.5}>
+        {label}
+      </Text>
+    </View>
+  );
+}
 
 export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation }) => {
-  const { targetMovie } = route.params; // Destructure targetMovie from route params
+  const { targetMovie, moves, seconds, chain } = route.params;
+  const startName = chain[0]?.name ?? '';
 
-  const handleStartNewGame = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Game' }],
-    });
+  useEffect(() => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(
+      () => {}
+    );
+  }, []);
+
+  const onShare = () => {
+    Share.share({
+      message: `KINOCHAIN\n${startName} → ${targetMovie.title}\nSolved in ${moves} moves · ${formatTime(seconds)}`,
+    }).catch(() => {});
   };
 
   return (
-    <ImageBackground
-      source={{
-        uri: targetMovie.poster
-          ? `https://image.tmdb.org/t/p/original${targetMovie.poster}`
-          : '/placeholder.svg',
-      }}
-      style={styles.backgroundImage}
-    >
-      <View style={styles.overlay}>
-        <View style={styles.textContainer}>
-          <Text style={styles.winTitle}>{targetMovie.title}</Text>
-          <Text style={styles.winText}>{i18n.t('winning.text')}</Text>
-          <Text style={styles.winSubtext}>
-            {i18n.t('winning.subtext')}
-          </Text>
-          <TouchableOpacity
-            style={styles.newGameButton}
-            onPress={handleStartNewGame}
-          >
-            <Text style={styles.newGameButtonText}>Start New Game</Text>
-          </TouchableOpacity>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.bulbs}>
+        {Array.from({ length: 7 }).map((_, i) => (
+          <View key={i} style={[styles.bulb, { opacity: i % 2 ? 0.5 : 1 }]} />
+        ))}
       </View>
-    </ImageBackground>
+      <Text style={[type.celebration, styles.title]} maxFontSizeMultiplier={1.5}>That&apos;s a wrap!</Text>
+      <Text style={styles.subtitle} maxFontSizeMultiplier={1.5}>
+        You linked {startName} to {targetMovie.title}.
+      </Text>
+
+      <View style={styles.stats}>
+        <Stat value={String(moves)} label="moves" />
+        <View style={styles.divider} />
+        <Stat value={formatTime(seconds)} label="time" />
+      </View>
+
+      <View style={styles.chainSection}>
+        <SectionLabel style={styles.chainLabel}>Your chain</SectionLabel>
+        <ChainView chain={chain} />
+      </View>
+
+      <BrassButton label="Play again" onPress={() => navigation.navigate('Game')} />
+      <OutlineButton
+        label="Share result"
+        icon="share"
+        borderColor={colors.borderSubtleGold}
+        style={{ marginTop: 10 }}
+        onPress={onShare}
+      />
+      <View style={styles.homeWrap}>
+        <TextButton label="Home" onPress={() => navigation.navigate('Welcome')} />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    width: width,
-    height: height,
-    resizeMode: 'cover',
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+    paddingHorizontal: spacing.screen,
+    paddingTop: 8,
   },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textContainer: {
-    padding: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  winTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
+  bulbs: { flexDirection: 'row', justifyContent: 'center', gap: 7, marginTop: 8, marginBottom: 12 },
+  bulb: { width: 7, height: 7, borderRadius: 4, backgroundColor: colors.goldBright },
+  title: { color: colors.goldBright, textAlign: 'center' },
+  subtitle: {
+    fontFamily: fonts.text.regular,
+    fontSize: 12,
+    color: colors.textSecondary,
     textAlign: 'center',
-    color: theme.text,
-    marginBottom: 20,
+    marginTop: 5,
   },
-  winText: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: 'gold',
-    textAlign: 'center',
-    marginBottom: 10,
+  stats: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 16 },
+  divider: { width: 1, height: 40, backgroundColor: colors.border },
+  chainSection: {
+    flex: 1,
+    minHeight: 0,
+    marginTop: 18,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#1f1f20',
   },
-  winSubtext: {
-    fontSize: 18,
-    color: theme.text,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  newGameButton: {
-    backgroundColor: theme.primary,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  newGameButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
+  chainLabel: { textAlign: 'center', marginBottom: 12 },
+  homeWrap: { alignItems: 'center', marginTop: 14, marginBottom: 16 },
 });

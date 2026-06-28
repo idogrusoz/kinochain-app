@@ -1,91 +1,95 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useCallback } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import * as ExpoSplashScreen from 'expo-splash-screen';
+import {
+  useFonts,
+  SpaceGrotesk_500Medium,
+  SpaceGrotesk_600SemiBold,
+  SpaceGrotesk_700Bold,
+} from '@expo-google-fonts/space-grotesk';
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+} from '@expo-google-fonts/inter';
+import SplashScreen from './src/screens/SplashScreen';
+import WelcomeScreen from './src/screens/WelcomeScreen';
+import OnboardingScreen from './src/screens/OnboardingScreen';
 import GameScreen from './src/screens/GameScreen';
 import { WinningScreen } from './src/screens/WinningScreen';
-import SplashScreen from './src/screens/SplashScreen';
-import { AppState, SafeAreaView } from 'react-native';
+import AboutScreen from './src/screens/AboutScreen';
+import PrivacyScreen from './src/screens/PrivacyScreen';
 import { theme } from './theme';
-import { MovieSummaryModel } from './types';
-import AuthScreen from './src/screens/AuthScreen';
-import { getSecureItem } from './src/services/storageService';
-import Constants, { ExecutionEnvironment } from 'expo-constants';
+import { MovieSummaryModel, ChainNode, Difficulty } from './types';
 
-// Define the types for your navigation stack
+ExpoSplashScreen.preventAutoHideAsync();
+
+// Navigation stack: Splash routes to Onboarding (first run) or Welcome; Welcome
+// starts a Game; finishing a Game shows Winning.
 export type RootStackParamList = {
   Splash: undefined;
-  Game: undefined;
-  Winning: { targetMovie: MovieSummaryModel };
-  Auth: undefined;
+  Onboarding: undefined;
+  Welcome: undefined;
+  Game: { difficulty?: Difficulty } | undefined;
+  Winning: {
+    targetMovie: MovieSummaryModel;
+    moves: number;
+    seconds: number;
+    chain: ChainNode[];
+  };
+  About: undefined;
+  Privacy: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
+
 const App = () => {
+  const [fontsLoaded] = useFonts({
+    SpaceGrotesk_500Medium,
+    SpaceGrotesk_600SemiBold,
+    SpaceGrotesk_700Bold,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+  });
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await ExpoSplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        // Replace this with your actual authentication check logic
-        const authToken = await getSecureItem('authToken');
-        setIsAuthenticated(authToken !== null);
-      } catch (error) {
-        console.error('Error checking auth status:', error);
-        setIsAuthenticated(false);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuthStatus();
-
- const subscription = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'active') {
-        // Re-check auth when app comes to foreground
-        checkAuthStatus();
-      }
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
-
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <Suspense fallback={null}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+      <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
           <PaperProvider>
-          <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName='Splash'
-              screenOptions={{ headerShown: false }}
-            >
-              <Stack.Screen
-                name='Splash'
-                component={SplashScreen}
-              />
-              <Stack.Screen
-                name='Auth'
-                component={AuthScreen}
-              />
-              <Stack.Screen
-                name='Game'
-                component={GameScreen}
-              />
-              <Stack.Screen
-                name='Winning'
-                component={WinningScreen}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </PaperProvider>
-        </SafeAreaView>
+            <NavigationContainer>
+              <Stack.Navigator
+                initialRouteName='Splash'
+                screenOptions={{ headerShown: false }}
+              >
+                <Stack.Screen name='Splash' component={SplashScreen} />
+                <Stack.Screen name='Onboarding' component={OnboardingScreen} />
+                <Stack.Screen name='Welcome' component={WelcomeScreen} />
+                <Stack.Screen name='Game' component={GameScreen} />
+                <Stack.Screen name='Winning' component={WinningScreen} />
+                <Stack.Screen name='About' component={AboutScreen} />
+                <Stack.Screen name='Privacy' component={PrivacyScreen} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </PaperProvider>
+          </SafeAreaView>
+        </SafeAreaProvider>
       </GestureHandlerRootView>
     </Suspense>
   );

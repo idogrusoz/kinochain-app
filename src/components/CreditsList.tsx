@@ -1,89 +1,116 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Image, TouchableOpacity, FlatList } from 'react-native';
-import { Card, Title, Paragraph } from 'react-native-paper';
-import { theme } from '../../theme';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
+import { colors, radius, type } from '../../theme';
 import { Credit } from '../../types';
-import { PlaceholderImage } from './PlaceholderImage';
+import { Icon } from './ui/Icon';
 
-interface CreditsListProps {
-  credits: Credit[];
-  onSelectCredit: (creditId: number) => void;
-}
-
-// Memoize the individual credit item component
-const CreditItem = React.memo(
-  ({
-    credit,
-    onSelectCredit,
-  }: {
-    credit: Credit;
-    onSelectCredit: (id: number) => void;
-  }) => (
-    <TouchableOpacity onPress={() => onSelectCredit(credit.titleId)}>
-      <Card style={{ marginBottom: 8, backgroundColor: theme.background }}>
-        <Card.Content style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {credit.poster_path ? (
-            <Image
-              source={{
-                uri: `https://image.tmdb.org/t/p/w185${credit.poster_path}`,
-              }}
-              style={{ width: 60, height: 80, borderRadius: 4 }}
-            />
-          ) : (
-            <PlaceholderImage />
-          )}
-          <View style={{ marginLeft: 16, flex: 1 }}>
-            <Title
-              style={{ fontSize: 16, color: theme.text, flexWrap: 'wrap' }}
-            >
-              {credit.title}
-            </Title>
-            <Paragraph style={{ fontSize: 12, color: theme.text }}>
-              {credit.name}
-            </Paragraph>
-            {credit.releaseDate && (
-              <Paragraph style={{ fontSize: 12, color: theme.text }}>
-                {credit.releaseDate.split('-')[0] || 'Unknown'}
-              </Paragraph>
-            )}
+const Row = React.memo(
+  ({ credit, onSelect }: { credit: Credit; onSelect: (id: number) => void }) => {
+    const secondary = [
+      credit.name,
+      credit.releaseDate ? credit.releaseDate.split('-')[0] : null,
+    ]
+      .filter(Boolean)
+      .join(' · ');
+    return (
+      <TouchableOpacity
+        onPress={() => onSelect(credit.titleId)}
+        style={styles.row}
+        activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityLabel={[credit.title, secondary].filter(Boolean).join(', ')}
+        accessibilityHint="Selects this credit as the next link in the chain"
+      >
+        {credit.poster_path ? (
+          <Image
+            source={{ uri: `https://image.tmdb.org/t/p/w185${credit.poster_path}` }}
+            style={styles.thumb}
+          />
+        ) : (
+          <View style={[styles.thumb, styles.placeholder]}>
+            <Icon name="film" size={14} color={colors.textMuted} />
           </View>
-        </Card.Content>
-      </Card>
-    </TouchableOpacity>
-  )
+        )}
+        <View style={{ flex: 1 }}>
+          <Text style={[type.listTitle, { color: colors.textPrimary }]} numberOfLines={1} maxFontSizeMultiplier={1.5}>
+            {credit.title}
+          </Text>
+          {!!secondary && (
+            <Text
+              style={[
+                type.secondary,
+                {
+                  color: credit.isDirector ? colors.gold : colors.textSecondary,
+                  marginTop: 2,
+                },
+              ]}
+              numberOfLines={1}
+              maxFontSizeMultiplier={1.5}
+            >
+              {secondary}
+            </Text>
+          )}
+        </View>
+        <Icon name="forward" size={18} color={colors.gold} />
+      </TouchableOpacity>
+    );
+  }
 );
 
-export function CreditsList({ credits, onSelectCredit }: CreditsListProps) {
-  const flatListRef = useRef<FlatList>(null);
+export function CreditsList({
+  credits,
+  onSelectCredit,
+}: {
+  credits: Credit[];
+  onSelectCredit: (creditId: number) => void;
+}) {
+  const ref = useRef<FlatList<Credit>>(null);
 
   useEffect(() => {
-    flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    ref.current?.scrollToOffset({ offset: 0, animated: false });
   }, [credits]);
 
-  // Define fixed height for better performance
-  const getItemLayout = (data: any, index: number) => ({
-    length: 96, 
-    offset: 96 * index,
-    index,
-  });
-
   return (
-    <FlatList
-      ref={flatListRef}
-      data={credits}
-      renderItem={({ item }) => (
-        <CreditItem
-          credit={item}
-          onSelectCredit={onSelectCredit}
-        />
-      )}
-      keyExtractor={(item) => item.titleId.toString()}
-      contentContainerStyle={{ padding: 8 }}
-      getItemLayout={getItemLayout}
-      windowSize={5}
-      maxToRenderPerBatch={5}
-      initialNumToRender={10}
-      removeClippedSubviews={true}
-    />
+    <View style={styles.wrap}>
+      <FlatList
+        ref={ref}
+        data={credits}
+        keyExtractor={(c) => String(c.titleId)}
+        renderItem={({ item }) => <Row credit={item} onSelect={onSelectCredit} />}
+        ItemSeparatorComponent={() => <View style={styles.sep} />}
+        showsVerticalScrollIndicator={false}
+        windowSize={7}
+        initialNumToRender={12}
+        removeClippedSubviews
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  wrap: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.card,
+    overflow: 'hidden',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 13,
+  },
+  thumb: { width: 34, height: 48, borderRadius: 4, backgroundColor: '#222' },
+  placeholder: { alignItems: 'center', justifyContent: 'center' },
+  sep: { height: 1, backgroundColor: colors.borderRow, marginLeft: 59 },
+});

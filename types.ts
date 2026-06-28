@@ -3,6 +3,17 @@ export interface BaseEntity {
   id: number;
 }
 
+// A node in the player's chain (used by the path tracker and the win screen).
+export interface ChainNode {
+  kind: 'actor' | 'film';
+  id: number;
+  name: string;
+  poster?: string | null;
+}
+
+// Difficulty controls how popular/obscure the movies are.
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
 // Media type enum
 export enum MediaType {
   Movie = 'movie',
@@ -84,4 +95,5 @@ export interface Credit {
   character?: string;
   poster_path: string | null;
   releaseDate?: string;
+  isDirector?: boolean;
 }
