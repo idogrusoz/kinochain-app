@@ -4,10 +4,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { colors, fonts } from '../../../theme';
 import { Icon } from '../ui/Icon';
 import { ChainNode } from '../../../types';
-import { tmdbImageUrl } from '../../services/tmdb/client';
 
 function posterSource(path?: string | null) {
-  return path ? { uri: tmdbImageUrl(path) } : null;
+  return path ? { uri: `https://image.tmdb.org/t/p/w185${path}` } : null;
 }
 
 // The solved chain, revealed in gold. It fills whatever vertical space the parent

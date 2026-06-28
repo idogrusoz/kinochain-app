@@ -11,7 +11,7 @@ const SECTIONS = [
   },
   {
     title: 'Network Requests',
-    body: 'To provide gameplay, the app contacts the Kinochain API hosted by Cloudflare. Cloudflare processes the device IP address and technical request data to deliver and protect the service. Kinochain does not keep persistent application request logs. The API sends movie and person identifiers and filters to TMDB; the user\'s IP address is not sent to TMDB.',
+    body: 'To provide gameplay, the app sends read-only HTTPS requests directly from your device to The Movie Database (TMDB). TMDB may receive your IP address and technical request information when processing these requests. Kinochain does not operate an intermediary server and does not receive or store this information.',
   },
   {
     title: 'Analytics & Tracking',
@@ -20,14 +20,6 @@ const SECTIONS = [
   {
     title: 'Local Storage',
     body: 'The app stores a small onboarding flag on your device to remember whether you have completed the tutorial. This data never leaves your device.',
-  },
-  {
-    title: 'Cloudflare',
-    body: 'Cloudflare provides network delivery, short-lived abuse prevention, and serverless processing. Read the ',
-    link: {
-      label: 'Cloudflare privacy policy.',
-      url: 'https://www.cloudflare.com/privacypolicy/',
-    },
   },
   {
     title: 'The Movie Database',
@@ -39,7 +31,7 @@ const SECTIONS = [
   },
   {
     title: 'Retention & Deletion',
-    body: 'Kinochain does not retain personal data or persistent request logs. A salted, one-way representation of the device IP may be used briefly for rate limiting. Cached responses contain only public TMDB data. Delete the app to remove its local onboarding preference.',
+    body: 'Kinochain does not operate a server or retain network request logs. TMDB handles information it receives according to its own privacy policy. Delete the app to remove its local onboarding preference.',
   },
   {
     title: 'Contact',

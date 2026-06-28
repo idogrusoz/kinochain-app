@@ -1,7 +1,7 @@
-const API_BASE_URL = (process.env.EXPO_PUBLIC_API_BASE_URL ?? '').replace(/\/+$/, '');
+const API_KEY = process.env.EXPO_PUBLIC_TMDB_API_KEY ?? '';
+const BASE_URL = 'https://api.themoviedb.org/3';
 
 type Params = Record<string, string | number | boolean | undefined>;
-type TmdbImageSize = 'w185' | 'w342' | 'w500' | 'original';
 
 export class TmdbError extends Error {
   kind: 'network' | 'http';
@@ -23,27 +23,18 @@ function buildQuery(params: Params): string {
   return qs ? `?${qs}` : '';
 }
 
-export function tmdbImageUrl(path: string, size: TmdbImageSize = 'w185'): string {
-  const file = path.startsWith('/') ? path.slice(1) : path;
-  return `${API_BASE_URL}/image/${size}/${encodeURIComponent(file)}`;
-}
-
 export async function tmdbGet<T>(path: string, params: Params = {}): Promise<T> {
-  if (!API_BASE_URL) {
-    throw new TmdbError('http', 'Kinochain API URL is not configured.');
-  }
-
-  const query = buildQuery({ language: 'en-US', ...params });
+  const query = buildQuery({ api_key: API_KEY, language: 'en-US', ...params });
   let res: Response;
   try {
-    res = await fetch(`${API_BASE_URL}/3${path}${query}`, {
+    res = await fetch(`${BASE_URL}${path}${query}`, {
       headers: { accept: 'application/json' },
     });
   } catch {
-    throw new TmdbError('network', 'Unable to reach Kinochain. Check your internet connection.');
+    throw new TmdbError('network', 'Unable to reach TMDB. Check your internet connection.');
   }
   if (!res.ok) {
-    throw new TmdbError('http', `Kinochain request failed (${res.status}) for ${path}`, res.status);
+    throw new TmdbError('http', `TMDB request failed (${res.status}) for ${path}`, res.status);
   }
   return (await res.json()) as T;
 }

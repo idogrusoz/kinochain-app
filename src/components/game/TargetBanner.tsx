@@ -3,7 +3,6 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { colors, radius, type } from '../../../theme';
 import { Icon } from '../ui/Icon';
 import { SectionLabel } from '../ui/SectionLabel';
-import { tmdbImageUrl } from '../../services/tmdb/client';
 
 // The persistent, dominant goal: reach this film.
 export function TargetBanner({
@@ -25,7 +24,7 @@ export function TargetBanner({
       <View style={styles.poster}>
         {poster ? (
           <Image
-            source={{ uri: tmdbImageUrl(poster) }}
+            source={{ uri: `https://image.tmdb.org/t/p/w185${poster}` }}
             style={styles.posterImg}
           />
         ) : (

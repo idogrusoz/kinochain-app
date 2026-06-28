@@ -10,7 +10,6 @@ import {
 import { colors, radius, type } from '../../theme';
 import { Credit } from '../../types';
 import { Icon } from './ui/Icon';
-import { tmdbImageUrl } from '../services/tmdb/client';
 
 const Row = React.memo(
   ({ credit, onSelect }: { credit: Credit; onSelect: (id: number) => void }) => {
@@ -31,7 +30,7 @@ const Row = React.memo(
       >
         {credit.poster_path ? (
           <Image
-            source={{ uri: tmdbImageUrl(credit.poster_path) }}
+            source={{ uri: `https://image.tmdb.org/t/p/w185${credit.poster_path}` }}
             style={styles.thumb}
           />
         ) : (

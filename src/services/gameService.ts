@@ -3,8 +3,8 @@ import { createGame } from './tmdb/gameService';
 import { getMovieDetails } from './tmdb/movieService';
 import { getActorDetails } from './tmdb/actorService';
 
-// Public game API used by the screens. Game construction stays on-device; the
-// TMDB services call the narrow Cloudflare proxy configured in tmdb/client.ts.
+// Public game API used by the screens. All logic runs on-device against TMDB
+// directly (no backend); see ./tmdb/* for the implementation.
 
 export const startNewGame = async (
   difficulty: Difficulty = 'medium'
