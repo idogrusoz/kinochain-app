@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Kinochain",
-    "slug": "kinochain-app",
+    "slug": "kinochain",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -40,11 +40,12 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "41fe5f26-94f3-48fa-8fe9-29a7080e59fd"
+        "projectId": "10395d9e-c905-44e2-89a2-a125d1c61d91"
       }
     },
     "experiments": {
       "tsconfigPaths": true
-    }
+    },
+    "owner": "rightword"
   }
 }

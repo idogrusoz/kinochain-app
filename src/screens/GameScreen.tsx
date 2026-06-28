@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import {
   useNavigation,
@@ -101,6 +101,7 @@ export default function GameScreen() {
   const [path, setPath] = useState<ChainNode[]>([]);
   const [seconds, setSeconds] = useState(0);
   const [loading, setLoading] = useState(true);
+  const resumeAfterHelp = useRef(false);
   const [error, setError] = useState<{
     title: string;
     message: string;
@@ -131,6 +132,10 @@ export default function GameScreen() {
 
   useFocusEffect(
     useCallback(() => {
+      if (resumeAfterHelp.current) {
+        resumeAfterHelp.current = false;
+        return;
+      }
       startAGame();
     }, [startAGame])
   );
@@ -233,7 +238,10 @@ export default function GameScreen() {
         </Pressable>
         <Wordmark size={17} />
         <Pressable
-          onPress={() => navigation.navigate('Onboarding')}
+          onPress={() => {
+            resumeAfterHelp.current = true;
+            navigation.navigate('Onboarding');
+          }}
           hitSlop={8}
           style={styles.navButton}
           accessibilityRole="button"

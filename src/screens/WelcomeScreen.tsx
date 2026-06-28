@@ -48,13 +48,6 @@ export default function WelcomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <View
-          style={styles.topBarButton}
-          accessibilityElementsHidden
-          importantForAccessibility="no-hide-descendants"
-        >
-          <Icon name="stats" size={21} color={colors.textSecondary} />
-        </View>
         <Pressable
           style={styles.topBarButton}
           hitSlop={8}
@@ -66,29 +59,31 @@ export default function WelcomeScreen() {
         </Pressable>
       </View>
 
-      <View style={styles.hero}>
-        <Mark width={56} height={56} />
-        <Wordmark size={18} />
-        <Text style={styles.explainer} maxFontSizeMultiplier={1.5}>
-          Link the starting actor to the target film in as few moves as you can.
-        </Text>
-      </View>
+      <View style={styles.heroRegion}>
+        <View style={styles.heroContent}>
+          <View style={styles.hero}>
+            <Mark width={88} height={88} />
+            <Wordmark size={26} letterSpacing={1.6} />
+            <Text style={styles.explainer} maxFontSizeMultiplier={1.5}>
+              Link the starting actor to the target film in as few moves as you can.
+            </Text>
+          </View>
 
-      <View style={styles.motifRow}>
-        <MotifNode kind="actor" emphasized />
-        <View style={motif.bar} />
-        <MotifNode kind="film" />
-        <View style={motif.bar} />
-        <MotifNode kind="actor" />
-        <View style={motif.dash}>
-          {[0, 1, 2].map((i) => (
-            <View key={i} style={motif.dot} />
-          ))}
+          <View style={styles.motifRow}>
+            <MotifNode kind="actor" emphasized />
+            <View style={motif.bar} />
+            <MotifNode kind="film" />
+            <View style={motif.bar} />
+            <MotifNode kind="actor" />
+            <View style={motif.dash}>
+              {[0, 1, 2].map((i) => (
+                <View key={i} style={motif.dot} />
+              ))}
+            </View>
+            <MotifNode kind="film" target />
+          </View>
         </View>
-        <MotifNode kind="film" target />
       </View>
-
-      <View style={{ flex: 1 }} />
 
       <SectionLabel style={styles.diffLabel}>Difficulty</SectionLabel>
       <View style={styles.segment}>
@@ -150,8 +145,10 @@ const motif = StyleSheet.create({
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background, paddingHorizontal: spacing.screen },
-  topBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 4 },
+  topBar: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', paddingVertical: 4, zIndex: 1 },
   topBarButton: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
+  heroRegion: { flex: 1, justifyContent: 'center' },
+  heroContent: { transform: [{ translateY: -52 }] },
   hero: { alignItems: 'center', gap: 9, paddingTop: 6 },
   explainer: {
     fontFamily: fonts.text.regular,

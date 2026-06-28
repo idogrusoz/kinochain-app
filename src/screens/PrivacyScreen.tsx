@@ -31,7 +31,7 @@ const SECTIONS = [
   },
   {
     title: 'Contact',
-    body: 'If you have questions about this privacy policy, contact us at ibrahim@rightword.be.',
+    body: 'If you have questions about this privacy policy, contact us at info@rightword.be.',
   },
 ];
 

@@ -21,6 +21,7 @@ const STEPS: Step[] = [
 export default function OnboardingScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [step, setStep] = useState(0);
+  const openedFromApp = navigation.canGoBack();
   const isLast = step === STEPS.length - 1;
   const current = STEPS[step];
 
@@ -30,13 +31,17 @@ export default function OnboardingScreen() {
     } catch {
       // ignore — onboarding will simply show again next launch
     }
-    navigation.reset({ index: 0, routes: [{ name: 'Welcome' }] });
+    if (openedFromApp) {
+      navigation.goBack();
+    } else {
+      navigation.reset({ index: 0, routes: [{ name: 'Welcome' }] });
+    }
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.skipRow}>
-        <TextButton label="Skip" onPress={finish} />
+      <View style={[styles.skipRow, openedFromApp && styles.backRow]}>
+        <TextButton label={openedFromApp ? 'Back' : 'Skip'} onPress={finish} />
       </View>
 
       <View style={styles.hero}>
@@ -67,6 +72,7 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background, paddingHorizontal: 22, paddingBottom: 22 },
   skipRow: { alignItems: 'flex-end', paddingVertical: 10 },
+  backRow: { alignItems: 'flex-start' },
   hero: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 18 },
   spotlight: {
     width: 96,

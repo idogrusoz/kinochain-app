@@ -10,7 +10,6 @@ const MAP = {
   forward: 'chevron-forward',
   help: 'help-circle-outline',
   settings: 'settings-outline',
-  stats: 'stats-chart',
   film: 'film-outline',
   person: 'person',
   director: 'megaphone-outline',
