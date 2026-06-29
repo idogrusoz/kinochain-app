@@ -1,0 +1,109 @@
+{
+  "splash": {
+    "tagline": "SEIS GRAUS DO CINEMA",
+    "poweredBy": "DESENVOLVIDO POR"
+  },
+  "welcome": {
+    "about": "Sobre",
+    "subtitle": "Conecte o ator inicial ao filme alvo no menor número de movimentos.",
+    "difficulty": "Dificuldade",
+    "difficultyA11y": "Dificuldade %{level}",
+    "newGame": "Novo jogo",
+    "howToPlay": "Como jogar"
+  },
+  "onboarding": {
+    "preparing": "Preparando o tutorial…",
+    "errorTitle": "Não foi possível carregar o tutorial",
+    "errorBody": "Verifique sua conexão e tente novamente.",
+    "skip": "Pular",
+    "skipForNow": "Pular por enquanto",
+    "back": "Voltar",
+    "goBackA11y": "Voltar",
+    "skipA11y": "Pular tutorial",
+    "yourPath": "Seu caminho",
+    "pickFilm": "escolha um filme",
+    "pickPerson": "escolha uma pessoa",
+    "letsGo": "Vamos lá!",
+    "goalTitle": "Seu objetivo",
+    "goalBody": "Cada jogo tem um filme alvo. Alcance-o conectando atores e filmes.",
+    "pickFilmTitle": "Faça um movimento",
+    "pickFilmBody": "Toque em %{filmName} na filmografia.",
+    "pickPersonTitle": "Escolha uma pessoa",
+    "pickPersonBody": "Agora toque em %{personName} para continuar a cadeia.",
+    "pickTargetTitle": "Quase lá!",
+    "pickTargetBody": "Toque em %{filmName} — o filme alvo — para completar a cadeia."
+  },
+  "game": {
+    "offline": "Você está offline",
+    "offlineBody": "Verifique sua conexão com a internet e tente novamente.",
+    "errorTitle": "Algo deu errado",
+    "errorBody": "Não conseguimos carregar o jogo. Por favor, tente novamente.",
+    "goBack": "Voltar",
+    "help": "Ajuda",
+    "yourPath": "Seu caminho",
+    "move": "Movimento %{n}",
+    "pickFilm": "escolha um filme",
+    "pickPerson": "escolha uma pessoa"
+  },
+  "winning": {
+    "title": "É um wrap!",
+    "linked": "Você conectou %{from} a %{to}.",
+    "moves": "movimentos",
+    "time": "tempo",
+    "yourChain": "Sua cadeia",
+    "startPlaying": "Começar a jogar",
+    "playAgain": "Jogar novamente",
+    "shareResult": "Compartilhar resultado",
+    "home": "Início",
+    "shareText": "KINOCHAIN\n%{from} → %{to}\nResolvido em %{moves} movimentos · %{time}"
+  },
+  "about": {
+    "goBack": "Voltar",
+    "title": "Sobre",
+    "version": "Versão %{version}",
+    "tmdbDisclaimer": "Este produto usa a API do TMDB, mas não é endossado ou certificado pelo TMDB. Todos os dados, imagens e metadados de filmes são fornecidos pelo The Movie Database (TMDB).",
+    "privacyPolicy": "Política de Privacidade",
+    "howToPlay": "Como Jogar",
+    "tmdbWebsite": "Site do TMDB",
+    "madeBy": "Feito por Ibrahim Dogrusoz"
+  },
+  "privacy": {
+    "goBack": "Voltar",
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última atualização: junho de 2026",
+    "dataCollection": "Coleta de Dados",
+    "dataCollectionBody": "Kinochain não requer conta, não cria perfis de usuário e não armazena dados pessoais em banco de dados.",
+    "networkRequests": "Solicitações de Rede",
+    "networkRequestsBody": "Para o jogo, o app envia solicitações HTTPS somente leitura do seu dispositivo para o The Movie Database (TMDB). O TMDB pode receber seu endereço IP e informações técnicas. Kinochain não opera um servidor intermediário e não recebe ou armazena essas informações.",
+    "analytics": "Análise e Rastreamento",
+    "analyticsBody": "Kinochain não inclui SDKs de análise, relatórios de falhas, publicidade ou rastreamento e não usa informações de solicitações para publicidade ou rastreamento.",
+    "localStorage": "Armazenamento Local",
+    "localStorageBody": "O app armazena um pequeno indicador no seu dispositivo para lembrar se você concluiu o tutorial. Esses dados nunca saem do seu dispositivo.",
+    "tmdb": "The Movie Database",
+    "tmdbBody": "Dados e imagens de filmes são fornecidos pelo TMDB. Leia a ",
+    "tmdbPolicyLink": "política de privacidade do TMDB.",
+    "retention": "Retenção e Exclusão",
+    "retentionBody": "Kinochain não opera servidor nem retém registros de solicitações. O TMDB gerencia as informações que recebe de acordo com sua própria política de privacidade. Exclua o app para remover as preferências locais.",
+    "contact": "Contato",
+    "contactBody": "Se tiver dúvidas sobre esta política de privacidade, entre em contato pelo info@rightword.be."
+  },
+  "error": {
+    "title": "Algo deu errado",
+    "body": "Não foi possível carregar os dados. Verifique sua conexão e tente novamente.",
+    "tryAgain": "Tentar novamente",
+    "goBack": "Voltar"
+  },
+  "loading": {
+    "default": "Preparando o cenário…"
+  },
+  "chain": {
+    "targetReached": "Alvo alcançado"
+  },
+  "target": {
+    "label": "Alvo",
+    "a11y": "Alvo: %{title} %{year}"
+  },
+  "credits": {
+    "a11yHint": "Seleciona este crédito como o próximo elo da cadeia"
+  }
+}

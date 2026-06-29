@@ -10,7 +10,10 @@
       "nl": "./src/locales/nl.json",
       "de": "./src/locales/de.json",
       "tr": "./src/locales/tr.json",
-      "ru": "./src/locales/ru.json"
+      "ru": "./src/locales/ru.json",
+      "es": "./src/locales/es.json",
+      "pt": "./src/locales/pt.json",
+      "ar": "./src/locales/ar.json"
     },
     "ios": {
       "supportsTablet": true,
@@ -18,7 +21,7 @@
       "buildNumber": "1",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "CFBundleLocalizations": ["en", "fr", "nl", "de", "tr", "ru"]
+        "CFBundleLocalizations": ["en", "fr", "nl", "de", "tr", "ru", "es", "pt", "ar"]
       }
     },
     "android": {

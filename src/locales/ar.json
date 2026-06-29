@@ -1,0 +1,109 @@
+{
+  "splash": {
+    "tagline": "ست درجات من السينما",
+    "poweredBy": "مدعوم من"
+  },
+  "welcome": {
+    "about": "حول",
+    "subtitle": "اربط الممثل بالفيلم المستهدف بأقل عدد من الحركات.",
+    "difficulty": "الصعوبة",
+    "difficultyA11y": "صعوبة %{level}",
+    "newGame": "لعبة جديدة",
+    "howToPlay": "كيف تلعب"
+  },
+  "onboarding": {
+    "preparing": "جارٍ تحضير الدليل…",
+    "errorTitle": "تعذّر تحميل الدليل",
+    "errorBody": "تحقق من اتصالك وحاول مرة أخرى.",
+    "skip": "تخطي",
+    "skipForNow": "تخطي الآن",
+    "back": "رجوع",
+    "goBackA11y": "رجوع",
+    "skipA11y": "تخطي الدليل",
+    "yourPath": "مسارك",
+    "pickFilm": "اختر فيلماً",
+    "pickPerson": "اختر شخصاً",
+    "letsGo": "!هيا بنا",
+    "goalTitle": "هدفك",
+    "goalBody": "كل لعبة لها فيلم مستهدف. اوصل إليه بربط الممثلين والأفلام.",
+    "pickFilmTitle": "قم بحركة",
+    "pickFilmBody": "انقر على %{filmName} من قائمة الأفلام.",
+    "pickPersonTitle": "اختر شخصاً",
+    "pickPersonBody": "الآن انقر على %{personName} لمتابعة السلسلة.",
+    "pickTargetTitle": "!أوشكت",
+    "pickTargetBody": "انقر على %{filmName} — الفيلم المستهدف — لإكمال السلسلة."
+  },
+  "game": {
+    "offline": "أنت غير متصل",
+    "offlineBody": "تحقق من اتصالك بالإنترنت وحاول مرة أخرى.",
+    "errorTitle": "حدث خطأ ما",
+    "errorBody": "لم نتمكن من تحميل اللعبة. يرجى المحاولة مرة أخرى.",
+    "goBack": "رجوع",
+    "help": "مساعدة",
+    "yourPath": "مسارك",
+    "move": "حركة %{n}",
+    "pickFilm": "اختر فيلماً",
+    "pickPerson": "اختر شخصاً"
+  },
+  "winning": {
+    "title": "!انتهى التصوير",
+    "linked": "ربطت %{from} بـ %{to}.",
+    "moves": "حركات",
+    "time": "الوقت",
+    "yourChain": "سلسلتك",
+    "startPlaying": "ابدأ اللعب",
+    "playAgain": "العب مرة أخرى",
+    "shareResult": "شارك النتيجة",
+    "home": "الرئيسية",
+    "shareText": "KINOCHAIN\n%{from} ← %{to}\nتم الحل في %{moves} حركات · %{time}"
+  },
+  "about": {
+    "goBack": "رجوع",
+    "title": "حول",
+    "version": "الإصدار %{version}",
+    "tmdbDisclaimer": "يستخدم هذا المنتج واجهة TMDB البرمجية ولكنه غير معتمد أو موثق من TMDB. جميع بيانات الأفلام والصور والبيانات الوصفية مقدمة من The Movie Database (TMDB).",
+    "privacyPolicy": "سياسة الخصوصية",
+    "howToPlay": "كيف تلعب",
+    "tmdbWebsite": "موقع TMDB",
+    "madeBy": "صنع بواسطة إبراهيم دوغروسوز"
+  },
+  "privacy": {
+    "goBack": "رجوع",
+    "title": "سياسة الخصوصية",
+    "lastUpdated": "آخر تحديث: يونيو ٢٠٢٦",
+    "dataCollection": "جمع البيانات",
+    "dataCollectionBody": "لا يتطلب Kinochain حساباً، ولا ينشئ ملفات تعريف للمستخدمين، ولا يخزن بيانات شخصية في قاعدة بيانات.",
+    "networkRequests": "طلبات الشبكة",
+    "networkRequestsBody": "لتوفير اللعب، يرسل التطبيق طلبات HTTPS للقراءة فقط من جهازك إلى The Movie Database (TMDB). قد يتلقى TMDB عنوان IP الخاص بك ومعلومات تقنية. لا يشغّل Kinochain خادماً وسيطاً ولا يتلقى أو يخزن هذه المعلومات.",
+    "analytics": "التحليلات والتتبع",
+    "analyticsBody": "لا يتضمن Kinochain أي أدوات تحليل أو تقارير أعطال أو إعلانات أو تتبع ولا يستخدم معلومات الطلبات للإعلان أو التتبع.",
+    "localStorage": "التخزين المحلي",
+    "localStorageBody": "يخزن التطبيق علامة صغيرة على جهازك لتذكر ما إذا كنت قد أكملت الدليل. هذه البيانات لا تغادر جهازك أبداً.",
+    "tmdb": "The Movie Database",
+    "tmdbBody": "بيانات الأفلام والصور مقدمة من TMDB. اقرأ ",
+    "tmdbPolicyLink": "سياسة خصوصية TMDB.",
+    "retention": "الاحتفاظ والحذف",
+    "retentionBody": "لا يشغّل Kinochain خادماً ولا يحتفظ بسجلات الطلبات. يتعامل TMDB مع المعلومات التي يتلقاها وفقاً لسياسة الخصوصية الخاصة به. احذف التطبيق لإزالة التفضيلات المحلية.",
+    "contact": "الاتصال",
+    "contactBody": "إذا كانت لديك أسئلة حول سياسة الخصوصية هذه، تواصل معنا على info@rightword.be."
+  },
+  "error": {
+    "title": "حدث خطأ ما",
+    "body": "لم نتمكن من تحميل البيانات. تحقق من اتصالك وحاول مرة أخرى.",
+    "tryAgain": "حاول مرة أخرى",
+    "goBack": "رجوع"
+  },
+  "loading": {
+    "default": "…جارٍ تحضير المشهد"
+  },
+  "chain": {
+    "targetReached": "تم الوصول للهدف"
+  },
+  "target": {
+    "label": "الهدف",
+    "a11y": "الهدف: %{title} %{year}"
+  },
+  "credits": {
+    "a11yHint": "يحدد هذا الاعتماد كحلقة تالية في السلسلة"
+  }
+}

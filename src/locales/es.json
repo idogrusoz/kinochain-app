@@ -1,0 +1,109 @@
+{
+  "splash": {
+    "tagline": "SEIS GRADOS DEL CINE",
+    "poweredBy": "IMPULSADO POR"
+  },
+  "welcome": {
+    "about": "Acerca de",
+    "subtitle": "Conecta al actor inicial con la película objetivo en la menor cantidad de movimientos.",
+    "difficulty": "Dificultad",
+    "difficultyA11y": "Dificultad %{level}",
+    "newGame": "Nueva partida",
+    "howToPlay": "Cómo jugar"
+  },
+  "onboarding": {
+    "preparing": "Preparando el tutorial…",
+    "errorTitle": "No se pudo cargar el tutorial",
+    "errorBody": "Comprueba tu conexión e inténtalo de nuevo.",
+    "skip": "Omitir",
+    "skipForNow": "Omitir por ahora",
+    "back": "Atrás",
+    "goBackA11y": "Volver",
+    "skipA11y": "Omitir tutorial",
+    "yourPath": "Tu camino",
+    "pickFilm": "elige una película",
+    "pickPerson": "elige una persona",
+    "letsGo": "¡Vamos!",
+    "goalTitle": "Tu objetivo",
+    "goalBody": "Cada partida tiene una película objetivo. Alcánzala conectando actores y películas.",
+    "pickFilmTitle": "Haz un movimiento",
+    "pickFilmBody": "Toca %{filmName} en la filmografía.",
+    "pickPersonTitle": "Elige una persona",
+    "pickPersonBody": "Ahora toca %{personName} para continuar la cadena.",
+    "pickTargetTitle": "¡Ya casi!",
+    "pickTargetBody": "Toca %{filmName} — la película objetivo — para completar la cadena."
+  },
+  "game": {
+    "offline": "Estás sin conexión",
+    "offlineBody": "Comprueba tu conexión a internet e inténtalo de nuevo.",
+    "errorTitle": "Algo salió mal",
+    "errorBody": "No pudimos cargar la partida. Por favor, inténtalo de nuevo.",
+    "goBack": "Volver",
+    "help": "Ayuda",
+    "yourPath": "Tu camino",
+    "move": "Movimiento %{n}",
+    "pickFilm": "elige una película",
+    "pickPerson": "elige una persona"
+  },
+  "winning": {
+    "title": "¡Eso es todo!",
+    "linked": "Conectaste %{from} con %{to}.",
+    "moves": "movimientos",
+    "time": "tiempo",
+    "yourChain": "Tu cadena",
+    "startPlaying": "Empezar a jugar",
+    "playAgain": "Jugar de nuevo",
+    "shareResult": "Compartir resultado",
+    "home": "Inicio",
+    "shareText": "KINOCHAIN\n%{from} → %{to}\nResuelto en %{moves} movimientos · %{time}"
+  },
+  "about": {
+    "goBack": "Volver",
+    "title": "Acerca de",
+    "version": "Versión %{version}",
+    "tmdbDisclaimer": "Este producto utiliza la API de TMDB pero no está respaldado ni certificado por TMDB. Todos los datos, imágenes y metadatos de películas son proporcionados por The Movie Database (TMDB).",
+    "privacyPolicy": "Política de privacidad",
+    "howToPlay": "Cómo jugar",
+    "tmdbWebsite": "Sitio web de TMDB",
+    "madeBy": "Hecho por Ibrahim Dogrusoz"
+  },
+  "privacy": {
+    "goBack": "Volver",
+    "title": "Política de privacidad",
+    "lastUpdated": "Última actualización: junio 2026",
+    "dataCollection": "Recopilación de datos",
+    "dataCollectionBody": "Kinochain no requiere una cuenta, no crea perfiles de usuario ni almacena datos personales en una base de datos.",
+    "networkRequests": "Solicitudes de red",
+    "networkRequestsBody": "Para el juego, la app envía solicitudes HTTPS de solo lectura desde tu dispositivo a The Movie Database (TMDB). TMDB puede recibir tu dirección IP e información técnica. Kinochain no opera un servidor intermedio y no recibe ni almacena esta información.",
+    "analytics": "Análisis y seguimiento",
+    "analyticsBody": "Kinochain no incluye SDK de análisis, informes de fallos, publicidad ni seguimiento y no utiliza información de solicitudes para publicidad o seguimiento.",
+    "localStorage": "Almacenamiento local",
+    "localStorageBody": "La app almacena un pequeño indicador en tu dispositivo para recordar si completaste el tutorial. Estos datos nunca abandonan tu dispositivo.",
+    "tmdb": "The Movie Database",
+    "tmdbBody": "Los datos e imágenes de películas son proporcionados por TMDB. Lee la ",
+    "tmdbPolicyLink": "política de privacidad de TMDB.",
+    "retention": "Retención y eliminación",
+    "retentionBody": "Kinochain no opera un servidor ni retiene registros de solicitudes. TMDB gestiona la información que recibe según su propia política de privacidad. Elimina la app para borrar las preferencias locales.",
+    "contact": "Contacto",
+    "contactBody": "Si tienes preguntas sobre esta política de privacidad, contáctanos en info@rightword.be."
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "body": "No pudimos cargar los datos. Comprueba tu conexión e inténtalo de nuevo.",
+    "tryAgain": "Intentar de nuevo",
+    "goBack": "Volver"
+  },
+  "loading": {
+    "default": "Preparando la escena…"
+  },
+  "chain": {
+    "targetReached": "Objetivo alcanzado"
+  },
+  "target": {
+    "label": "Objetivo",
+    "a11y": "Objetivo: %{title} %{year}"
+  },
+  "credits": {
+    "a11yHint": "Selecciona este crédito como el siguiente eslabón de la cadena"
+  }
+}
