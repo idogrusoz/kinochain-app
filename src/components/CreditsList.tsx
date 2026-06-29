@@ -12,7 +12,7 @@ import { Credit } from '../../types';
 import { Icon } from './ui/Icon';
 
 const Row = React.memo(
-  ({ credit, onSelect }: { credit: Credit; onSelect: (id: number) => void }) => {
+  ({ credit, onSelect, highlighted }: { credit: Credit; onSelect: (id: number) => void; highlighted?: boolean }) => {
     const secondary = [
       credit.name,
       credit.releaseDate ? credit.releaseDate.split('-')[0] : null,
@@ -22,7 +22,7 @@ const Row = React.memo(
     return (
       <TouchableOpacity
         onPress={() => onSelect(credit.titleId)}
-        style={styles.row}
+        style={[styles.row, highlighted && styles.highlightedRow]}
         activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel={[credit.title, secondary].filter(Boolean).join(', ')}
@@ -67,9 +67,11 @@ const Row = React.memo(
 export function CreditsList({
   credits,
   onSelectCredit,
+  highlightId,
 }: {
   credits: Credit[];
   onSelectCredit: (creditId: number) => void;
+  highlightId?: number;
 }) {
   const ref = useRef<FlatList<Credit>>(null);
 
@@ -83,7 +85,9 @@ export function CreditsList({
         ref={ref}
         data={credits}
         keyExtractor={(c) => String(c.titleId)}
-        renderItem={({ item }) => <Row credit={item} onSelect={onSelectCredit} />}
+        renderItem={({ item }) => (
+          <Row credit={item} onSelect={onSelectCredit} highlighted={highlightId === item.titleId} />
+        )}
         ItemSeparatorComponent={() => <View style={styles.sep} />}
         showsVerticalScrollIndicator={false}
         windowSize={7}
@@ -113,4 +117,8 @@ const styles = StyleSheet.create({
   thumb: { width: 34, height: 48, borderRadius: 4, backgroundColor: '#222' },
   placeholder: { alignItems: 'center', justifyContent: 'center' },
   sep: { height: 1, backgroundColor: colors.borderRow, marginLeft: 59 },
+  highlightedRow: {
+    backgroundColor: '#1C160A',
+    borderRadius: 8,
+  },
 });

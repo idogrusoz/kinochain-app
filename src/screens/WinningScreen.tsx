@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Share } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Share, Animated, Easing } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
@@ -12,31 +13,216 @@ import { colors, fonts, type, spacing } from '../../theme';
 
 export type WinningScreenProps = StackScreenProps<RootStackParamList, 'Winning'>;
 
+// ── Phase timing constants ─────────────────────────────────────────────
+const P1_START = 0;       // marquee dots
+const P2_START = 600;     // title + gold line
+const P3_START = 1200;    // stats count-up
+const P4_START = 1900;    // chain reveal
+const P5_START = 2800;    // buttons
+
 function formatTime(total: number): string {
   const m = Math.floor(total / 60);
   const s = total % 60;
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
+// ── Animated stat with count-up ────────────────────────────────────────
+function AnimatedStat({
+  targetValue,
+  label,
+  formatFn,
+  delay,
+}: {
+  targetValue: number;
+  label: string;
+  formatFn?: (n: number) => string;
+  delay: number;
+}) {
+  const anim = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+  const [display, setDisplay] = useState('0');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Animated.timing(opacity, { toValue: 1, duration: 250, useNativeDriver: true }).start();
+      const listener = anim.addListener(({ value }) => {
+        const v = Math.round(value);
+        setDisplay(formatFn ? formatFn(v) : String(v));
+      });
+      Animated.timing(anim, {
+        toValue: targetValue,
+        duration: 500,
+        easing: Easing.out(Easing.quad),
+        useNativeDriver: false,
+      }).start(() => {
+        // Ensure final value is exact
+        setDisplay(formatFn ? formatFn(targetValue) : String(targetValue));
+      });
+      // Throttled haptic ticks during count
+      const ticks = Math.min(4, targetValue);
+      for (let i = 0; i < ticks; i++) {
+        setTimeout(
+          () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {}),
+          (i * 500) / ticks,
+        );
+      }
+      return () => anim.removeListener(listener);
+    }, delay);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <View style={{ alignItems: 'center' }}>
-      <Text style={[type.statLarge, { color: colors.textPrimary }]} maxFontSizeMultiplier={1.5}>{value}</Text>
+    <Animated.View style={{ alignItems: 'center', opacity }}>
+      <Text style={[type.statLarge, { color: colors.textPrimary }]} maxFontSizeMultiplier={1.5}>
+        {display}
+      </Text>
       <Text style={[type.microLabel, { color: colors.textSecondary, marginTop: 3 }]} maxFontSizeMultiplier={1.5}>
         {label}
       </Text>
-    </View>
+    </Animated.View>
   );
 }
 
-export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation }) => {
-  const { targetMovie, moves, seconds, chain } = route.params;
-  const startName = chain[0]?.name ?? '';
+// ── Shimmer overlay for headline ───────────────────────────────────────
+function Shimmer({ delay }: { delay: number }) {
+  const translateX = useRef(new Animated.Value(-200)).current;
 
   useEffect(() => {
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(
-      () => {}
-    );
+    const timer = setTimeout(() => {
+      Animated.timing(translateX, {
+        toValue: 400,
+        duration: 1500,
+        easing: Easing.inOut(Easing.ease),
+        useNativeDriver: true,
+      }).start();
+    }, delay);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <Animated.View
+      style={[styles.shimmerWrap, { transform: [{ translateX }] }]}
+      pointerEvents="none"
+    >
+      <LinearGradient
+        colors={['transparent', 'rgba(244,225,172,0.25)', 'transparent']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={styles.shimmerGradient}
+      />
+    </Animated.View>
+  );
+}
+
+// ── Main screen ────────────────────────────────────────────────────────
+
+export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation }) => {
+  const { targetMovie, moves, seconds, chain, fromTutorial } = route.params;
+  const startName = chain[0]?.name ?? '';
+
+  // Phase animation values
+  const bulbAnims = useRef(Array.from({ length: 7 }, () => new Animated.Value(0))).current;
+  const titleScale = useRef(new Animated.Value(0.85)).current;
+  const titleOpacity = useRef(new Animated.Value(0)).current;
+  const goldLineWidth = useRef(new Animated.Value(0)).current;
+  const subtitleOpacity = useRef(new Animated.Value(0)).current;
+  const dividerWidth = useRef(new Animated.Value(0)).current;
+  const chainOpacity = useRef(new Animated.Value(0)).current;
+  const buttonAnims = useRef(Array.from({ length: 3 }, () => ({
+    opacity: new Animated.Value(0),
+    translateY: new Animated.Value(20),
+  }))).current;
+
+  useEffect(() => {
+    // ── Phase 1: Marquee dots (0–600ms) ──
+    bulbAnims.forEach((a, i) => {
+      setTimeout(() => {
+        Animated.spring(a, {
+          toValue: 1,
+          damping: 15,
+          stiffness: 200,
+          mass: 1,
+          useNativeDriver: true,
+        }).start();
+      }, P1_START + i * 60);
+    });
+
+    // Phase 1 haptic
+    setTimeout(() => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    }, 400);
+
+    // ── Phase 2: Title drop (600–1200ms) ──
+    setTimeout(() => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
+      Animated.spring(titleScale, {
+        toValue: 1,
+        damping: 12,
+        stiffness: 100,
+        mass: 1,
+        useNativeDriver: true,
+      }).start();
+      Animated.timing(titleOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }, P2_START);
+
+    // Gold line expand
+    setTimeout(() => {
+      Animated.timing(goldLineWidth, {
+        toValue: 1,
+        duration: 400,
+        easing: Easing.bezier(0.16, 1, 0.3, 1),
+        useNativeDriver: false,
+      }).start();
+    }, P2_START + 50);
+
+    // Subtitle fade
+    setTimeout(() => {
+      Animated.timing(subtitleOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }, P2_START + 300);
+
+    // ── Phase 3: Stats (1200–1900ms) — handled by AnimatedStat ──
+    // Divider draws
+    setTimeout(() => {
+      Animated.timing(dividerWidth, {
+        toValue: 1,
+        duration: 300,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: false,
+      }).start();
+    }, P3_START + 500);
+
+    // ── Phase 4: Chain reveal (1900ms) ──
+    setTimeout(() => {
+      Animated.timing(chainOpacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }, P4_START);
+
+    // ── Phase 5: Buttons (2800ms) ──
+    buttonAnims.forEach((b, i) => {
+      setTimeout(() => {
+        Animated.parallel([
+          Animated.timing(b.opacity, { toValue: 1, duration: 250, useNativeDriver: true }),
+          Animated.spring(b.translateY, {
+            toValue: 0,
+            damping: 14,
+            stiffness: 120,
+            mass: 1,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      }, P5_START + i * 100);
+    });
   }, []);
 
   const onShare = () => {
@@ -47,38 +233,111 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
 
   return (
     <View style={styles.container}>
+      {/* Phase 1: Marquee dots */}
       <View style={styles.bulbs}>
-        {Array.from({ length: 7 }).map((_, i) => (
-          <View key={i} style={[styles.bulb, { opacity: i % 2 ? 0.5 : 1 }]} />
+        {bulbAnims.map((a, i) => (
+          <Animated.View
+            key={i}
+            style={[
+              styles.bulb,
+              {
+                opacity: a.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, i % 2 ? 0.5 : 1],
+                }),
+                transform: [{ scale: a }],
+              },
+            ]}
+          />
         ))}
       </View>
-      <Text style={[type.celebration, styles.title]} maxFontSizeMultiplier={1.5}>That&apos;s a wrap!</Text>
-      <Text style={styles.subtitle} maxFontSizeMultiplier={1.5}>
+
+      {/* Phase 2: Title + shimmer */}
+      <View style={styles.titleWrap}>
+        <Animated.Text
+          style={[
+            type.celebration,
+            styles.title,
+            {
+              opacity: titleOpacity,
+              transform: [{ scale: titleScale }],
+            },
+          ]}
+          maxFontSizeMultiplier={1.5}
+        >
+          That&apos;s a wrap!
+        </Animated.Text>
+        <Shimmer delay={P2_START + 400} />
+      </View>
+
+      {/* Gold line */}
+      <View style={styles.goldLineContainer}>
+        <Animated.View
+          style={[
+            styles.goldLine,
+            {
+              width: goldLineWidth.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0%', '70%'],
+              }),
+            },
+          ]}
+        />
+      </View>
+
+      {/* Subtitle */}
+      <Animated.Text style={[styles.subtitle, { opacity: subtitleOpacity }]} maxFontSizeMultiplier={1.5}>
         You linked {startName} to {targetMovie.title}.
-      </Text>
+      </Animated.Text>
 
+      {/* Phase 3: Stats with count-up */}
       <View style={styles.stats}>
-        <Stat value={String(moves)} label="moves" />
-        <View style={styles.divider} />
-        <Stat value={formatTime(seconds)} label="time" />
+        <AnimatedStat targetValue={moves} label="moves" delay={P3_START} />
+        <View style={styles.dividerWrap}>
+          <Animated.View
+            style={[
+              styles.divider,
+              {
+                height: dividerWidth.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 40],
+                }),
+              },
+            ]}
+          />
+        </View>
+        <AnimatedStat targetValue={seconds} label="time" formatFn={formatTime} delay={P3_START} />
       </View>
 
-      <View style={styles.chainSection}>
+      {/* Phase 4: Chain */}
+      <Animated.View style={[styles.chainSection, { opacity: chainOpacity }]}>
         <SectionLabel style={styles.chainLabel}>Your chain</SectionLabel>
-        <ChainView chain={chain} />
-      </View>
+        <ChainView chain={chain} entranceDelay={P4_START + 200} />
+      </Animated.View>
 
-      <BrassButton label="Play again" onPress={() => navigation.navigate('Game')} />
-      <OutlineButton
-        label="Share result"
-        icon="share"
-        borderColor={colors.borderSubtleGold}
-        style={{ marginTop: 10 }}
-        onPress={onShare}
-      />
-      <View style={styles.homeWrap}>
-        <TextButton label="Home" onPress={() => navigation.navigate('Welcome')} />
-      </View>
+      {/* Phase 5: Buttons */}
+      <Animated.View style={{ opacity: buttonAnims[0].opacity, transform: [{ translateY: buttonAnims[0].translateY }] }}>
+        <BrassButton
+          label={fromTutorial ? 'Start playing' : 'Play again'}
+          onPress={() => navigation.navigate(fromTutorial ? 'Welcome' : 'Game')}
+        />
+      </Animated.View>
+      {!fromTutorial && (
+        <>
+          <Animated.View style={{ opacity: buttonAnims[1].opacity, transform: [{ translateY: buttonAnims[1].translateY }] }}>
+            <OutlineButton
+              label="Share result"
+              icon="share"
+              borderColor={colors.borderSubtleGold}
+              style={{ marginTop: 10 }}
+              onPress={onShare}
+            />
+          </Animated.View>
+          <Animated.View style={[styles.homeWrap, { opacity: buttonAnims[2].opacity, transform: [{ translateY: buttonAnims[2].translateY }] }]}>
+            <TextButton label="Home" onPress={() => navigation.navigate('Welcome')} />
+          </Animated.View>
+        </>
+      )}
     </View>
   );
 };
@@ -92,7 +351,17 @@ const styles = StyleSheet.create({
   },
   bulbs: { flexDirection: 'row', justifyContent: 'center', gap: 7, marginTop: 8, marginBottom: 12 },
   bulb: { width: 7, height: 7, borderRadius: 4, backgroundColor: colors.goldBright },
+  titleWrap: { alignItems: 'center', overflow: 'hidden' },
   title: { color: colors.goldBright, textAlign: 'center' },
+  shimmerWrap: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: 120,
+  },
+  shimmerGradient: { flex: 1 },
+  goldLineContainer: { alignItems: 'center', marginTop: 6, marginBottom: 4 },
+  goldLine: { height: 1, backgroundColor: colors.gold },
   subtitle: {
     fontFamily: fonts.text.regular,
     fontSize: 12,
@@ -101,7 +370,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   stats: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 16 },
-  divider: { width: 1, height: 40, backgroundColor: colors.border },
+  dividerWrap: { justifyContent: 'center' },
+  divider: { width: 1, backgroundColor: colors.border },
   chainSection: {
     flex: 1,
     minHeight: 0,

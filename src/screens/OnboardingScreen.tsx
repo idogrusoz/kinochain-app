@@ -1,31 +1,136 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootStackParamList } from '../../App';
+import {
+  ActorModel,
+  MovieDetailsModel,
+  ChainNode,
+  Credit,
+  CreditModel,
+  MovieCastModel,
+  MovieCrewModel,
+  MediaType,
+} from '../../types';
+import { fetchMovieDetails, fetchActorDetails } from '../services/gameService';
 import { BrassButton } from '../components/ui/BrassButton';
 import { TextButton } from '../components/ui/TextButton';
-import { Icon, IconName } from '../components/ui/Icon';
+import { Icon } from '../components/ui/Icon';
+import { SectionLabel } from '../components/ui/SectionLabel';
+import { Surface } from '../components/ui/Surface';
+import { Wordmark } from '../components/ui/Wordmark';
+import { TargetBanner } from '../components/game/TargetBanner';
+import { PathTracker } from '../components/game/PathTracker';
+import { CreditsList } from '../components/CreditsList';
+import Loading from '../components/Loading';
 import { ONBOARDED_KEY } from './SplashScreen';
-import { colors, fonts, type } from '../../theme';
+import { colors, fonts, type, spacing } from '../../theme';
 
-type Step = { title: string; body: string; icon: IconName };
+// ── Tutorial path (hardcoded TMDB IDs) ─────────────────────────────────
+// Jamie Foxx → Django Unchained → Leonardo DiCaprio → Inception
 
-const STEPS: Step[] = [
-  { title: 'Your goal', body: 'Reach the target film by linking actors and the movies they’re in.', icon: 'flag' },
-  { title: 'Make a move', body: 'Tap any film the current actor starred in to hop to it.', icon: 'film' },
-  { title: 'Pick a person', body: 'Then choose a co-star — or the director — from that film.', icon: 'person' },
-  { title: 'Keep the chain going', body: 'Alternate actor and film until you reach the target. Fewer moves win.', icon: 'swap' },
-];
+const TUTORIAL = {
+  startActorId: 134,       // Jamie Foxx
+  movie1Id: 68718,         // Django Unchained
+  hopActorId: 6193,        // Leonardo DiCaprio
+  targetMovieId: 27205,    // Inception
+  targetTitle: 'Inception',
+  targetYear: '2010',
+  targetPoster: '/xlaY2zyzMfkhk0HSC5VUwzoZPU1.jpg',
+} as const;
+
+// Coach-mark overlays for each phase of the guided tutorial.
+type CoachPhase = 'goal' | 'pick-film' | 'pick-person' | 'pick-target';
+
+const COACH: Record<CoachPhase, { title: string; body: string }> = {
+  goal: {
+    title: 'Your goal',
+    body: 'Every game has a target film. Reach it by linking actors and movies.',
+  },
+  'pick-film': {
+    title: 'Make a move',
+    body: 'Tap Django Unchained from the filmography to hop to it.',
+  },
+  'pick-person': {
+    title: 'Pick a person',
+    body: 'Now tap Leonardo DiCaprio to continue the chain.',
+  },
+  'pick-target': {
+    title: 'Almost there!',
+    body: 'Tap Inception — the target film — to complete the chain.',
+  },
+};
+
+// ── Helper: flatten model lists to CreditsList row shape ───────────────
+
+function toCredits(
+  items: (CreditModel | MovieCastModel | MovieCrewModel)[],
+  isActor: boolean,
+): Credit[] {
+  if (isActor) {
+    return (items as CreditModel[]).map((c) => ({
+      titleId: c.id,
+      title: c.title || c.originalTitle,
+      poster_path: c.poster,
+      name: c.character,
+      releaseDate: c.releaseDate,
+    }));
+  }
+  return (items as (MovieCastModel | MovieCrewModel)[]).map((c) => ({
+    titleId: c.id,
+    title: c.name,
+    poster_path: c.poster,
+    name: 'character' in c ? c.character : 'job' in c ? c.job : undefined,
+    isDirector: 'job' in c,
+  }));
+}
+
+// ── Main component ─────────────────────────────────────────────────────
 
 export default function OnboardingScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [step, setStep] = useState(0);
   const openedFromApp = navigation.canGoBack();
-  const isLast = step === STEPS.length - 1;
-  const current = STEPS[step];
 
-  const finish = async () => {
+  // Data fetched from TMDB
+  const [startActor, setStartActor] = useState<ActorModel | null>(null);
+  const [movie1, setMovie1] = useState<MovieDetailsModel | null>(null);
+  const [hopActor, setHopActor] = useState<ActorModel | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
+
+  // Tutorial state
+  const [phase, setPhase] = useState<CoachPhase>('goal');
+  const [currentItem, setCurrentItem] = useState<ActorModel | MovieDetailsModel | null>(null);
+  const [isActor, setIsActor] = useState(true);
+  const [path, setPath] = useState<ChainNode[]>([]);
+
+  // Fetch all tutorial data upfront
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const [actor, movie, actor2] = await Promise.all([
+          fetchActorDetails(TUTORIAL.startActorId),
+          fetchMovieDetails(TUTORIAL.movie1Id),
+          fetchActorDetails(TUTORIAL.hopActorId),
+        ]);
+        if (cancelled) return;
+        setStartActor(actor);
+        setMovie1(movie);
+        setHopActor(actor2);
+        setCurrentItem(actor);
+        setPath([{ kind: 'actor', id: actor.id, name: actor.name, poster: actor.poster }]);
+      } catch {
+        if (!cancelled) setFetchError(true);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const finish = useCallback(async () => {
     try {
       await AsyncStorage.setItem(ONBOARDED_KEY, '1');
     } catch {
@@ -36,63 +141,239 @@ export default function OnboardingScreen() {
     } else {
       navigation.reset({ index: 0, routes: [{ name: 'Welcome' }] });
     }
-  };
+  }, [navigation, openedFromApp]);
+
+  // The allowed credit ID for the current phase
+  const allowedId = useMemo(() => {
+    switch (phase) {
+      case 'pick-film': return TUTORIAL.movie1Id;
+      case 'pick-person': return TUTORIAL.hopActorId;
+      case 'pick-target': return TUTORIAL.targetMovieId;
+      default: return null;
+    }
+  }, [phase]);
+
+  const handleCreditSelect = useCallback(
+    (creditId: number) => {
+      if (allowedId !== null && creditId !== allowedId) return;
+
+      if (phase === 'pick-film' && movie1) {
+        setCurrentItem(movie1);
+        setIsActor(false);
+        setPath((p) => [
+          ...p,
+          { kind: 'film', id: movie1.id, name: movie1.title, poster: movie1.poster },
+        ]);
+        setPhase('pick-person');
+      } else if (phase === 'pick-person' && hopActor) {
+        setCurrentItem(hopActor);
+        setIsActor(true);
+        setPath((p) => [
+          ...p,
+          { kind: 'actor', id: hopActor.id, name: hopActor.name, poster: hopActor.poster },
+        ]);
+        setPhase('pick-target');
+      } else if (phase === 'pick-target') {
+        const finalChain: ChainNode[] = [
+          ...path,
+          {
+            kind: 'film',
+            id: TUTORIAL.targetMovieId,
+            name: TUTORIAL.targetTitle,
+            poster: TUTORIAL.targetPoster,
+          },
+        ];
+        // Mark onboarding as done before navigating to the win screen
+        AsyncStorage.setItem(ONBOARDED_KEY, '1').catch(() => {});
+        navigation.reset({
+          index: 0,
+          routes: [
+            { name: 'Welcome' },
+            {
+              name: 'Winning',
+              params: {
+                targetMovie: {
+                  id: TUTORIAL.targetMovieId,
+                  title: TUTORIAL.targetTitle,
+                  originalTitle: TUTORIAL.targetTitle,
+                  poster: TUTORIAL.targetPoster,
+                  releaseDate: TUTORIAL.targetYear,
+                  mediaType: MediaType.Movie,
+                },
+                moves: 3,
+                seconds: 0,
+                chain: finalChain,
+                fromTutorial: true,
+              },
+            },
+          ],
+        });
+      }
+    },
+    [phase, movie1, hopActor, allowedId, finish],
+  );
+
+  // Build the credits list for the current view
+  const creditRows = useMemo(() => {
+    if (!currentItem) return [];
+    if (isActor) {
+      return toCredits((currentItem as ActorModel).combinedCredits, true);
+    }
+    const m = currentItem as MovieDetailsModel;
+    return toCredits([...m.crew, ...m.cast], false);
+  }, [currentItem, isActor]);
+
+  const coach = COACH[phase];
+
+  const currentName = currentItem
+    ? isActor
+      ? (currentItem as ActorModel).name
+      : (currentItem as MovieDetailsModel).title
+    : '';
+
+  const targetYear = TUTORIAL.targetYear;
+
+  // ── Loading / error states ───────────────────────────────────────────
+
+  if (loading) return <Loading label="Preparing tutorial…" />;
+
+  if (fetchError || !startActor) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.errorCenter}>
+          <Icon name="warning" size={40} color={colors.gold} />
+          <Text style={[type.titleHero, { color: colors.textPrimary, marginTop: 16, textAlign: 'center' }]}>
+            Couldn't load tutorial
+          </Text>
+          <Text style={[type.body, { color: colors.textSecondary, marginTop: 8, textAlign: 'center' }]}>
+            Check your connection and try again.
+          </Text>
+          <View style={{ marginTop: 24, width: '100%' }}>
+            <BrassButton label="Skip for now" onPress={finish} />
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────
 
   return (
     <View style={styles.container}>
-      <View style={[styles.skipRow, openedFromApp && styles.backRow]}>
-        <TextButton label={openedFromApp ? 'Back' : 'Skip'} onPress={finish} />
+      {/* Nav bar */}
+      <View style={styles.nav}>
+        <View style={styles.navButton} />
+        <Wordmark size={17} />
+        <Pressable
+          onPress={finish}
+          hitSlop={8}
+          style={styles.navButton}
+          accessibilityRole="button"
+          accessibilityLabel={openedFromApp ? 'Go back' : 'Skip tutorial'}
+        >
+          <TextButton label={openedFromApp ? 'Back' : 'Skip'} onPress={finish} />
+        </Pressable>
       </View>
 
-      <View style={styles.hero}>
-        <View style={styles.spotlight}>
-          <Icon name={current.icon} size={40} color={colors.goldBright} />
-        </View>
-        <Text style={[type.titleHero, styles.title]} maxFontSizeMultiplier={1.5}>{current.title}</Text>
-        <Text style={styles.body} maxFontSizeMultiplier={1.5}>{current.body}</Text>
-      </View>
-
-      <View style={styles.dots}>
-        {STEPS.map((_, i) => (
-          <View
-            key={i}
-            style={[styles.dot, { backgroundColor: i === step ? colors.goldBright : colors.borderSubtleGold }]}
-          />
-        ))}
-      </View>
-
-      <BrassButton
-        label={isLast ? 'Got it' : 'Next'}
-        onPress={() => (isLast ? finish() : setStep((s) => s + 1))}
+      {/* Target banner */}
+      <TargetBanner
+        title={TUTORIAL.targetTitle}
+        year={targetYear}
+        poster={TUTORIAL.targetPoster}
       />
+
+      {/* Path tracker */}
+      <View style={styles.pathHeader}>
+        <SectionLabel>Your path</SectionLabel>
+      </View>
+      <PathTracker path={path} targetPoster={TUTORIAL.targetPoster} />
+      <Text style={styles.currentLine} numberOfLines={1} maxFontSizeMultiplier={1.5}>
+        <Text style={styles.currentName} maxFontSizeMultiplier={1.5}>{currentName}</Text>
+        <Text style={styles.currentHint} maxFontSizeMultiplier={1.5}>
+          {isActor ? '  —  pick a film' : '  —  pick a person'}
+        </Text>
+      </Text>
+
+      {/* Coach-mark overlay card */}
+      <View style={styles.coachCard}>
+        <Text style={styles.coachTitle}>{coach.title}</Text>
+        <Text style={styles.coachBody}>{coach.body}</Text>
+        {phase === 'goal' && (
+          <View style={{ marginTop: 12 }}>
+            <BrassButton label="Let's go" onPress={() => setPhase('pick-film')} />
+          </View>
+        )}
+      </View>
+
+      {/* Credits list — only shown after goal phase */}
+      {phase !== 'goal' && (
+        <View style={styles.listWrap}>
+          <CreditsList
+            credits={creditRows}
+            onSelectCredit={handleCreditSelect}
+            highlightId={allowedId ?? undefined}
+          />
+        </View>
+      )}
     </View>
   );
 }
 
+// ── Styles ──────────────────────────────────────────────────────────────
+
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background, paddingHorizontal: 22, paddingBottom: 22 },
-  skipRow: { alignItems: 'flex-end', paddingVertical: 10 },
-  backRow: { alignItems: 'flex-start' },
-  hero: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 18 },
-  spotlight: {
-    width: 96,
-    height: 96,
-    borderRadius: 999,
-    backgroundColor: colors.goldTintBg,
-    borderWidth: 2,
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+    paddingHorizontal: spacing.screen,
+  },
+  nav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
+  },
+  navButton: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
+  pathHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 14,
+    marginBottom: 10,
+  },
+  currentLine: { textAlign: 'center', marginTop: 8 },
+  currentName: { fontFamily: fonts.display.medium, fontSize: 15, color: colors.textPrimary },
+  currentHint: { fontFamily: fonts.text.regular, fontSize: 12, color: colors.textSecondary },
+  coachCard: {
+    backgroundColor: colors.surface,
+    borderWidth: 1,
     borderColor: colors.goldBright,
+    borderRadius: 14,
+    padding: 16,
+    marginTop: 14,
+    shadowColor: colors.gold,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  coachTitle: {
+    fontFamily: fonts.display.semibold,
+    fontSize: 17,
+    color: colors.goldBright,
+    marginBottom: 4,
+  },
+  coachBody: {
+    fontFamily: fonts.text.regular,
+    fontSize: 13,
+    lineHeight: 19,
+    color: colors.textSoft,
+  },
+  listWrap: { flex: 1, marginTop: 12, marginBottom: 8 },
+  errorCenter: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 32,
   },
-  title: { color: colors.textPrimary, textAlign: 'center' },
-  body: {
-    fontFamily: fonts.text.regular,
-    fontSize: 14,
-    lineHeight: 21,
-    color: colors.textSoft,
-    textAlign: 'center',
-    maxWidth: 280,
-  },
-  dots: { flexDirection: 'row', justifyContent: 'center', gap: 7, marginBottom: 20 },
-  dot: { width: 8, height: 8, borderRadius: 4 },
 });

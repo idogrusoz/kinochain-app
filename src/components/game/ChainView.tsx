@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, ScrollView, View, Text, StyleSheet, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Haptics from 'expo-haptics';
 import { colors, fonts } from '../../../theme';
 import { Icon } from '../ui/Icon';
 import { ChainNode } from '../../../types';
@@ -9,15 +10,195 @@ function posterSource(path?: string | null) {
   return path ? { uri: `https://image.tmdb.org/t/p/w185${path}` } : null;
 }
 
-// The solved chain, revealed in gold. It fills whatever vertical space the parent
-// gives it; if the chain is taller than that space, it slowly auto-scrolls so the
-// player can watch the journey land on the target. User touch stops the scroll.
-export function ChainView({ chain }: { chain: ChainNode[] }) {
+const NODE_STAGGER = 180;
+
+function ChainNodeRow({
+  node,
+  index,
+  isTarget,
+  isFirst,
+  entranceDelay,
+}: {
+  node: ChainNode;
+  index: number;
+  isTarget: boolean;
+  isFirst: boolean;
+  entranceDelay: number;
+}) {
+  const isActor = node.kind === 'actor';
+  const scale = useRef(new Animated.Value(entranceDelay > 0 ? 0.6 : 1)).current;
+  const opacity = useRef(new Animated.Value(entranceDelay > 0 ? 0 : 1)).current;
+
+  useEffect(() => {
+    if (entranceDelay <= 0) return;
+    const delay = entranceDelay + index * NODE_STAGGER;
+    const timer = setTimeout(() => {
+      Animated.parallel([
+        Animated.spring(scale, {
+          toValue: isTarget ? 1.15 : 1,
+          damping: isTarget ? 8 : 14,
+          stiffness: isTarget ? 120 : 160,
+          mass: 1,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        // For target, settle back to 1.0 after overshoot
+        if (isTarget) {
+          Animated.spring(scale, {
+            toValue: 1,
+            damping: 14,
+            stiffness: 160,
+            mass: 1,
+            useNativeDriver: true,
+          }).start();
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+        } else {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+        }
+      });
+    }, delay);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <Animated.View style={{ opacity, transform: [{ scale }] }}>
+      <View style={styles.nodeRow}>
+        <View
+          style={[
+            isActor ? styles.actor : styles.film,
+            isTarget && styles.targetNode,
+          ]}
+        >
+          {posterSource(node.poster) ? (
+            <Image
+              source={posterSource(node.poster)!}
+              style={styles.fill}
+              resizeMode="cover"
+            />
+          ) : (
+            <Icon
+              name={isTarget ? 'flag' : isActor ? 'person' : 'film'}
+              size={15}
+              color={isTarget ? colors.onGold : colors.goldBright}
+            />
+          )}
+        </View>
+        {isTarget ? (
+          <View style={{ flex: 1 }}>
+            <Text style={styles.targetName} numberOfLines={1} maxFontSizeMultiplier={1.5}>
+              {node.name}
+            </Text>
+            <Text style={styles.reached} maxFontSizeMultiplier={1.5}>Target reached</Text>
+          </View>
+        ) : (
+          <Text
+            style={isFirst ? styles.startName : styles.nodeName}
+            numberOfLines={1}
+            maxFontSizeMultiplier={1.5}
+          >
+            {node.name}
+          </Text>
+        )}
+      </View>
+    </Animated.View>
+  );
+}
+
+function ConnectorLine({
+  index,
+  entranceDelay,
+}: {
+  index: number;
+  entranceDelay: number;
+}) {
+  const scaleY = useRef(new Animated.Value(entranceDelay > 0 ? 0 : 1)).current;
+
+  useEffect(() => {
+    if (entranceDelay <= 0) return;
+    const delay = entranceDelay + index * NODE_STAGGER + 100;
+    const timer = setTimeout(() => {
+      Animated.timing(scaleY, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }).start();
+    }, delay);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <Animated.View
+      style={[styles.connector, { transform: [{ scaleY }] }]}
+    />
+  );
+}
+
+// A gold dot that travels down the chain after all nodes are revealed.
+function ConnectorPulse({
+  chainLength,
+  entranceDelay,
+}: {
+  chainLength: number;
+  entranceDelay: number;
+}) {
+  const translateY = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (entranceDelay <= 0) return;
+    // Start after all nodes have appeared
+    const pulseStart = entranceDelay + chainLength * NODE_STAGGER + 400;
+    const nodeHeight = 34 + 13; // node + connector
+    const totalDistance = (chainLength - 1) * nodeHeight;
+
+    const timer = setTimeout(() => {
+      Animated.sequence([
+        Animated.timing(opacity, { toValue: 0.7, duration: 100, useNativeDriver: true }),
+        Animated.timing(translateY, {
+          toValue: totalDistance,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, { toValue: 0, duration: 300, useNativeDriver: true }),
+      ]).start();
+    }, pulseStart);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (entranceDelay <= 0) return null;
+
+  return (
+    <Animated.View
+      style={[
+        styles.pulse,
+        {
+          opacity,
+          transform: [{ translateY }],
+        },
+      ]}
+      pointerEvents="none"
+    />
+  );
+}
+
+export function ChainView({
+  chain,
+  entranceDelay = 0,
+}: {
+  chain: ChainNode[];
+  entranceDelay?: number;
+}) {
   const scrollRef = useRef<ScrollView>(null);
   const anim = useRef(new Animated.Value(0)).current;
   const stopped = useRef(false);
   const [contentH, setContentH] = useState(0);
   const [viewH, setViewH] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     if (!viewH || contentH <= viewH) return;
@@ -26,14 +207,18 @@ export function ChainView({ chain }: { chain: ChainNode[] }) {
       if (!stopped.current) scrollRef.current?.scrollTo({ y: value, animated: false });
     });
     const duration = Math.min(12000, Math.max(3500, chain.length * 900));
+    // Auto-scroll starts after entrance animations finish
+    const scrollStart = entranceDelay > 0
+      ? entranceDelay + chain.length * NODE_STAGGER + 1400
+      : 700;
     const timer = setTimeout(() => {
       Animated.timing(anim, { toValue: distance, duration, useNativeDriver: false }).start();
-    }, 700);
+    }, scrollStart);
     return () => {
       clearTimeout(timer);
       anim.removeListener(listenerId);
     };
-  }, [contentH, viewH, chain.length, anim]);
+  }, [contentH, viewH, chain.length, anim, entranceDelay]);
 
   return (
     <View
@@ -50,66 +235,40 @@ export function ChainView({ chain }: { chain: ChainNode[] }) {
         }}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
+        onScroll={(e) => setScrollY(e.nativeEvent.contentOffset.y)}
       >
-        {chain.map((n, i) => {
-          const isActor = n.kind === 'actor';
-          const isTarget = i === chain.length - 1;
-          return (
-            <View key={`${n.kind}-${n.id}-${i}`}>
-              <View style={styles.nodeRow}>
-                <View
-                  style={[
-                    isActor ? styles.actor : styles.film,
-                    isTarget && styles.targetNode,
-                  ]}
-                >
-                  {posterSource(n.poster) ? (
-                    <Image
-                      source={posterSource(n.poster)!}
-                      style={styles.fill}
-                      resizeMode="cover"
-                    />
-                  ) : (
-                    <Icon
-                      name={isTarget ? 'flag' : isActor ? 'person' : 'film'}
-                      size={15}
-                      color={isTarget ? colors.onGold : colors.goldBright}
-                    />
-                  )}
-                </View>
-                {isTarget ? (
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.targetName} numberOfLines={1} maxFontSizeMultiplier={1.5}>
-                      {n.name}
-                    </Text>
-                    <Text style={styles.reached} maxFontSizeMultiplier={1.5}>Target reached</Text>
-                  </View>
-                ) : (
-                  <Text
-                    style={i === 0 ? styles.startName : styles.nodeName}
-                    numberOfLines={1}
-                    maxFontSizeMultiplier={1.5}
-                  >
-                    {n.name}
-                  </Text>
-                )}
-              </View>
-              {i < chain.length - 1 && <View style={styles.connector} />}
-            </View>
-          );
-        })}
+        {chain.map((n, i) => (
+          <View key={`${n.kind}-${n.id}-${i}`}>
+            <ChainNodeRow
+              node={n}
+              index={i}
+              isTarget={i === chain.length - 1}
+              isFirst={i === 0}
+              entranceDelay={entranceDelay}
+            />
+            {i < chain.length - 1 && (
+              <ConnectorLine index={i} entranceDelay={entranceDelay} />
+            )}
+          </View>
+        ))}
       </ScrollView>
-      <LinearGradient
-        colors={[colors.background, 'rgba(14,14,16,0)']}
-        style={styles.topFade}
-      />
+
+      {/* Connector pulse travels down the chain */}
+      <ConnectorPulse chainLength={chain.length} entranceDelay={entranceDelay} />
+
+      {scrollY > 4 && (
+        <LinearGradient
+          colors={[colors.background, 'rgba(14,14,16,0)']}
+          style={styles.topFade}
+        />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   viewport: { flex: 1 },
-  scrollContent: { paddingBottom: 8 },
+  scrollContent: { paddingBottom: 8, paddingHorizontal: 16 },
   nodeRow: { flexDirection: 'row', alignItems: 'center', gap: 11 },
   fill: { width: '100%', height: '100%' },
   actor: {
@@ -146,6 +305,15 @@ const styles = StyleSheet.create({
     color: colors.gold,
     textTransform: 'uppercase',
     marginTop: 1,
+  },
+  pulse: {
+    position: 'absolute',
+    top: 16,
+    left: 30,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: colors.goldBright,
   },
   topFade: { position: 'absolute', top: 0, left: 0, right: 0, height: 28, pointerEvents: 'none' },
 });

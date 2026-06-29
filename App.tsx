@@ -40,6 +40,7 @@ export type RootStackParamList = {
     moves: number;
     seconds: number;
     chain: ChainNode[];
+    fromTutorial?: boolean;
   };
   About: undefined;
   Privacy: undefined;
