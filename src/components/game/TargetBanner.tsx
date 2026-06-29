@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { colors, radius, type } from '../../../theme';
 import { Icon } from '../ui/Icon';
 import { SectionLabel } from '../ui/SectionLabel';
+import i18n from '../../i18n/i18n';
 
 // The persistent, dominant goal: reach this film.
 export function TargetBanner({
@@ -19,7 +20,7 @@ export function TargetBanner({
       style={styles.card}
       accessible
       accessibilityRole="summary"
-      accessibilityLabel={`Target: ${title}${year ? ` (${year})` : ''}`}
+      accessibilityLabel={i18n.t('target.a11y', { title, year: year ? `(${year})` : '' })}
     >
       <View style={styles.poster}>
         {poster ? (
@@ -32,7 +33,7 @@ export function TargetBanner({
         )}
       </View>
       <View style={{ flex: 1 }}>
-        <SectionLabel color={colors.gold}>Target</SectionLabel>
+        <SectionLabel color={colors.gold}>{i18n.t('target.label')}</SectionLabel>
         <Text style={[type.titleHero, styles.title]} numberOfLines={1} maxFontSizeMultiplier={1.5}>
           {title}
         </Text>

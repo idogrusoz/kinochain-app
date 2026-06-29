@@ -1,0 +1,109 @@
+{
+  "splash": {
+    "tagline": "SİNEMANIN ALTI DERECESİ",
+    "poweredBy": "DESTEKLEYEN"
+  },
+  "welcome": {
+    "about": "Hakkında",
+    "subtitle": "Başlangıç oyuncusunu hedef filme mümkün olduğunca az hamleyle bağla.",
+    "difficulty": "Zorluk",
+    "difficultyA11y": "%{level} zorluk",
+    "newGame": "Yeni oyun",
+    "howToPlay": "Nasıl oynanır"
+  },
+  "onboarding": {
+    "preparing": "Eğitim hazırlanıyor…",
+    "errorTitle": "Eğitim yüklenemedi",
+    "errorBody": "Bağlantını kontrol edip tekrar dene.",
+    "skip": "Atla",
+    "skipForNow": "Şimdilik atla",
+    "back": "Geri",
+    "goBackA11y": "Geri dön",
+    "skipA11y": "Eğitimi atla",
+    "yourPath": "Yolun",
+    "pickFilm": "bir film seç",
+    "pickPerson": "bir kişi seç",
+    "letsGo": "Başlayalım",
+    "goalTitle": "Hedefin",
+    "goalBody": "Her oyunun bir hedef filmi var. Oyuncuları ve filmleri bağlayarak ona ulaş.",
+    "pickFilmTitle": "Bir hamle yap",
+    "pickFilmBody": "Filmografiden %{filmName} filmini seç.",
+    "pickPersonTitle": "Bir kişi seç",
+    "pickPersonBody": "Şimdi zinciri devam ettirmek için %{personName} ismine dokun.",
+    "pickTargetTitle": "Neredeyse tamam!",
+    "pickTargetBody": "Zinciri tamamlamak için %{filmName} — hedef film — filmini seç."
+  },
+  "game": {
+    "offline": "Çevrimdışısın",
+    "offlineBody": "İnternet bağlantını kontrol edip tekrar dene.",
+    "errorTitle": "Bir şeyler ters gitti",
+    "errorBody": "Oyun yüklenemedi. Lütfen tekrar dene.",
+    "goBack": "Geri dön",
+    "help": "Yardım",
+    "yourPath": "Yolun",
+    "move": "Hamle %{n}",
+    "pickFilm": "bir film seç",
+    "pickPerson": "bir kişi seç"
+  },
+  "winning": {
+    "title": "Bu bir sarma!",
+    "linked": "%{from} ile %{to} arasını bağladın.",
+    "moves": "hamle",
+    "time": "süre",
+    "yourChain": "Zincirin",
+    "startPlaying": "Oynamaya başla",
+    "playAgain": "Tekrar oyna",
+    "shareResult": "Sonucu paylaş",
+    "home": "Ana sayfa",
+    "shareText": "KINOCHAIN\n%{from} → %{to}\n%{moves} hamlede çözüldü · %{time}"
+  },
+  "about": {
+    "goBack": "Geri dön",
+    "title": "Hakkında",
+    "version": "Sürüm %{version}",
+    "tmdbDisclaimer": "Bu ürün TMDB API'sini kullanır ancak TMDB tarafından onaylanmamış veya sertifikalandırılmamıştır. Tüm film verileri, görselleri ve meta verileri The Movie Database (TMDB) tarafından sağlanmaktadır.",
+    "privacyPolicy": "Gizlilik Politikası",
+    "howToPlay": "Nasıl Oynanır",
+    "tmdbWebsite": "TMDB Web Sitesi",
+    "madeBy": "Ibrahim Dogrusoz tarafından yapıldı"
+  },
+  "privacy": {
+    "goBack": "Geri dön",
+    "title": "Gizlilik Politikası",
+    "lastUpdated": "Son güncelleme: Haziran 2026",
+    "dataCollection": "Veri Toplama",
+    "dataCollectionBody": "Kinochain hesap gerektirmez, kullanıcı profili oluşturmaz ve bir veritabanında kişisel veri saklamaz.",
+    "networkRequests": "Ağ İstekleri",
+    "networkRequestsBody": "Oyun için uygulama, cihazından The Movie Database'e (TMDB) salt okunur HTTPS istekleri gönderir. TMDB, IP adresini ve teknik istek bilgilerini alabilir. Kinochain bir ara sunucu işletmez ve bu bilgileri almaz veya saklamaz.",
+    "analytics": "Analiz ve İzleme",
+    "analyticsBody": "Kinochain herhangi bir analiz, çökme raporu, reklam veya izleme SDK'sı içermez ve istek bilgilerini reklam veya izleme amacıyla kullanmaz.",
+    "localStorage": "Yerel Depolama",
+    "localStorageBody": "Uygulama, eğitimi tamamlayıp tamamlamadığını hatırlamak için cihazında küçük bir işaretçi saklar. Bu veriler asla cihazını terk etmez.",
+    "tmdb": "The Movie Database",
+    "tmdbBody": "Film verileri ve görselleri TMDB tarafından sağlanmaktadır. ",
+    "tmdbPolicyLink": "TMDB gizlilik politikasını okuyun.",
+    "retention": "Saklama ve Silme",
+    "retentionBody": "Kinochain bir sunucu işletmez ve istek günlükleri tutmaz. TMDB, aldığı bilgileri kendi gizlilik politikasına göre işler. Yerel tercihlerini kaldırmak için uygulamayı sil.",
+    "contact": "İletişim",
+    "contactBody": "Bu gizlilik politikası hakkında soruların varsa, info@rightword.be adresinden bize ulaş."
+  },
+  "error": {
+    "title": "Bir şeyler ters gitti",
+    "body": "Veriler yüklenemedi. Bağlantını kontrol edip tekrar dene.",
+    "tryAgain": "Tekrar dene",
+    "goBack": "Geri dön"
+  },
+  "loading": {
+    "default": "Sahne hazırlanıyor…"
+  },
+  "chain": {
+    "targetReached": "Hedefe ulaşıldı"
+  },
+  "target": {
+    "label": "Hedef",
+    "a11y": "Hedef: %{title} %{year}"
+  },
+  "credits": {
+    "a11yHint": "Bu krediyi zincirdeki bir sonraki halka olarak seçer"
+  }
+}

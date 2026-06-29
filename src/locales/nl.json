@@ -1,0 +1,109 @@
+{
+  "splash": {
+    "tagline": "ZES GRADEN VAN CINEMA",
+    "poweredBy": "MOGELIJK GEMAAKT DOOR"
+  },
+  "welcome": {
+    "about": "Over",
+    "subtitle": "Verbind de startacteur met de doelfilm in zo min mogelijk zetten.",
+    "difficulty": "Moeilijkheid",
+    "difficultyA11y": "Moeilijkheid %{level}",
+    "newGame": "Nieuw spel",
+    "howToPlay": "Hoe te spelen"
+  },
+  "onboarding": {
+    "preparing": "Tutorial voorbereiden…",
+    "errorTitle": "Tutorial kon niet geladen worden",
+    "errorBody": "Controleer je verbinding en probeer opnieuw.",
+    "skip": "Overslaan",
+    "skipForNow": "Voorlopig overslaan",
+    "back": "Terug",
+    "goBackA11y": "Ga terug",
+    "skipA11y": "Tutorial overslaan",
+    "yourPath": "Jouw pad",
+    "pickFilm": "kies een film",
+    "pickPerson": "kies een persoon",
+    "letsGo": "Aan de slag",
+    "goalTitle": "Je doel",
+    "goalBody": "Elk spel heeft een doelfilm. Bereik die door acteurs en films te verbinden.",
+    "pickFilmTitle": "Doe een zet",
+    "pickFilmBody": "Tik op %{filmName} in de filmografie.",
+    "pickPersonTitle": "Kies een persoon",
+    "pickPersonBody": "Tik nu op %{personName} om de keten voort te zetten.",
+    "pickTargetTitle": "Bijna klaar!",
+    "pickTargetBody": "Tik op %{filmName} — de doelfilm — om de keten te voltooien."
+  },
+  "game": {
+    "offline": "Je bent offline",
+    "offlineBody": "Controleer je internetverbinding en probeer opnieuw.",
+    "errorTitle": "Er ging iets mis",
+    "errorBody": "Het spel kon niet geladen worden. Probeer opnieuw.",
+    "goBack": "Ga terug",
+    "help": "Help",
+    "yourPath": "Jouw pad",
+    "move": "Zet %{n}",
+    "pickFilm": "kies een film",
+    "pickPerson": "kies een persoon"
+  },
+  "winning": {
+    "title": "Dat is een wrap!",
+    "linked": "Je verbond %{from} met %{to}.",
+    "moves": "zetten",
+    "time": "tijd",
+    "yourChain": "Jouw keten",
+    "startPlaying": "Begin met spelen",
+    "playAgain": "Opnieuw spelen",
+    "shareResult": "Resultaat delen",
+    "home": "Home",
+    "shareText": "KINOCHAIN\n%{from} → %{to}\nOpgelost in %{moves} zetten · %{time}"
+  },
+  "about": {
+    "goBack": "Ga terug",
+    "title": "Over",
+    "version": "Versie %{version}",
+    "tmdbDisclaimer": "Dit product maakt gebruik van de TMDB API maar is niet goedgekeurd of gecertificeerd door TMDB. Alle filmgegevens, afbeeldingen en metadata worden geleverd door The Movie Database (TMDB).",
+    "privacyPolicy": "Privacybeleid",
+    "howToPlay": "Hoe te spelen",
+    "tmdbWebsite": "TMDB Website",
+    "madeBy": "Gemaakt door Ibrahim Dogrusoz"
+  },
+  "privacy": {
+    "goBack": "Ga terug",
+    "title": "Privacybeleid",
+    "lastUpdated": "Laatst bijgewerkt: juni 2026",
+    "dataCollection": "Gegevensverzameling",
+    "dataCollectionBody": "Kinochain vereist geen account, maakt geen gebruikersprofielen aan en slaat geen persoonlijke gegevens op in een database.",
+    "networkRequests": "Netwerkverzoeken",
+    "networkRequestsBody": "Voor het spel stuurt de app alleen-lezen HTTPS-verzoeken vanaf je apparaat naar The Movie Database (TMDB). TMDB kan je IP-adres en technische verzoekgegevens ontvangen. Kinochain beheert geen tussenliggende server en ontvangt of bewaart deze informatie niet.",
+    "analytics": "Analyse en tracking",
+    "analyticsBody": "Kinochain bevat geen analyse-, crashrapportage-, reclame- of tracking-SDK's en gebruikt verzoekgegevens niet voor reclame of tracking.",
+    "localStorage": "Lokale opslag",
+    "localStorageBody": "De app slaat een kleine markering op je apparaat op om te onthouden of je de tutorial hebt voltooid. Deze gegevens verlaten nooit je apparaat.",
+    "tmdb": "The Movie Database",
+    "tmdbBody": "Filmgegevens en afbeeldingen worden geleverd door TMDB. Lees het ",
+    "tmdbPolicyLink": "TMDB-privacybeleid.",
+    "retention": "Bewaring en verwijdering",
+    "retentionBody": "Kinochain beheert geen server en bewaart geen verzoeklogboeken. TMDB verwerkt ontvangen informatie volgens zijn eigen privacybeleid. Verwijder de app om lokale voorkeuren te wissen.",
+    "contact": "Contact",
+    "contactBody": "Heb je vragen over dit privacybeleid, neem dan contact op via info@rightword.be."
+  },
+  "error": {
+    "title": "Er ging iets mis",
+    "body": "De gegevens konden niet geladen worden. Controleer je verbinding en probeer opnieuw.",
+    "tryAgain": "Opnieuw proberen",
+    "goBack": "Ga terug"
+  },
+  "loading": {
+    "default": "Het decor wordt klaargezet…"
+  },
+  "chain": {
+    "targetReached": "Doel bereikt"
+  },
+  "target": {
+    "label": "Doel",
+    "a11y": "Doel: %{title} %{year}"
+  },
+  "credits": {
+    "a11yHint": "Selecteert dit credit als volgende schakel in de keten"
+  }
+}

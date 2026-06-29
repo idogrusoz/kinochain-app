@@ -5,12 +5,20 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "locales": {
+      "fr": "./src/locales/fr.json",
+      "nl": "./src/locales/nl.json",
+      "de": "./src/locales/de.json",
+      "tr": "./src/locales/tr.json",
+      "ru": "./src/locales/ru.json"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rightword.kinochain",
       "buildNumber": "1",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleLocalizations": ["en", "fr", "nl", "de", "tr", "ru"]
       }
     },
     "android": {

@@ -9,6 +9,7 @@ import { Icon } from '../components/ui/Icon';
 import { Surface } from '../components/ui/Surface';
 import { OutlineButton } from '../components/ui/OutlineButton';
 import { colors, fonts, spacing, radius } from '../../theme';
+import i18n from '../i18n/i18n';
 
 const APP_VERSION = '1.0.0';
 export default function AboutScreen() {
@@ -22,11 +23,11 @@ export default function AboutScreen() {
           hitSlop={8}
           style={styles.navButton}
           accessibilityRole="button"
-          accessibilityLabel="Go back"
+          accessibilityLabel={i18n.t('about.goBack')}
         >
           <Icon name="back" size={24} color={colors.textSecondary} />
         </Pressable>
-        <Text style={styles.navTitle} maxFontSizeMultiplier={1.5}>About</Text>
+        <Text style={styles.navTitle} maxFontSizeMultiplier={1.5}>{i18n.t('about.title')}</Text>
         <View style={styles.navButton} />
       </View>
 
@@ -34,7 +35,7 @@ export default function AboutScreen() {
         <View style={styles.hero}>
           <Mark width={48} height={48} />
           <Wordmark size={18} />
-          <Text style={styles.version} maxFontSizeMultiplier={1.5}>Version {APP_VERSION}</Text>
+          <Text style={styles.version} maxFontSizeMultiplier={1.5}>{i18n.t('about.version', { version: APP_VERSION })}</Text>
         </View>
 
         <Surface style={styles.card}>
@@ -42,33 +43,32 @@ export default function AboutScreen() {
             <TmdbLogo width={80} height={34} />
           </View>
           <Text style={styles.cardBody} maxFontSizeMultiplier={1.5}>
-            This product uses the TMDB API but is not endorsed or certified by TMDB.
-            All movie data, images, and metadata are provided by The Movie Database (TMDB).
+            {i18n.t('about.tmdbDisclaimer')}
           </Text>
         </Surface>
 
         <View style={styles.links}>
           <LinkRow
-            label="Privacy Policy"
+            label={i18n.t('about.privacyPolicy')}
             icon="info"
             onPress={() => navigation.navigate('Privacy')}
           />
           <View style={styles.separator} />
           <LinkRow
-            label="How to Play"
+            label={i18n.t('about.howToPlay')}
             icon="help"
             onPress={() => navigation.navigate('Onboarding')}
           />
           <View style={styles.separator} />
           <LinkRow
-            label="TMDB Website"
+            label={i18n.t('about.tmdbWebsite')}
             icon="film"
             onPress={() => Linking.openURL('https://www.themoviedb.org')}
           />
         </View>
 
         <Text style={styles.credit} maxFontSizeMultiplier={1.5}>
-          Made by Ibrahim Dogrusoz
+          {i18n.t('about.madeBy')}
         </Text>
       </ScrollView>
     </View>

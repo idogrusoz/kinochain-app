@@ -3,40 +3,26 @@ import { View, Text, ScrollView, StyleSheet, Pressable, Linking } from 'react-na
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from '../components/ui/Icon';
 import { colors, fonts, spacing } from '../../theme';
+import i18n from '../i18n/i18n';
 
-const SECTIONS = [
+type Section = {
+  titleKey: string;
+  bodyKey: string;
+  link?: { labelKey: string; url: string };
+};
+
+const SECTIONS: Section[] = [
+  { titleKey: 'privacy.dataCollection', bodyKey: 'privacy.dataCollectionBody' },
+  { titleKey: 'privacy.networkRequests', bodyKey: 'privacy.networkRequestsBody' },
+  { titleKey: 'privacy.analytics', bodyKey: 'privacy.analyticsBody' },
+  { titleKey: 'privacy.localStorage', bodyKey: 'privacy.localStorageBody' },
   {
-    title: 'Data Collection',
-    body: 'Kinochain does not require an account, create user profiles, or store personal data in an application database.',
+    titleKey: 'privacy.tmdb',
+    bodyKey: 'privacy.tmdbBody',
+    link: { labelKey: 'privacy.tmdbPolicyLink', url: 'https://www.themoviedb.org/privacy-policy' },
   },
-  {
-    title: 'Network Requests',
-    body: 'To provide gameplay, the app sends read-only HTTPS requests directly from your device to The Movie Database (TMDB). TMDB may receive your IP address and technical request information when processing these requests. Kinochain does not operate an intermediary server and does not receive or store this information.',
-  },
-  {
-    title: 'Analytics & Tracking',
-    body: 'Kinochain does not include analytics, crash-reporting, advertising, or tracking SDKs and does not use request information for advertising or tracking.',
-  },
-  {
-    title: 'Local Storage',
-    body: 'The app stores a small onboarding flag on your device to remember whether you have completed the tutorial. This data never leaves your device.',
-  },
-  {
-    title: 'The Movie Database',
-    body: 'Movie data and images are provided by TMDB. Read the ',
-    link: {
-      label: 'TMDB privacy policy.',
-      url: 'https://www.themoviedb.org/privacy-policy',
-    },
-  },
-  {
-    title: 'Retention & Deletion',
-    body: 'Kinochain does not operate a server or retain network request logs. TMDB handles information it receives according to its own privacy policy. Delete the app to remove its local onboarding preference.',
-  },
-  {
-    title: 'Contact',
-    body: 'If you have questions about this privacy policy, contact us at info@rightword.be.',
-  },
+  { titleKey: 'privacy.retention', bodyKey: 'privacy.retentionBody' },
+  { titleKey: 'privacy.contact', bodyKey: 'privacy.contactBody' },
 ];
 
 export default function PrivacyScreen() {
@@ -50,30 +36,30 @@ export default function PrivacyScreen() {
           hitSlop={8}
           style={styles.navButton}
           accessibilityRole="button"
-          accessibilityLabel="Go back"
+          accessibilityLabel={i18n.t('privacy.goBack')}
         >
           <Icon name="back" size={24} color={colors.textSecondary} />
         </Pressable>
-        <Text style={styles.navTitle} maxFontSizeMultiplier={1.5}>Privacy Policy</Text>
+        <Text style={styles.navTitle} maxFontSizeMultiplier={1.5}>{i18n.t('privacy.title')}</Text>
         <View style={styles.navButton} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Text style={styles.updated} maxFontSizeMultiplier={1.5}>Last updated: June 2026</Text>
+        <Text style={styles.updated} maxFontSizeMultiplier={1.5}>{i18n.t('privacy.lastUpdated')}</Text>
 
         {SECTIONS.map((s) => (
-          <View key={s.title} style={styles.section}>
-            <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.5}>{s.title}</Text>
+          <View key={s.titleKey} style={styles.section}>
+            <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.5}>{i18n.t(s.titleKey)}</Text>
             <Text style={styles.sectionBody} maxFontSizeMultiplier={1.5}>
-              {s.body}
-              {'link' in s && s.link ? (
+              {i18n.t(s.bodyKey)}
+              {s.link ? (
                 <Text
                   style={styles.link}
                   maxFontSizeMultiplier={1.5}
                   accessibilityRole="link"
-                  onPress={() => Linking.openURL(s.link.url)}
+                  onPress={() => Linking.openURL(s.link!.url)}
                 >
-                  {s.link.label}
+                  {i18n.t(s.link.labelKey)}
                 </Text>
               ) : null}
             </Text>

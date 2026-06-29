@@ -11,6 +11,7 @@ import { SectionLabel } from '../components/ui/SectionLabel';
 import { Icon } from '../components/ui/Icon';
 import { Difficulty } from '../../types';
 import { brass, brassLocations, colors, fonts, radius, spacing } from '../../theme';
+import i18n from '../i18n/i18n';
 
 const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard'];
 
@@ -53,7 +54,7 @@ export default function WelcomeScreen() {
           hitSlop={8}
           onPress={() => navigation.navigate('About')}
           accessibilityRole="button"
-          accessibilityLabel="About"
+          accessibilityLabel={i18n.t('welcome.about')}
         >
           <Icon name="settings" size={21} color={colors.textSecondary} />
         </Pressable>
@@ -65,7 +66,7 @@ export default function WelcomeScreen() {
             <Mark width={88} height={88} />
             <Wordmark size={26} letterSpacing={1.6} />
             <Text style={styles.explainer} maxFontSizeMultiplier={1.5}>
-              Link the starting actor to the target film in as few moves as you can.
+              {i18n.t('welcome.subtitle')}
             </Text>
           </View>
 
@@ -85,7 +86,7 @@ export default function WelcomeScreen() {
         </View>
       </View>
 
-      <SectionLabel style={styles.diffLabel}>Difficulty</SectionLabel>
+      <SectionLabel style={styles.diffLabel}>{i18n.t('welcome.difficulty')}</SectionLabel>
       <View style={styles.segment}>
         {DIFFICULTIES.map((d) => {
           const label = d[0].toUpperCase() + d.slice(1);
@@ -96,7 +97,7 @@ export default function WelcomeScreen() {
               style={styles.segPressable}
               onPress={() => setDifficulty(d)}
               accessibilityRole="radio"
-              accessibilityLabel={`${label} difficulty`}
+              accessibilityLabel={i18n.t('welcome.difficultyA11y', { level: label })}
               accessibilityState={{ checked: selected }}
             >
               {selected ? (
@@ -120,12 +121,12 @@ export default function WelcomeScreen() {
       </View>
 
       <BrassButton
-        label="New game"
+        label={i18n.t('welcome.newGame')}
         icon="play"
         onPress={() => navigation.navigate('Game', { difficulty })}
       />
       <OutlineButton
-        label="How to play"
+        label={i18n.t('welcome.howToPlay')}
         icon="help"
         borderColor={colors.borderSubtleGold}
         style={{ marginTop: 10, marginBottom: 18 }}

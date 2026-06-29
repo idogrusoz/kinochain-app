@@ -1,14 +1,109 @@
 {
-  "loading": "Loading...",
-  "goal": "Goal",
-  "current": "Current",
-  "target": "Target",
-  "poweredBy": "Powered by",
+  "splash": {
+    "tagline": "SIX DEGREES OF CINEMA",
+    "poweredBy": "POWERED BY"
+  },
+  "welcome": {
+    "about": "About",
+    "subtitle": "Link the starting actor to the target film in as few moves as you can.",
+    "difficulty": "Difficulty",
+    "difficultyA11y": "%{level} difficulty",
+    "newGame": "New game",
+    "howToPlay": "How to play"
+  },
+  "onboarding": {
+    "preparing": "Preparing tutorial…",
+    "errorTitle": "Couldn't load tutorial",
+    "errorBody": "Check your connection and try again.",
+    "skip": "Skip",
+    "skipForNow": "Skip for now",
+    "back": "Back",
+    "goBackA11y": "Go back",
+    "skipA11y": "Skip tutorial",
+    "yourPath": "Your path",
+    "pickFilm": "pick a film",
+    "pickPerson": "pick a person",
+    "letsGo": "Let's go",
+    "goalTitle": "Your goal",
+    "goalBody": "Every game has a target film. Reach it by linking actors and movies.",
+    "pickFilmTitle": "Make a move",
+    "pickFilmBody": "Tap %{filmName} from the filmography to hop to it.",
+    "pickPersonTitle": "Pick a person",
+    "pickPersonBody": "Now tap %{personName} to continue the chain.",
+    "pickTargetTitle": "Almost there!",
+    "pickTargetBody": "Tap %{filmName} — the target film — to complete the chain."
+  },
+  "game": {
+    "offline": "You're offline",
+    "offlineBody": "Check your internet connection and try again.",
+    "errorTitle": "Something went wrong",
+    "errorBody": "We couldn't load the game. Please try again.",
+    "goBack": "Go back",
+    "help": "Help",
+    "yourPath": "Your path",
+    "move": "Move %{n}",
+    "pickFilm": "pick a film",
+    "pickPerson": "pick a person"
+  },
   "winning": {
-    "title": "Winning",
-    "text": "Cinematic Genius!",
-    "subtext": "Your movie knowledge is Oscar-worthy!"
-
+    "title": "That's a wrap!",
+    "linked": "You linked %{from} to %{to}.",
+    "moves": "moves",
+    "time": "time",
+    "yourChain": "Your chain",
+    "startPlaying": "Start playing",
+    "playAgain": "Play again",
+    "shareResult": "Share result",
+    "home": "Home",
+    "shareText": "KINOCHAIN\n%{from} → %{to}\nSolved in %{moves} moves · %{time}"
+  },
+  "about": {
+    "goBack": "Go back",
+    "title": "About",
+    "version": "Version %{version}",
+    "tmdbDisclaimer": "This product uses the TMDB API but is not endorsed or certified by TMDB. All movie data, images, and metadata are provided by The Movie Database (TMDB).",
+    "privacyPolicy": "Privacy Policy",
+    "howToPlay": "How to Play",
+    "tmdbWebsite": "TMDB Website",
+    "madeBy": "Made by Ibrahim Dogrusoz"
+  },
+  "privacy": {
+    "goBack": "Go back",
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: June 2026",
+    "dataCollection": "Data Collection",
+    "dataCollectionBody": "Kinochain does not require an account, create user profiles, or store personal data in an application database.",
+    "networkRequests": "Network Requests",
+    "networkRequestsBody": "To provide gameplay, the app sends read-only HTTPS requests directly from your device to The Movie Database (TMDB). TMDB may receive your IP address and technical request information when processing these requests. Kinochain does not operate an intermediary server and does not receive or store this information.",
+    "analytics": "Analytics & Tracking",
+    "analyticsBody": "Kinochain does not include analytics, crash-reporting, advertising, or tracking SDKs and does not use request information for advertising or tracking.",
+    "localStorage": "Local Storage",
+    "localStorageBody": "The app stores a small onboarding flag on your device to remember whether you have completed the tutorial. This data never leaves your device.",
+    "tmdb": "The Movie Database",
+    "tmdbBody": "Movie data and images are provided by TMDB. Read the ",
+    "tmdbPolicyLink": "TMDB privacy policy.",
+    "retention": "Retention & Deletion",
+    "retentionBody": "Kinochain does not operate a server or retain network request logs. TMDB handles information it receives according to its own privacy policy. Delete the app to remove its local onboarding preference.",
+    "contact": "Contact",
+    "contactBody": "If you have questions about this privacy policy, contact us at info@rightword.be."
+  },
+  "error": {
+    "title": "Something went wrong",
+    "body": "We couldn't load the data. Please check your connection and try again.",
+    "tryAgain": "Try again",
+    "goBack": "Go back"
+  },
+  "loading": {
+    "default": "Setting the scene…"
+  },
+  "chain": {
+    "targetReached": "Target reached"
+  },
+  "target": {
+    "label": "Target",
+    "a11y": "Target: %{title} %{year}"
+  },
+  "credits": {
+    "a11yHint": "Selects this credit as the next link in the chain"
   }
 }
-

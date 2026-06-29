@@ -7,6 +7,7 @@ import TmdbLogo from '../../assets/tmdb-logo.svg';
 import { Wordmark } from '../components/ui/Wordmark';
 import { RootStackParamList } from '../../App';
 import { colors, fonts } from '../../theme';
+import i18n from '../i18n/i18n';
 
 export const ONBOARDED_KEY = 'kinochain.onboarded';
 
@@ -34,10 +35,10 @@ export default function SplashScreen() {
       <View style={styles.center}>
         <Mark width={104} height={104} />
         <Wordmark size={24} letterSpacing={1.5} />
-        <Text style={styles.tagline} maxFontSizeMultiplier={1.5}>SIX DEGREES OF CINEMA</Text>
+        <Text style={styles.tagline} maxFontSizeMultiplier={1.5}>{i18n.t('splash.tagline')}</Text>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.powered} maxFontSizeMultiplier={1.5}>POWERED BY</Text>
+        <Text style={styles.powered} maxFontSizeMultiplier={1.5}>{i18n.t('splash.poweredBy')}</Text>
         <TmdbLogo width={58} height={42} />
       </View>
     </View>

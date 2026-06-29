@@ -5,6 +5,7 @@ import { BrassButton } from './BrassButton';
 import { OutlineButton } from './OutlineButton';
 import { Icon } from './Icon';
 import { colors, fonts, spacing } from '../../../theme';
+import i18n from '../../i18n/i18n';
 
 type Props = {
   title?: string;
@@ -14,8 +15,8 @@ type Props = {
 };
 
 export function ErrorScreen({
-  title = 'Something went wrong',
-  message = "We couldn't load the data. Please check your connection and try again.",
+  title = i18n.t('error.title'),
+  message = i18n.t('error.body'),
   onRetry,
   onGoBack,
 }: Props) {
@@ -35,10 +36,10 @@ export function ErrorScreen({
         <Text style={styles.message} maxFontSizeMultiplier={1.5}>{message}</Text>
       </View>
       <View style={styles.actions}>
-        {onRetry && <BrassButton label="Try again" onPress={onRetry} />}
+        {onRetry && <BrassButton label={i18n.t('error.tryAgain')} onPress={onRetry} />}
         {onGoBack && (
           <OutlineButton
-            label="Go back"
+            label={i18n.t('error.goBack')}
             icon="back"
             onPress={onGoBack}
             style={{ marginTop: 10 }}

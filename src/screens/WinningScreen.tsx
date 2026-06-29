@@ -10,6 +10,7 @@ import { TextButton } from '../components/ui/TextButton';
 import { SectionLabel } from '../components/ui/SectionLabel';
 import { ChainView } from '../components/game/ChainView';
 import { colors, fonts, type, spacing } from '../../theme';
+import i18n from '../i18n/i18n';
 
 export type WinningScreenProps = StackScreenProps<RootStackParamList, 'Winning'>;
 
@@ -227,7 +228,7 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
 
   const onShare = () => {
     Share.share({
-      message: `KINOCHAIN\n${startName} → ${targetMovie.title}\nSolved in ${moves} moves · ${formatTime(seconds)}`,
+      message: i18n.t('winning.shareText', { from: startName, to: targetMovie.title, moves: String(moves), time: formatTime(seconds) }) ?? '',
     }).catch(() => {});
   };
 
@@ -265,7 +266,7 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
           ]}
           maxFontSizeMultiplier={1.5}
         >
-          That&apos;s a wrap!
+          {i18n.t('winning.title')}
         </Animated.Text>
         <Shimmer delay={P2_START + 400} />
       </View>
@@ -287,12 +288,12 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
 
       {/* Subtitle */}
       <Animated.Text style={[styles.subtitle, { opacity: subtitleOpacity }]} maxFontSizeMultiplier={1.5}>
-        You linked {startName} to {targetMovie.title}.
+        {i18n.t('winning.linked', { from: startName, to: targetMovie.title })}
       </Animated.Text>
 
       {/* Phase 3: Stats with count-up */}
       <View style={styles.stats}>
-        <AnimatedStat targetValue={moves} label="moves" delay={P3_START} />
+        <AnimatedStat targetValue={moves} label={i18n.t('winning.moves')} delay={P3_START} />
         <View style={styles.dividerWrap}>
           <Animated.View
             style={[
@@ -306,19 +307,19 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
             ]}
           />
         </View>
-        <AnimatedStat targetValue={seconds} label="time" formatFn={formatTime} delay={P3_START} />
+        <AnimatedStat targetValue={seconds} label={i18n.t('winning.time')} formatFn={formatTime} delay={P3_START} />
       </View>
 
       {/* Phase 4: Chain */}
       <Animated.View style={[styles.chainSection, { opacity: chainOpacity }]}>
-        <SectionLabel style={styles.chainLabel}>Your chain</SectionLabel>
+        <SectionLabel style={styles.chainLabel}>{i18n.t('winning.yourChain')}</SectionLabel>
         <ChainView chain={chain} entranceDelay={P4_START + 200} />
       </Animated.View>
 
       {/* Phase 5: Buttons */}
       <Animated.View style={{ opacity: buttonAnims[0].opacity, transform: [{ translateY: buttonAnims[0].translateY }] }}>
         <BrassButton
-          label={fromTutorial ? 'Start playing' : 'Play again'}
+          label={fromTutorial ? i18n.t('winning.startPlaying') : i18n.t('winning.playAgain')}
           onPress={() => navigation.navigate(fromTutorial ? 'Welcome' : 'Game')}
         />
       </Animated.View>
@@ -326,7 +327,7 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
         <>
           <Animated.View style={{ opacity: buttonAnims[1].opacity, transform: [{ translateY: buttonAnims[1].translateY }] }}>
             <OutlineButton
-              label="Share result"
+              label={i18n.t('winning.shareResult')}
               icon="share"
               borderColor={colors.borderSubtleGold}
               style={{ marginTop: 10 }}
@@ -334,7 +335,7 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
             />
           </Animated.View>
           <Animated.View style={[styles.homeWrap, { opacity: buttonAnims[2].opacity, transform: [{ translateY: buttonAnims[2].translateY }] }]}>
-            <TextButton label="Home" onPress={() => navigation.navigate('Welcome')} />
+            <TextButton label={i18n.t('winning.home')} onPress={() => navigation.navigate('Welcome')} />
           </Animated.View>
         </>
       )}

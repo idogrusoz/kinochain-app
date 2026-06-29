@@ -5,6 +5,7 @@ import * as Haptics from 'expo-haptics';
 import { colors, fonts } from '../../../theme';
 import { Icon } from '../ui/Icon';
 import { ChainNode } from '../../../types';
+import i18n from '../../i18n/i18n';
 
 function posterSource(path?: string | null) {
   return path ? { uri: `https://image.tmdb.org/t/p/w185${path}` } : null;
@@ -93,7 +94,7 @@ function ChainNodeRow({
             <Text style={styles.targetName} numberOfLines={1} maxFontSizeMultiplier={1.5}>
               {node.name}
             </Text>
-            <Text style={styles.reached} maxFontSizeMultiplier={1.5}>Target reached</Text>
+            <Text style={styles.reached} maxFontSizeMultiplier={1.5}>{i18n.t('chain.targetReached')}</Text>
           </View>
         ) : (
           <Text

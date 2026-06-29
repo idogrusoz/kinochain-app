@@ -36,6 +36,7 @@ import Loading from '../components/Loading';
 import { ErrorScreen } from '../components/ui/ErrorScreen';
 import { TmdbError } from '../services/tmdb/client';
 import { colors, fonts, spacing } from '../../theme';
+import i18n from '../i18n/i18n';
 
 function formatTime(total: number): string {
   const m = Math.floor(total / 60);
@@ -46,13 +47,13 @@ function formatTime(total: number): string {
 function errorInfo(e: unknown): { title: string; message: string } {
   if (e instanceof TmdbError && e.kind === 'network') {
     return {
-      title: "You're offline",
-      message: 'Check your internet connection and try again.',
+      title: i18n.t('game.offline'),
+      message: i18n.t('game.offlineBody'),
     };
   }
   return {
-    title: 'Something went wrong',
-    message: "We couldn't load the game. Please try again.",
+    title: i18n.t('game.errorTitle'),
+    message: i18n.t('game.errorBody'),
   };
 }
 
@@ -232,7 +233,7 @@ export default function GameScreen() {
           hitSlop={8}
           style={styles.navButton}
           accessibilityRole="button"
-          accessibilityLabel="Go back"
+          accessibilityLabel={i18n.t('game.goBack')}
         >
           <Icon name="back" size={24} color={colors.textSecondary} />
         </Pressable>
@@ -245,7 +246,7 @@ export default function GameScreen() {
           hitSlop={8}
           style={styles.navButton}
           accessibilityRole="button"
-          accessibilityLabel="Help"
+          accessibilityLabel={i18n.t('game.help')}
         >
           <Icon name="help" size={22} color={colors.textSecondary} />
         </Pressable>
@@ -258,9 +259,9 @@ export default function GameScreen() {
       />
 
       <View style={styles.pathHeader}>
-        <SectionLabel>Your path</SectionLabel>
+        <SectionLabel>{i18n.t('game.yourPath')}</SectionLabel>
         <Text style={styles.meta} maxFontSizeMultiplier={1.5}>
-          Move <Text style={{ color: colors.goldBright }} maxFontSizeMultiplier={1.5}>{moves}</Text> ·{' '}
+          {i18n.t('game.move', { n: moves })} ·{' '}
           {formatTime(seconds)}
         </Text>
       </View>
@@ -268,7 +269,7 @@ export default function GameScreen() {
       <Text style={styles.currentLine} numberOfLines={1} maxFontSizeMultiplier={1.5}>
         <Text style={styles.currentName} maxFontSizeMultiplier={1.5}>{currentName}</Text>
         <Text style={styles.currentHint} maxFontSizeMultiplier={1.5}>
-          {isActor ? '  —  pick a film' : '  —  pick a person'}
+          {'  —  '}{isActor ? i18n.t('game.pickFilm') : i18n.t('game.pickPerson')}
         </Text>
       </Text>
 

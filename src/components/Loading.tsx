@@ -1,9 +1,10 @@
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import { colors, fonts } from '../../theme';
 import { Wordmark } from './ui/Wordmark';
+import i18n from '../i18n/i18n';
 
 export default function Loading({
-  label = 'Setting the scene…',
+  label = i18n.t('loading.default'),
 }: {
   label?: string;
 }) {

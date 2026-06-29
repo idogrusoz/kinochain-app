@@ -1,0 +1,109 @@
+{
+  "splash": {
+    "tagline": "SIX DEGRÉS DU CINÉMA",
+    "poweredBy": "PROPULSÉ PAR"
+  },
+  "welcome": {
+    "about": "À propos",
+    "subtitle": "Reliez l'acteur de départ au film cible en un minimum de coups.",
+    "difficulty": "Difficulté",
+    "difficultyA11y": "Difficulté %{level}",
+    "newGame": "Nouvelle partie",
+    "howToPlay": "Comment jouer"
+  },
+  "onboarding": {
+    "preparing": "Préparation du tutoriel…",
+    "errorTitle": "Impossible de charger le tutoriel",
+    "errorBody": "Vérifiez votre connexion et réessayez.",
+    "skip": "Passer",
+    "skipForNow": "Passer pour l'instant",
+    "back": "Retour",
+    "goBackA11y": "Retour",
+    "skipA11y": "Passer le tutoriel",
+    "yourPath": "Votre chemin",
+    "pickFilm": "choisissez un film",
+    "pickPerson": "choisissez une personne",
+    "letsGo": "C'est parti",
+    "goalTitle": "Votre objectif",
+    "goalBody": "Chaque partie a un film cible. Atteignez-le en reliant acteurs et films.",
+    "pickFilmTitle": "Faites un coup",
+    "pickFilmBody": "Touchez %{filmName} dans la filmographie.",
+    "pickPersonTitle": "Choisissez une personne",
+    "pickPersonBody": "Maintenant touchez %{personName} pour continuer la chaîne.",
+    "pickTargetTitle": "Presque fini !",
+    "pickTargetBody": "Touchez %{filmName} — le film cible — pour compléter la chaîne."
+  },
+  "game": {
+    "offline": "Vous êtes hors ligne",
+    "offlineBody": "Vérifiez votre connexion internet et réessayez.",
+    "errorTitle": "Une erreur est survenue",
+    "errorBody": "Impossible de charger la partie. Veuillez réessayer.",
+    "goBack": "Retour",
+    "help": "Aide",
+    "yourPath": "Votre chemin",
+    "move": "Coup %{n}",
+    "pickFilm": "choisissez un film",
+    "pickPerson": "choisissez une personne"
+  },
+  "winning": {
+    "title": "C'est dans la boîte !",
+    "linked": "Vous avez relié %{from} à %{to}.",
+    "moves": "coups",
+    "time": "temps",
+    "yourChain": "Votre chaîne",
+    "startPlaying": "Commencer à jouer",
+    "playAgain": "Rejouer",
+    "shareResult": "Partager le résultat",
+    "home": "Accueil",
+    "shareText": "KINOCHAIN\n%{from} → %{to}\nRésolu en %{moves} coups · %{time}"
+  },
+  "about": {
+    "goBack": "Retour",
+    "title": "À propos",
+    "version": "Version %{version}",
+    "tmdbDisclaimer": "Ce produit utilise l'API TMDB mais n'est ni approuvé ni certifié par TMDB. Toutes les données, images et métadonnées de films sont fournies par The Movie Database (TMDB).",
+    "privacyPolicy": "Politique de confidentialité",
+    "howToPlay": "Comment jouer",
+    "tmdbWebsite": "Site web TMDB",
+    "madeBy": "Créé par Ibrahim Dogrusoz"
+  },
+  "privacy": {
+    "goBack": "Retour",
+    "title": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : juin 2026",
+    "dataCollection": "Collecte de données",
+    "dataCollectionBody": "Kinochain ne nécessite pas de compte, ne crée pas de profils utilisateurs et ne stocke aucune donnée personnelle dans une base de données.",
+    "networkRequests": "Requêtes réseau",
+    "networkRequestsBody": "Pour le jeu, l'application envoie des requêtes HTTPS en lecture seule depuis votre appareil vers The Movie Database (TMDB). TMDB peut recevoir votre adresse IP et des informations techniques. Kinochain n'exploite pas de serveur intermédiaire et ne reçoit ni ne stocke ces informations.",
+    "analytics": "Analyse et suivi",
+    "analyticsBody": "Kinochain n'inclut aucun SDK d'analyse, de rapport de plantage, de publicité ou de suivi et n'utilise pas les informations de requête à des fins publicitaires ou de suivi.",
+    "localStorage": "Stockage local",
+    "localStorageBody": "L'application stocke un petit indicateur sur votre appareil pour mémoriser si vous avez terminé le tutoriel. Ces données ne quittent jamais votre appareil.",
+    "tmdb": "The Movie Database",
+    "tmdbBody": "Les données et images de films sont fournies par TMDB. Lisez la ",
+    "tmdbPolicyLink": "politique de confidentialité de TMDB.",
+    "retention": "Conservation et suppression",
+    "retentionBody": "Kinochain n'exploite pas de serveur et ne conserve pas de journaux de requêtes. TMDB gère les informations qu'il reçoit selon sa propre politique de confidentialité. Supprimez l'application pour supprimer vos préférences locales.",
+    "contact": "Contact",
+    "contactBody": "Pour toute question concernant cette politique de confidentialité, contactez-nous à info@rightword.be."
+  },
+  "error": {
+    "title": "Une erreur est survenue",
+    "body": "Impossible de charger les données. Vérifiez votre connexion et réessayez.",
+    "tryAgain": "Réessayer",
+    "goBack": "Retour"
+  },
+  "loading": {
+    "default": "Préparation de la scène…"
+  },
+  "chain": {
+    "targetReached": "Cible atteinte"
+  },
+  "target": {
+    "label": "Cible",
+    "a11y": "Cible : %{title} %{year}"
+  },
+  "credits": {
+    "a11yHint": "Sélectionne ce crédit comme prochain maillon de la chaîne"
+  }
+}

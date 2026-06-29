@@ -10,6 +10,7 @@ import {
 import { colors, radius, type } from '../../theme';
 import { Credit } from '../../types';
 import { Icon } from './ui/Icon';
+import i18n from '../i18n/i18n';
 
 const Row = React.memo(
   ({ credit, onSelect, highlighted }: { credit: Credit; onSelect: (id: number) => void; highlighted?: boolean }) => {
@@ -26,7 +27,7 @@ const Row = React.memo(
         activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel={[credit.title, secondary].filter(Boolean).join(', ')}
-        accessibilityHint="Selects this credit as the next link in the chain"
+        accessibilityHint={i18n.t('credits.a11yHint')}
       >
         {credit.poster_path ? (
           <Image

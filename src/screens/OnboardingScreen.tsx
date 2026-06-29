@@ -26,6 +26,7 @@ import { CreditsList } from '../components/CreditsList';
 import Loading from '../components/Loading';
 import { ONBOARDED_KEY } from './SplashScreen';
 import { colors, fonts, type, spacing } from '../../theme';
+import i18n from '../i18n/i18n';
 
 // ── Tutorial path (hardcoded TMDB IDs) ─────────────────────────────────
 // Jamie Foxx → Django Unchained → Leonardo DiCaprio → Inception
@@ -43,24 +44,18 @@ const TUTORIAL = {
 // Coach-mark overlays for each phase of the guided tutorial.
 type CoachPhase = 'goal' | 'pick-film' | 'pick-person' | 'pick-target';
 
-const COACH: Record<CoachPhase, { title: string; body: string }> = {
-  goal: {
-    title: 'Your goal',
-    body: 'Every game has a target film. Reach it by linking actors and movies.',
-  },
-  'pick-film': {
-    title: 'Make a move',
-    body: 'Tap Django Unchained from the filmography to hop to it.',
-  },
-  'pick-person': {
-    title: 'Pick a person',
-    body: 'Now tap Leonardo DiCaprio to continue the chain.',
-  },
-  'pick-target': {
-    title: 'Almost there!',
-    body: 'Tap Inception — the target film — to complete the chain.',
-  },
-};
+function getCoach(phase: CoachPhase): { title: string; body: string } {
+  switch (phase) {
+    case 'goal':
+      return { title: i18n.t('onboarding.goalTitle'), body: i18n.t('onboarding.goalBody') };
+    case 'pick-film':
+      return { title: i18n.t('onboarding.pickFilmTitle'), body: i18n.t('onboarding.pickFilmBody', { filmName: 'Django Unchained' }) };
+    case 'pick-person':
+      return { title: i18n.t('onboarding.pickPersonTitle'), body: i18n.t('onboarding.pickPersonBody', { personName: 'Leonardo DiCaprio' }) };
+    case 'pick-target':
+      return { title: i18n.t('onboarding.pickTargetTitle'), body: i18n.t('onboarding.pickTargetBody', { filmName: 'Inception' }) };
+  }
+}
 
 // ── Helper: flatten model lists to CreditsList row shape ───────────────
 
@@ -223,7 +218,7 @@ export default function OnboardingScreen() {
     return toCredits([...m.crew, ...m.cast], false);
   }, [currentItem, isActor]);
 
-  const coach = COACH[phase];
+  const coach = getCoach(phase);
 
   const currentName = currentItem
     ? isActor
@@ -235,7 +230,7 @@ export default function OnboardingScreen() {
 
   // ── Loading / error states ───────────────────────────────────────────
 
-  if (loading) return <Loading label="Preparing tutorial…" />;
+  if (loading) return <Loading label={i18n.t('onboarding.preparing')} />;
 
   if (fetchError || !startActor) {
     return (
@@ -243,13 +238,13 @@ export default function OnboardingScreen() {
         <View style={styles.errorCenter}>
           <Icon name="warning" size={40} color={colors.gold} />
           <Text style={[type.titleHero, { color: colors.textPrimary, marginTop: 16, textAlign: 'center' }]}>
-            Couldn't load tutorial
+            {i18n.t('onboarding.errorTitle')}
           </Text>
           <Text style={[type.body, { color: colors.textSecondary, marginTop: 8, textAlign: 'center' }]}>
-            Check your connection and try again.
+            {i18n.t('onboarding.errorBody')}
           </Text>
           <View style={{ marginTop: 24, width: '100%' }}>
-            <BrassButton label="Skip for now" onPress={finish} />
+            <BrassButton label={i18n.t('onboarding.skipForNow')} onPress={finish} />
           </View>
         </View>
       </View>
@@ -269,9 +264,9 @@ export default function OnboardingScreen() {
           hitSlop={8}
           style={styles.navButton}
           accessibilityRole="button"
-          accessibilityLabel={openedFromApp ? 'Go back' : 'Skip tutorial'}
+          accessibilityLabel={openedFromApp ? i18n.t('onboarding.goBackA11y') : i18n.t('onboarding.skipA11y')}
         >
-          <TextButton label={openedFromApp ? 'Back' : 'Skip'} onPress={finish} />
+          <TextButton label={openedFromApp ? i18n.t('onboarding.back') : i18n.t('onboarding.skip')} onPress={finish} />
         </Pressable>
       </View>
 
@@ -284,13 +279,13 @@ export default function OnboardingScreen() {
 
       {/* Path tracker */}
       <View style={styles.pathHeader}>
-        <SectionLabel>Your path</SectionLabel>
+        <SectionLabel>{i18n.t('onboarding.yourPath')}</SectionLabel>
       </View>
       <PathTracker path={path} targetPoster={TUTORIAL.targetPoster} />
       <Text style={styles.currentLine} numberOfLines={1} maxFontSizeMultiplier={1.5}>
         <Text style={styles.currentName} maxFontSizeMultiplier={1.5}>{currentName}</Text>
         <Text style={styles.currentHint} maxFontSizeMultiplier={1.5}>
-          {isActor ? '  —  pick a film' : '  —  pick a person'}
+          {'  —  '}{isActor ? i18n.t('onboarding.pickFilm') : i18n.t('onboarding.pickPerson')}
         </Text>
       </Text>
 
@@ -300,7 +295,7 @@ export default function OnboardingScreen() {
         <Text style={styles.coachBody}>{coach.body}</Text>
         {phase === 'goal' && (
           <View style={{ marginTop: 12 }}>
-            <BrassButton label="Let's go" onPress={() => setPhase('pick-film')} />
+            <BrassButton label={i18n.t('onboarding.letsGo')} onPress={() => setPhase('pick-film')} />
           </View>
         )}
       </View>
