@@ -86,7 +86,7 @@
     "networkRequests": "Netwerkverzoeken",
     "networkRequestsBody": "Voor het spel stuurt de app alleen-lezen HTTPS-verzoeken vanaf je apparaat naar The Movie Database (TMDB). TMDB kan je IP-adres en technische verzoekgegevens ontvangen. Kinochain beheert geen tussenliggende server en ontvangt of bewaart deze informatie niet.",
     "analytics": "Analyse en tracking",
-    "analyticsBody": "Kinochain bevat geen analyse-, crashrapportage-, reclame- of tracking-SDK's en gebruikt verzoekgegevens niet voor reclame of tracking.",
+    "analyticsBody": "Kinochain gebruikt Aptabase, een open source en privacyvriendelijke analysedienst, om anonieme, geaggregeerde gebruiksstatistieken te verzamelen — bijvoorbeeld het openen van de app en of een spel is voltooid. Deze informatie is niet aan je identiteit gekoppeld, bevat geen persoonsgegevens of advertentie-identificatoren, wordt nooit gebruikt om je tussen apps te volgen en wordt nooit verkocht. Kinochain bevat geen reclame- of crashrapportage-SDK's.",
     "localStorage": "Lokale opslag",
     "localStorageBody": "De app slaat een kleine markering op je apparaat op om te onthouden of je de tutorial hebt voltooid. Deze gegevens verlaten nooit je apparaat.",
     "tmdb": "The Movie Database",

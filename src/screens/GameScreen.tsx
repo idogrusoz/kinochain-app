@@ -25,6 +25,7 @@ import {
   fetchActorDetails,
 } from '../services/gameService';
 import { hapticLight } from '../services/settings';
+import { track } from '../services/analytics';
 import NetInfo from '@react-native-community/netinfo';
 import { CreditsList } from '../components/CreditsList';
 import { TargetBanner, TargetHint } from '../components/game/TargetBanner';
@@ -150,9 +151,11 @@ export default function GameScreen() {
         { kind: 'actor', id: ng.starting.id, name: ng.starting.name, poster: ng.starting.poster },
       ]);
       setSeconds(0);
+      track('game_started', { difficulty });
       loadTargetHint(ng.target.id);
     } catch (e) {
       console.error('Error starting new game:', e);
+      track('game_error', { kind: e instanceof TmdbError ? e.kind : 'unknown', where: 'start' });
       setError(errorInfo(e));
     } finally {
       setLoading(false);
@@ -230,6 +233,7 @@ export default function GameScreen() {
       }
     } catch (e) {
       console.error('Error fetching details:', e);
+      track('game_error', { kind: e instanceof TmdbError ? e.kind : 'unknown', where: 'select' });
       setError({ ...errorInfo(e), retry: () => handleCreditSelect(creditId) });
     }
   };
@@ -289,7 +293,10 @@ export default function GameScreen() {
         hintLoading={hintLoading}
         hintError={hintError}
         onRetryHint={() => loadTargetHint(game.target.id)}
-        onHintRevealed={() => setHintUsed(true)}
+        onHintRevealed={() => {
+          setHintUsed(true);
+          track('hint_revealed');
+        }}
       />
 
       <View style={styles.pathHeader}>

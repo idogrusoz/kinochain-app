@@ -86,7 +86,7 @@
     "networkRequests": "Network Requests",
     "networkRequestsBody": "To provide gameplay, the app sends read-only HTTPS requests directly from your device to The Movie Database (TMDB). TMDB may receive your IP address and technical request information when processing these requests. Kinochain does not operate an intermediary server and does not receive or store this information.",
     "analytics": "Analytics & Tracking",
-    "analyticsBody": "Kinochain does not include analytics, crash-reporting, advertising, or tracking SDKs and does not use request information for advertising or tracking.",
+    "analyticsBody": "Kinochain uses Aptabase, an open-source, privacy-friendly analytics service, to collect anonymous, aggregate usage statistics — for example app opens and whether a game is completed. This information is not linked to your identity, contains no personal data or advertising identifiers, is never used to track you across apps, and is never sold. Kinochain contains no advertising or crash-reporting SDKs.",
     "localStorage": "Local Storage",
     "localStorageBody": "The app stores a small onboarding flag on your device to remember whether you have completed the tutorial. This data never leaves your device.",
     "tmdb": "The Movie Database",

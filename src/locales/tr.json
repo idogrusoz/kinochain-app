@@ -86,7 +86,7 @@
     "networkRequests": "Ağ İstekleri",
     "networkRequestsBody": "Oyun için uygulama, cihazından The Movie Database'e (TMDB) salt okunur HTTPS istekleri gönderir. TMDB, IP adresini ve teknik istek bilgilerini alabilir. Kinochain bir ara sunucu işletmez ve bu bilgileri almaz veya saklamaz.",
     "analytics": "Analiz ve İzleme",
-    "analyticsBody": "Kinochain herhangi bir analiz, çökme raporu, reklam veya izleme SDK'sı içermez ve istek bilgilerini reklam veya izleme amacıyla kullanmaz.",
+    "analyticsBody": "Kinochain, anonim ve toplu kullanım istatistikleri toplamak için açık kaynaklı, gizliliğe saygılı bir analiz hizmeti olan Aptabase'i kullanır — örneğin uygulama açılışları ve bir oyunun tamamlanıp tamamlanmadığı. Bu bilgiler kimliğinizle ilişkilendirilmez, hiçbir kişisel veri veya reklam tanımlayıcısı içermez, uygulamalar arası takip için asla kullanılmaz ve asla satılmaz. Kinochain hiçbir reklam veya çökme raporlama SDK'sı içermez.",
     "localStorage": "Yerel Depolama",
     "localStorageBody": "Uygulama, eğitimi tamamlayıp tamamlamadığını hatırlamak için cihazında küçük bir işaretçi saklar. Bu veriler asla cihazını terk etmez.",
     "tmdb": "The Movie Database",

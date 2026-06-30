@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Share, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { hapticLight, hapticMedium } from '../services/settings';
+import { track } from '../services/analytics';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { BrassButton } from '../components/ui/BrassButton';
@@ -134,6 +135,14 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
   const startName = chain[0]?.name ?? '';
   const showNoHintBadge = !fromTutorial && !hintUsed;
 
+  useEffect(() => {
+    if (fromTutorial) {
+      track('tutorial_completed');
+    } else {
+      track('game_won', { moves, seconds, hintUsed: !!hintUsed });
+    }
+  }, []);
+
   // Phase animation values
   const bulbAnims = useRef(Array.from({ length: 7 }, () => new Animated.Value(0))).current;
   const titleScale = useRef(new Animated.Value(0.85)).current;
@@ -263,8 +272,14 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
     return lines.join('\n');
   };
 
-  const onShare = () => {
-    Share.share({ message: buildShareMessage() }).catch(() => {});
+  const onShare = async () => {
+    track('share_tapped');
+    try {
+      const result = await Share.share({ message: buildShareMessage() });
+      track('share_completed', { shared: result.action === Share.sharedAction });
+    } catch {
+      // user dismissed or share unavailable — nothing to do
+    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback } from 'react';
+import React, { Suspense, useCallback, useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,8 +25,10 @@ import AboutScreen from './src/screens/AboutScreen';
 import PrivacyScreen from './src/screens/PrivacyScreen';
 import { theme } from './theme';
 import { MovieSummaryModel, ChainNode, Difficulty } from './types';
+import { initAnalytics, track } from './src/services/analytics';
 
 ExpoSplashScreen.preventAutoHideAsync();
+initAnalytics();
 
 // Navigation stack: Splash routes to Onboarding (first run) or Welcome; Welcome
 // starts a Game; finishing a Game shows Winning.
@@ -58,6 +60,10 @@ const App = () => {
     Inter_500Medium,
     Inter_600SemiBold,
   });
+
+  useEffect(() => {
+    track('app_open');
+  }, []);
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {

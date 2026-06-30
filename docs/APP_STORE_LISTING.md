@@ -63,15 +63,19 @@ Rated 4+ (no objectionable content, no web access for user-generated content, no
 
 ## App Store Privacy (Nutrition Label)
 
-**Data Not Collected**
-This app does not collect any data from users.
+**Data collected: Usage Data + Diagnostics — "Not Linked to You", "Not Used for Tracking"**
+Kinochain collects only anonymous, aggregate analytics (via Aptabase). No account, no personal data, no advertising identifiers, and nothing is used to track you across apps or sold.
+
+App Store Connect data-type declarations:
+- **Usage Data → Product Interaction** — anonymous events (app opens, game started/completed, hint used, share tapped). Linked to you: **No**. Used for tracking: **No**.
+- **Diagnostics → Other Diagnostic Data** — anonymous error events. Linked to you: **No**. Used for tracking: **No**.
 
 Details:
 - No accounts or login
-- No analytics or crash reporting
-- No advertising identifiers
+- Anonymous, aggregate analytics via Aptabase (open-source, privacy-friendly); no advertising or cross-app tracking SDKs, no crash-reporting SDK
+- No advertising identifiers (IDFA)
 - No location, contacts, or photos access
-- Only network calls are to TMDB (read-only public movie data API)
+- Network calls go to TMDB (read-only public movie data API) and to Aptabase (anonymous analytics events)
 - AsyncStorage used locally for onboarding flag and difficulty preference only — never transmitted
 
 ## Export Compliance
