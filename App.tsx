@@ -37,7 +37,12 @@ export type RootStackParamList = {
   Splash: undefined;
   Onboarding: undefined;
   Welcome: undefined;
-  Game: { difficulty?: Difficulty } | undefined;
+  Game:
+    | {
+        difficulty?: Difficulty;
+        daily?: { dayNumber: number; startActorId: number; targetMovieId: number };
+      }
+    | undefined;
   Winning: {
     targetMovie: MovieSummaryModel;
     moves: number;
@@ -45,6 +50,7 @@ export type RootStackParamList = {
     chain: ChainNode[];
     fromTutorial?: boolean;
     hintUsed?: boolean;
+    dailyNumber?: number;
   };
   About: undefined;
   Privacy: undefined;

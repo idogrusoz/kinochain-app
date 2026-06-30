@@ -4,6 +4,10 @@
     "poweredBy": "DESENVOLVIDO POR"
   },
   "welcome": {
+    "streak": "Sequência",
+    "played": "Jogos",
+    "best": "Melhor",
+    "freePlay": "Jogo livre",
     "stats": "Estatísticas",
     "about": "Sobre",
     "subtitle": "Conecte o ator inicial ao filme alvo no menor número de movimentos.",
@@ -121,6 +125,14 @@
     "noHintWins": "Vitórias sem dica",
     "abandoned": "Abandonados",
     "empty": "Joga o teu primeiro jogo para começar a registar as tuas estatísticas."
+  },
+  "daily": {
+    "label": "Diário",
+    "title": "Kinochain de hoje",
+    "tagline": "Uma nova cadeia de filmes todos os dias.",
+    "play": "Jogar o puzzle de hoje",
+    "solved": "Resolvido em %{n} movimentos",
+    "comeBack": "Novo puzzle amanhã"
   },
   "target": {
     "label": "Alvo",

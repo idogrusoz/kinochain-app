@@ -4,6 +4,10 @@
     "poweredBy": "POWERED BY"
   },
   "welcome": {
+    "streak": "Streak",
+    "played": "Played",
+    "best": "Best",
+    "freePlay": "Free play",
     "stats": "Stats",
     "about": "About",
     "subtitle": "Link the starting actor to the target film in as few moves as you can.",
@@ -121,6 +125,14 @@
     "noHintWins": "Hint-free wins",
     "abandoned": "Abandoned",
     "empty": "Play your first game to start tracking your stats."
+  },
+  "daily": {
+    "label": "Daily",
+    "title": "Today's Kinochain",
+    "tagline": "A new movie chain every day.",
+    "play": "Play today's puzzle",
+    "solved": "Solved in %{n} moves",
+    "comeBack": "New puzzle tomorrow"
   },
   "target": {
     "label": "Target",

@@ -4,6 +4,10 @@
     "poweredBy": "PROPULSÉ PAR"
   },
   "welcome": {
+    "streak": "Série",
+    "played": "Jouées",
+    "best": "Record",
+    "freePlay": "Partie libre",
     "stats": "Statistiques",
     "about": "À propos",
     "subtitle": "Reliez l'acteur de départ au film cible en un minimum de coups.",
@@ -121,6 +125,14 @@
     "noHintWins": "Victoires sans indice",
     "abandoned": "Abandonnées",
     "empty": "Joue ta première partie pour commencer à suivre tes statistiques."
+  },
+  "daily": {
+    "label": "Quotidien",
+    "title": "Le Kinochain du jour",
+    "tagline": "Une nouvelle chaîne de films chaque jour.",
+    "play": "Jouer le puzzle du jour",
+    "solved": "Résolu en %{n} coups",
+    "comeBack": "Nouveau puzzle demain"
   },
   "target": {
     "label": "Cible",

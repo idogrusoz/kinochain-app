@@ -4,6 +4,10 @@
     "poweredBy": "UNTERSTÜTZT VON"
   },
   "welcome": {
+    "streak": "Serie",
+    "played": "Gespielt",
+    "best": "Bestwert",
+    "freePlay": "Freies Spiel",
     "stats": "Statistiken",
     "about": "Über",
     "subtitle": "Verbinde den Startschauspieler mit dem Zielfilm in möglichst wenigen Zügen.",
@@ -121,6 +125,14 @@
     "noHintWins": "Siege ohne Tipp",
     "abandoned": "Abgebrochen",
     "empty": "Spiele dein erstes Spiel, um deine Statistiken zu erfassen."
+  },
+  "daily": {
+    "label": "Täglich",
+    "title": "Kinochain des Tages",
+    "tagline": "Jeden Tag eine neue Filmkette.",
+    "play": "Heutiges Rätsel spielen",
+    "solved": "In %{n} Zügen gelöst",
+    "comeBack": "Morgen ein neues Rätsel"
   },
   "target": {
     "label": "Ziel",

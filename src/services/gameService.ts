@@ -1,5 +1,5 @@
 import { ActorModel, Game, MovieDetailsModel, Difficulty } from '../../types';
-import { createGame } from './tmdb/gameService';
+import { createGame, createDailyGame } from './tmdb/gameService';
 import { getMovieDetails } from './tmdb/movieService';
 import { getActorDetails } from './tmdb/actorService';
 
@@ -9,6 +9,11 @@ import { getActorDetails } from './tmdb/actorService';
 export const startNewGame = async (
   difficulty: Difficulty = 'medium'
 ): Promise<Game> => createGame(difficulty);
+
+export const startDailyGame = async (
+  startActorId: number,
+  targetMovieId: number
+): Promise<Game> => createDailyGame(startActorId, targetMovieId);
 
 export const fetchMovieDetails = async (
   movieId: number

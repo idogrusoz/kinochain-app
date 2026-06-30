@@ -4,6 +4,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { hapticLight, hapticMedium } from '../services/settings';
 import { track } from '../services/analytics';
 import { recordWin } from '../services/stats';
+import { markDailyCompleted } from '../services/dailies';
+import { buildChainCard } from '../services/share';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { BrassButton } from '../components/ui/BrassButton';
@@ -16,10 +18,6 @@ import { colors, fonts, radius, type, spacing } from '../../theme';
 import i18n from '../i18n/i18n';
 
 export type WinningScreenProps = StackScreenProps<RootStackParamList, 'Winning'>;
-
-// Install destination appended to the share. Empty until a real App Store /
-// landing URL exists — set this one constant to switch the link on everywhere.
-const SHARE_URL = '';
 
 // ── Phase timing constants ─────────────────────────────────────────────
 const P1_START = 0;       // marquee dots
@@ -133,7 +131,7 @@ function Shimmer({ delay }: { delay: number }) {
 // ── Main screen ────────────────────────────────────────────────────────
 
 export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation }) => {
-  const { targetMovie, moves, seconds, chain, fromTutorial, hintUsed } = route.params;
+  const { targetMovie, moves, seconds, chain, fromTutorial, hintUsed, dailyNumber } = route.params;
   const startName = chain[0]?.name ?? '';
   const showNoHintBadge = !fromTutorial && !hintUsed;
   const [streak, setStreak] = useState<number | null>(null);
@@ -147,10 +145,13 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
       track('tutorial_completed');
       return;
     }
-    track('game_won', { moves, seconds, hintUsed: !!hintUsed });
+    track('game_won', { moves, seconds, hintUsed: !!hintUsed, daily: dailyNumber != null });
     recordWin({ moves, hintUsed: !!hintUsed })
       .then((s) => setStreak(s.currentStreak))
       .catch(() => {});
+    if (dailyNumber != null) {
+      markDailyCompleted(dailyNumber, { moves, seconds, hintUsed: !!hintUsed });
+    }
   }, []);
 
   // Phase animation values
@@ -258,34 +259,19 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
     });
   }, []);
 
-  // Spoiler-free "Chain Card": brand + endpoints (the puzzle's givens), an
-  // emoji shape conveying chain length without naming the hidden steps
-  // (⭐ actor · 🎬 film · 🏁 target reached), the result, and a CTA. The
-  // install link is appended only when SHARE_URL is set.
-  const buildShareMessage = (): string => {
-    const grid = chain
-      .map((n, i) => (i === chain.length - 1 ? '🏁' : n.kind === 'actor' ? '⭐' : '🎬'))
-      .join('');
-    const solved =
-      i18n.t('winning.shareSolved', { moves: String(moves), time: formatTime(seconds) }) +
-      (hintUsed ? '' : ` · 🧠 ${i18n.t('winning.shareNoHint')}`);
-    const lines = [
-      'KINOCHAIN 🎬',
-      i18n.t('winning.shareLinked', { from: startName, to: targetMovie.title }),
-      '',
-      grid,
-      solved,
-    ];
-    if (showStreakBadge) lines.push(`🔥 ${i18n.t('winning.streak', { n: String(streak) })}`);
-    lines.push('', i18n.t('winning.shareCta'));
-    if (SHARE_URL) lines.push(SHARE_URL);
-    return lines.join('\n');
-  };
-
   const onShare = async () => {
-    track('share_tapped');
+    track('share_tapped', { daily: dailyNumber != null });
     try {
-      const result = await Share.share({ message: buildShareMessage() });
+      const message = buildChainCard({
+        dayNumber: dailyNumber,
+        startName,
+        targetTitle: targetMovie.title,
+        moves,
+        seconds,
+        hintUsed: !!hintUsed,
+        streak,
+      });
+      const result = await Share.share({ message });
       track('share_completed', { shared: result.action === Share.sharedAction });
     } catch {
       // user dismissed or share unavailable — nothing to do
@@ -345,6 +331,16 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
           ]}
         />
       </View>
+
+      {/* Daily eyebrow */}
+      {dailyNumber != null && (
+        <Animated.View style={[styles.dailyEyebrow, { opacity: subtitleOpacity }]}>
+          <Icon name="daily" size={12} color={colors.gold} />
+          <Text style={styles.dailyEyebrowText} maxFontSizeMultiplier={1.4}>
+            KINOCHAIN #{dailyNumber}
+          </Text>
+        </Animated.View>
+      )}
 
       {/* Subtitle */}
       <Animated.Text style={[styles.subtitle, { opacity: subtitleOpacity }]} maxFontSizeMultiplier={1.5}>
@@ -446,6 +442,8 @@ const styles = StyleSheet.create({
   shimmerGradient: { flex: 1 },
   goldLineContainer: { alignItems: 'center', marginTop: 6, marginBottom: 4 },
   goldLine: { height: 1, backgroundColor: colors.gold },
+  dailyEyebrow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 8 },
+  dailyEyebrowText: { fontFamily: fonts.text.semibold, fontSize: 11, letterSpacing: 1.2, color: colors.gold },
   subtitle: {
     fontFamily: fonts.text.regular,
     fontSize: 12,

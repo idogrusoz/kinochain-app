@@ -21,6 +21,7 @@ import {
 } from '../../types';
 import {
   startNewGame,
+  startDailyGame,
   fetchMovieDetails,
   fetchActorDetails,
 } from '../services/gameService';
@@ -93,6 +94,7 @@ export default function GameScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'Game'>>();
   const difficulty: Difficulty = route.params?.difficulty ?? 'medium';
+  const daily = route.params?.daily;
   const [game, setGame] = useState<Game | null>(null);
   const [currentItem, setCurrentItem] = useState<
     ActorModel | MovieDetailsModel | null
@@ -153,7 +155,9 @@ export default function GameScreen() {
     wonRef.current = false;
     try {
       await ensureOnline();
-      const ng = await startNewGame(difficulty);
+      const ng = daily
+        ? await startDailyGame(daily.startActorId, daily.targetMovieId)
+        : await startNewGame(difficulty);
       setGame(ng);
       setCurrentItem(ng.starting);
       setCredits(ng.starting.combinedCredits);
@@ -162,7 +166,7 @@ export default function GameScreen() {
         { kind: 'actor', id: ng.starting.id, name: ng.starting.name, poster: ng.starting.poster },
       ]);
       setSeconds(0);
-      track('game_started', { difficulty });
+      track('game_started', daily ? { mode: 'daily', dayNumber: daily.dayNumber } : { mode: 'free', difficulty });
       loadTargetHint(ng.target.id);
     } catch (e) {
       console.error('Error starting new game:', e);
@@ -171,7 +175,7 @@ export default function GameScreen() {
     } finally {
       setLoading(false);
     }
-  }, [difficulty, loadTargetHint]);
+  }, [difficulty, daily, loadTargetHint]);
 
   useFocusEffect(
     useCallback(() => {
@@ -242,6 +246,7 @@ export default function GameScreen() {
             seconds,
             chain: finalChain,
             hintUsed,
+            dailyNumber: daily?.dayNumber,
           });
           return;
         }

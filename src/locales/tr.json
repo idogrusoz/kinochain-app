@@ -4,6 +4,10 @@
     "poweredBy": "DESTEKLEYEN"
   },
   "welcome": {
+    "streak": "Seri",
+    "played": "Oynanan",
+    "best": "En iyi",
+    "freePlay": "Serbest oyun",
     "stats": "İstatistikler",
     "about": "Hakkında",
     "subtitle": "Başlangıç oyuncusunu hedef filme mümkün olduğunca az hamleyle bağla.",
@@ -121,6 +125,14 @@
     "noHintWins": "İpucusuz galibiyetler",
     "abandoned": "Yarıda bırakılan",
     "empty": "İstatistiklerini izlemeye başlamak için ilk oyununu oyna."
+  },
+  "daily": {
+    "label": "Günlük",
+    "title": "Bugünün Kinochain'i",
+    "tagline": "Her gün yeni bir film zinciri.",
+    "play": "Bugünün bulmacasını oyna",
+    "solved": "%{n} hamlede çözüldü",
+    "comeBack": "Yarın yeni bulmaca"
   },
   "target": {
     "label": "Hedef",

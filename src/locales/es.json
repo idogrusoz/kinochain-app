@@ -4,6 +4,10 @@
     "poweredBy": "IMPULSADO POR"
   },
   "welcome": {
+    "streak": "Racha",
+    "played": "Jugadas",
+    "best": "Mejor",
+    "freePlay": "Juego libre",
     "stats": "Estadísticas",
     "about": "Acerca de",
     "subtitle": "Conecta al actor inicial con la película objetivo en la menor cantidad de movimientos.",
@@ -121,6 +125,14 @@
     "noHintWins": "Victorias sin pista",
     "abandoned": "Abandonadas",
     "empty": "Juega tu primera partida para empezar a registrar tus estadísticas."
+  },
+  "daily": {
+    "label": "Diario",
+    "title": "Kinochain de hoy",
+    "tagline": "Una nueva cadena de películas cada día.",
+    "play": "Jugar el puzzle de hoy",
+    "solved": "Resuelto en %{n} movimientos",
+    "comeBack": "Nuevo puzzle mañana"
   },
   "target": {
     "label": "Objetivo",
