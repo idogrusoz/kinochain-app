@@ -39,6 +39,14 @@ function dayDiff(a: string, b: string): number {
   return Math.round((db - da) / 86_400_000);
 }
 
+// The stored currentStreak only updates on a win, so it can be stale when
+// viewed later. A streak is still "alive" only if the last game was today or
+// yesterday; otherwise the effective current streak is 0.
+export function currentStreakAsOf(stats: Stats, now: Date = new Date()): number {
+  if (!stats.lastPlayedDay) return 0;
+  return dayDiff(stats.lastPlayedDay, dayKey(now)) <= 1 ? stats.currentStreak : 0;
+}
+
 export async function loadStats(): Promise<Stats> {
   try {
     const raw = await AsyncStorage.getItem(KEY);

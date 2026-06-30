@@ -52,6 +52,15 @@ export default function WelcomeScreen() {
         <Pressable
           style={styles.topBarButton}
           hitSlop={8}
+          onPress={() => navigation.navigate('Stats')}
+          accessibilityRole="button"
+          accessibilityLabel={i18n.t('welcome.stats')}
+        >
+          <Icon name="stats" size={21} color={colors.textSecondary} />
+        </Pressable>
+        <Pressable
+          style={styles.topBarButton}
+          hitSlop={8}
           onPress={() => navigation.navigate('About')}
           accessibilityRole="button"
           accessibilityLabel={i18n.t('welcome.about')}
@@ -146,7 +155,7 @@ const motif = StyleSheet.create({
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background, paddingHorizontal: spacing.screen },
-  topBar: { flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', paddingVertical: 4, zIndex: 1 },
+  topBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 4, zIndex: 1 },
   topBarButton: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
   heroRegion: { flex: 1, justifyContent: 'center' },
   heroContent: { transform: [{ translateY: -52 }] },

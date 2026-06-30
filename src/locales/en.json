@@ -4,6 +4,7 @@
     "poweredBy": "POWERED BY"
   },
   "welcome": {
+    "stats": "Stats",
     "about": "About",
     "subtitle": "Link the starting actor to the target film in as few moves as you can.",
     "difficulty": "Difficulty",
@@ -109,6 +110,16 @@
   },
   "chain": {
     "targetReached": "Target reached"
+  },
+  "stats": {
+    "title": "Stats",
+    "goBack": "Go back",
+    "currentStreak": "Current streak",
+    "gamesPlayed": "Games played",
+    "longestStreak": "Longest streak",
+    "bestMoves": "Fewest moves",
+    "noHintWins": "Hint-free wins",
+    "empty": "Play your first game to start tracking your stats."
   },
   "target": {
     "label": "Target",

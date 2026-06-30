@@ -4,6 +4,7 @@
     "poweredBy": "UNTERSTÜTZT VON"
   },
   "welcome": {
+    "stats": "Statistiken",
     "about": "Über",
     "subtitle": "Verbinde den Startschauspieler mit dem Zielfilm in möglichst wenigen Zügen.",
     "difficulty": "Schwierigkeit",
@@ -109,6 +110,16 @@
   },
   "chain": {
     "targetReached": "Ziel erreicht"
+  },
+  "stats": {
+    "title": "Statistiken",
+    "goBack": "Zurück",
+    "currentStreak": "Aktuelle Serie",
+    "gamesPlayed": "Gespielte Spiele",
+    "longestStreak": "Längste Serie",
+    "bestMoves": "Wenigste Züge",
+    "noHintWins": "Siege ohne Tipp",
+    "empty": "Spiele dein erstes Spiel, um deine Statistiken zu erfassen."
   },
   "target": {
     "label": "Ziel",

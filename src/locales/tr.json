@@ -4,6 +4,7 @@
     "poweredBy": "DESTEKLEYEN"
   },
   "welcome": {
+    "stats": "İstatistikler",
     "about": "Hakkında",
     "subtitle": "Başlangıç oyuncusunu hedef filme mümkün olduğunca az hamleyle bağla.",
     "difficulty": "Zorluk",
@@ -109,6 +110,16 @@
   },
   "chain": {
     "targetReached": "Hedefe ulaşıldı"
+  },
+  "stats": {
+    "title": "İstatistikler",
+    "goBack": "Geri",
+    "currentStreak": "Güncel seri",
+    "gamesPlayed": "Oynanan oyunlar",
+    "longestStreak": "En uzun seri",
+    "bestMoves": "En az hamle",
+    "noHintWins": "İpucusuz galibiyetler",
+    "empty": "İstatistiklerini izlemeye başlamak için ilk oyununu oyna."
   },
   "target": {
     "label": "Hedef",

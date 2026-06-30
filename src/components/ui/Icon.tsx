@@ -18,6 +18,7 @@ const MAP = {
   flag: 'flag',
   hint: 'bulb-outline',
   daily: 'calendar-outline',
+  stats: 'stats-chart-outline',
   flame: 'flame',
   share: 'share-outline',
   play: 'play',

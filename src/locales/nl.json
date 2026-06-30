@@ -4,6 +4,7 @@
     "poweredBy": "MOGELIJK GEMAAKT DOOR"
   },
   "welcome": {
+    "stats": "Statistieken",
     "about": "Over",
     "subtitle": "Verbind de startacteur met de doelfilm in zo min mogelijk zetten.",
     "difficulty": "Moeilijkheid",
@@ -109,6 +110,16 @@
   },
   "chain": {
     "targetReached": "Doel bereikt"
+  },
+  "stats": {
+    "title": "Statistieken",
+    "goBack": "Terug",
+    "currentStreak": "Huidige reeks",
+    "gamesPlayed": "Gespeelde spellen",
+    "longestStreak": "Langste reeks",
+    "bestMoves": "Minste zetten",
+    "noHintWins": "Overwinningen zonder hint",
+    "empty": "Speel je eerste spel om je statistieken bij te houden."
   },
   "target": {
     "label": "Doel",

@@ -4,6 +4,7 @@
     "poweredBy": "DESENVOLVIDO POR"
   },
   "welcome": {
+    "stats": "Estatísticas",
     "about": "Sobre",
     "subtitle": "Conecte o ator inicial ao filme alvo no menor número de movimentos.",
     "difficulty": "Dificuldade",
@@ -109,6 +110,16 @@
   },
   "chain": {
     "targetReached": "Alvo alcançado"
+  },
+  "stats": {
+    "title": "Estatísticas",
+    "goBack": "Voltar",
+    "currentStreak": "Sequência atual",
+    "gamesPlayed": "Jogos jogados",
+    "longestStreak": "Melhor sequência",
+    "bestMoves": "Menos movimentos",
+    "noHintWins": "Vitórias sem dica",
+    "empty": "Joga o teu primeiro jogo para começar a registar as tuas estatísticas."
   },
   "target": {
     "label": "Alvo",

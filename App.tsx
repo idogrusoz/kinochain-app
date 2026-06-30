@@ -23,6 +23,7 @@ import GameScreen from './src/screens/GameScreen';
 import { WinningScreen } from './src/screens/WinningScreen';
 import AboutScreen from './src/screens/AboutScreen';
 import PrivacyScreen from './src/screens/PrivacyScreen';
+import StatsScreen from './src/screens/StatsScreen';
 import { theme } from './theme';
 import { MovieSummaryModel, ChainNode, Difficulty } from './types';
 import { initAnalytics, track } from './src/services/analytics';
@@ -47,6 +48,7 @@ export type RootStackParamList = {
   };
   About: undefined;
   Privacy: undefined;
+  Stats: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -93,6 +95,7 @@ const App = () => {
                 <Stack.Screen name='Winning' component={WinningScreen} />
                 <Stack.Screen name='About' component={AboutScreen} />
                 <Stack.Screen name='Privacy' component={PrivacyScreen} />
+                <Stack.Screen name='Stats' component={StatsScreen} />
               </Stack.Navigator>
             </NavigationContainer>
           </PaperProvider>

@@ -4,6 +4,7 @@
     "poweredBy": "PROPULSÉ PAR"
   },
   "welcome": {
+    "stats": "Statistiques",
     "about": "À propos",
     "subtitle": "Reliez l'acteur de départ au film cible en un minimum de coups.",
     "difficulty": "Difficulté",
@@ -109,6 +110,16 @@
   },
   "chain": {
     "targetReached": "Cible atteinte"
+  },
+  "stats": {
+    "title": "Statistiques",
+    "goBack": "Retour",
+    "currentStreak": "Série en cours",
+    "gamesPlayed": "Parties jouées",
+    "longestStreak": "Meilleure série",
+    "bestMoves": "Moins de coups",
+    "noHintWins": "Victoires sans indice",
+    "empty": "Joue ta première partie pour commencer à suivre tes statistiques."
   },
   "target": {
     "label": "Cible",

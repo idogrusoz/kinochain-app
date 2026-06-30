@@ -4,6 +4,7 @@
     "poweredBy": "IMPULSADO POR"
   },
   "welcome": {
+    "stats": "Estadísticas",
     "about": "Acerca de",
     "subtitle": "Conecta al actor inicial con la película objetivo en la menor cantidad de movimientos.",
     "difficulty": "Dificultad",
@@ -109,6 +110,16 @@
   },
   "chain": {
     "targetReached": "Objetivo alcanzado"
+  },
+  "stats": {
+    "title": "Estadísticas",
+    "goBack": "Atrás",
+    "currentStreak": "Racha actual",
+    "gamesPlayed": "Partidas jugadas",
+    "longestStreak": "Mejor racha",
+    "bestMoves": "Menos movimientos",
+    "noHintWins": "Victorias sin pista",
+    "empty": "Juega tu primera partida para empezar a registrar tus estadísticas."
   },
   "target": {
     "label": "Objetivo",

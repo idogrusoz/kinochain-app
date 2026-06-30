@@ -4,6 +4,7 @@
     "poweredBy": "مدعوم من"
   },
   "welcome": {
+    "stats": "الإحصاءات",
     "about": "حول",
     "subtitle": "اربط الممثل بالفيلم المستهدف بأقل عدد من الحركات.",
     "difficulty": "الصعوبة",
@@ -109,6 +110,16 @@
   },
   "chain": {
     "targetReached": "تم الوصول للهدف"
+  },
+  "stats": {
+    "title": "الإحصاءات",
+    "goBack": "رجوع",
+    "currentStreak": "السلسلة الحالية",
+    "gamesPlayed": "الألعاب الملعوبة",
+    "longestStreak": "أطول سلسلة",
+    "bestMoves": "أقل عدد حركات",
+    "noHintWins": "انتصارات بدون تلميح",
+    "empty": "العب أول لعبة لك لبدء تتبع إحصاءاتك."
   },
   "target": {
     "label": "الهدف",
