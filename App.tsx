@@ -41,6 +41,7 @@ export type RootStackParamList = {
     seconds: number;
     chain: ChainNode[];
     fromTutorial?: boolean;
+    hintUsed?: boolean;
   };
   About: undefined;
   Privacy: undefined;

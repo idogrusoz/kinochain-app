@@ -27,7 +27,7 @@ import {
 import { hapticLight } from '../services/settings';
 import NetInfo from '@react-native-community/netinfo';
 import { CreditsList } from '../components/CreditsList';
-import { TargetBanner } from '../components/game/TargetBanner';
+import { TargetBanner, TargetHint } from '../components/game/TargetBanner';
 import { PathTracker } from '../components/game/PathTracker';
 import { Wordmark } from '../components/ui/Wordmark';
 import { Icon } from '../components/ui/Icon';
@@ -102,6 +102,10 @@ export default function GameScreen() {
   const [path, setPath] = useState<ChainNode[]>([]);
   const [seconds, setSeconds] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [targetHint, setTargetHint] = useState<TargetHint | null>(null);
+  const [hintLoading, setHintLoading] = useState(false);
+  const [hintError, setHintError] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
   const resumeAfterHelp = useRef(false);
   const [error, setError] = useState<{
     title: string;
@@ -109,9 +113,32 @@ export default function GameScreen() {
     retry?: () => void;
   } | null>(null);
 
+  // Prefetch the target film's director + top cast so the in-banner hint opens
+  // instantly. Best-effort: a failure here never blocks the game — it only
+  // surfaces a retry inside the hint panel.
+  const loadTargetHint = useCallback(async (targetId: number) => {
+    setHintLoading(true);
+    setHintError(false);
+    try {
+      const details = await fetchMovieDetails(targetId);
+      setTargetHint({
+        directors: details.crew.map((c) => ({ name: c.name, poster: c.poster })),
+        cast: details.cast.slice(0, 3).map((c) => ({ name: c.name, poster: c.poster })),
+      });
+    } catch (e) {
+      console.error('Error loading target hint:', e);
+      setHintError(true);
+    } finally {
+      setHintLoading(false);
+    }
+  }, []);
+
   const startAGame = useCallback(async () => {
     setLoading(true);
     setError(null);
+    setTargetHint(null);
+    setHintError(false);
+    setHintUsed(false);
     try {
       await ensureOnline();
       const ng = await startNewGame(difficulty);
@@ -123,13 +150,14 @@ export default function GameScreen() {
         { kind: 'actor', id: ng.starting.id, name: ng.starting.name, poster: ng.starting.poster },
       ]);
       setSeconds(0);
+      loadTargetHint(ng.target.id);
     } catch (e) {
       console.error('Error starting new game:', e);
       setError(errorInfo(e));
     } finally {
       setLoading(false);
     }
-  }, [difficulty]);
+  }, [difficulty, loadTargetHint]);
 
   useFocusEffect(
     useCallback(() => {
@@ -174,6 +202,7 @@ export default function GameScreen() {
             moves: moves + 1,
             seconds,
             chain: finalChain,
+            hintUsed,
           });
           return;
         }
@@ -256,6 +285,11 @@ export default function GameScreen() {
         title={game.target.title}
         year={targetYear}
         poster={game.target.poster}
+        hint={targetHint}
+        hintLoading={hintLoading}
+        hintError={hintError}
+        onRetryHint={() => loadTargetHint(game.target.id)}
+        onHintRevealed={() => setHintUsed(true)}
       />
 
       <View style={styles.pathHeader}>

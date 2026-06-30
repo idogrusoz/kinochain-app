@@ -55,7 +55,11 @@
     "playAgain": "Rejouer",
     "shareResult": "Partager le résultat",
     "home": "Accueil",
-    "shareText": "KINOCHAIN\n%{from} → %{to}\nRésolu en %{moves} coups · %{time}"
+    "shareLinked": "%{from} → %{to}",
+    "shareSolved": "Résolu en %{moves} coups · %{time}",
+    "shareNoHint": "sans indice",
+    "shareCta": "Peux-tu battre ma chaîne ?",
+    "noHintBadge": "Résolu sans indice"
   },
   "about": {
     "goBack": "Retour",
@@ -107,7 +111,18 @@
   },
   "target": {
     "label": "Cible",
-    "a11y": "Cible : %{title} %{year}"
+    "a11y": "Cible : %{title} %{year}",
+    "hint": {
+      "reveal": "Révéler l'indice : réalisateur et têtes d'affiche",
+      "collapse": "Masquer l'indice",
+      "describe": "Affiche le réalisateur et les acteurs principaux du film cible",
+      "revealed": "Indice révélé",
+      "director": "Réalisateur",
+      "topCast": "Têtes d'affiche",
+      "castMember": "%{name}, membre de la distribution",
+      "error": "Indice indisponible — appuyez pour réessayer",
+      "none": "Aucun détail de distribution disponible"
+    }
   },
   "credits": {
     "a11yHint": "Sélectionne ce crédit comme prochain maillon de la chaîne"

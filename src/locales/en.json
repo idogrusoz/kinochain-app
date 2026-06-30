@@ -55,7 +55,11 @@
     "playAgain": "Play again",
     "shareResult": "Share result",
     "home": "Home",
-    "shareText": "KINOCHAIN\n%{from} → %{to}\nSolved in %{moves} moves · %{time}"
+    "shareLinked": "%{from} → %{to}",
+    "shareSolved": "Solved in %{moves} moves · %{time}",
+    "shareNoHint": "no hint",
+    "shareCta": "Can you beat my chain?",
+    "noHintBadge": "Solved without a hint"
   },
   "about": {
     "goBack": "Go back",
@@ -107,7 +111,18 @@
   },
   "target": {
     "label": "Target",
-    "a11y": "Target: %{title} %{year}"
+    "a11y": "Target: %{title} %{year}",
+    "hint": {
+      "reveal": "Reveal hint: director and top cast",
+      "collapse": "Hide hint",
+      "describe": "Shows the target film's director and main actors",
+      "revealed": "Hint revealed",
+      "director": "Director",
+      "topCast": "Top cast",
+      "castMember": "%{name}, cast member",
+      "error": "Hint unavailable — tap to retry",
+      "none": "No cast details available"
+    }
   },
   "credits": {
     "a11yHint": "Selects this credit as the next link in the chain"

@@ -55,7 +55,11 @@
     "playAgain": "Jugar de nuevo",
     "shareResult": "Compartir resultado",
     "home": "Inicio",
-    "shareText": "KINOCHAIN\n%{from} → %{to}\nResuelto en %{moves} movimientos · %{time}"
+    "shareLinked": "%{from} → %{to}",
+    "shareSolved": "Resuelto en %{moves} movimientos · %{time}",
+    "shareNoHint": "sin pista",
+    "shareCta": "¿Puedes superar mi cadena?",
+    "noHintBadge": "Resuelto sin pista"
   },
   "about": {
     "goBack": "Volver",
@@ -107,7 +111,18 @@
   },
   "target": {
     "label": "Objetivo",
-    "a11y": "Objetivo: %{title} %{year}"
+    "a11y": "Objetivo: %{title} %{year}",
+    "hint": {
+      "reveal": "Mostrar pista: director y reparto principal",
+      "collapse": "Ocultar pista",
+      "describe": "Muestra el director y los actores principales de la película objetivo",
+      "revealed": "Pista revelada",
+      "director": "Director",
+      "topCast": "Reparto principal",
+      "castMember": "%{name}, reparto",
+      "error": "Pista no disponible: toca para reintentar",
+      "none": "No hay detalles del reparto disponibles"
+    }
   },
   "credits": {
     "a11yHint": "Selecciona este crédito como el siguiente eslabón de la cadena"

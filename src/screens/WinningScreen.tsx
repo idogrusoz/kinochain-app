@@ -9,10 +9,14 @@ import { OutlineButton } from '../components/ui/OutlineButton';
 import { TextButton } from '../components/ui/TextButton';
 import { SectionLabel } from '../components/ui/SectionLabel';
 import { ChainView } from '../components/game/ChainView';
-import { colors, fonts, type, spacing } from '../../theme';
+import { colors, fonts, radius, type, spacing } from '../../theme';
 import i18n from '../i18n/i18n';
 
 export type WinningScreenProps = StackScreenProps<RootStackParamList, 'Winning'>;
+
+// Install destination appended to the share. Empty until a real App Store /
+// landing URL exists — set this one constant to switch the link on everywhere.
+const SHARE_URL = '';
 
 // ── Phase timing constants ─────────────────────────────────────────────
 const P1_START = 0;       // marquee dots
@@ -126,8 +130,9 @@ function Shimmer({ delay }: { delay: number }) {
 // ── Main screen ────────────────────────────────────────────────────────
 
 export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation }) => {
-  const { targetMovie, moves, seconds, chain, fromTutorial } = route.params;
+  const { targetMovie, moves, seconds, chain, fromTutorial, hintUsed } = route.params;
   const startName = chain[0]?.name ?? '';
+  const showNoHintBadge = !fromTutorial && !hintUsed;
 
   // Phase animation values
   const bulbAnims = useRef(Array.from({ length: 7 }, () => new Animated.Value(0))).current;
@@ -234,10 +239,32 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
     });
   }, []);
 
+  // Spoiler-free "Chain Card": brand + endpoints (the puzzle's givens), an
+  // emoji shape conveying chain length without naming the hidden steps
+  // (⭐ actor · 🎬 film · 🏁 target reached), the result, and a CTA. The
+  // install link is appended only when SHARE_URL is set.
+  const buildShareMessage = (): string => {
+    const grid = chain
+      .map((n, i) => (i === chain.length - 1 ? '🏁' : n.kind === 'actor' ? '⭐' : '🎬'))
+      .join('');
+    const solved =
+      i18n.t('winning.shareSolved', { moves: String(moves), time: formatTime(seconds) }) +
+      (hintUsed ? '' : ` · 🧠 ${i18n.t('winning.shareNoHint')}`);
+    const lines = [
+      'KINOCHAIN 🎬',
+      i18n.t('winning.shareLinked', { from: startName, to: targetMovie.title }),
+      '',
+      grid,
+      solved,
+      '',
+      i18n.t('winning.shareCta'),
+    ];
+    if (SHARE_URL) lines.push(SHARE_URL);
+    return lines.join('\n');
+  };
+
   const onShare = () => {
-    Share.share({
-      message: i18n.t('winning.shareText', { from: startName, to: targetMovie.title, moves: String(moves), time: formatTime(seconds) }) ?? '',
-    }).catch(() => {});
+    Share.share({ message: buildShareMessage() }).catch(() => {});
   };
 
   return (
@@ -318,6 +345,15 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
         <AnimatedStat targetValue={seconds} label={i18n.t('winning.time')} formatFn={formatTime} delay={P3_START} />
       </View>
 
+      {/* No-hint flex badge */}
+      {showNoHintBadge && (
+        <Animated.View style={[styles.noHintWrap, { opacity: chainOpacity }]}>
+          <Text style={styles.noHintBadge} maxFontSizeMultiplier={1.4}>
+            🧠 {i18n.t('winning.noHintBadge')}
+          </Text>
+        </Animated.View>
+      )}
+
       {/* Phase 4: Chain */}
       <Animated.View style={[styles.chainSection, { opacity: chainOpacity }]}>
         <SectionLabel style={styles.chainLabel}>{i18n.t('winning.yourChain')}</SectionLabel>
@@ -379,6 +415,19 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   stats: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 16 },
+  noHintWrap: { alignItems: 'center', marginTop: 14 },
+  noHintBadge: {
+    fontFamily: fonts.text.medium,
+    fontSize: 12,
+    color: colors.goldBright,
+    backgroundColor: colors.goldTintBg,
+    borderColor: colors.borderSubtleGold,
+    borderWidth: 1,
+    borderRadius: radius.pill,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    overflow: 'hidden',
+  },
   dividerWrap: { justifyContent: 'center' },
   divider: { width: 1, backgroundColor: colors.border },
   chainSection: {

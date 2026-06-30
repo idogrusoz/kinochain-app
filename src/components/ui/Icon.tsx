@@ -8,6 +8,8 @@ import { colors } from '../../../theme';
 const MAP = {
   back: 'chevron-back',
   forward: 'chevron-forward',
+  chevronUp: 'chevron-up',
+  chevronDown: 'chevron-down',
   help: 'help-circle-outline',
   settings: 'settings-outline',
   film: 'film-outline',

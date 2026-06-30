@@ -55,7 +55,11 @@
     "playAgain": "Nochmal spielen",
     "shareResult": "Ergebnis teilen",
     "home": "Start",
-    "shareText": "KINOCHAIN\n%{from} → %{to}\nGelöst in %{moves} Zügen · %{time}"
+    "shareLinked": "%{from} → %{to}",
+    "shareSolved": "Gelöst in %{moves} Zügen · %{time}",
+    "shareNoHint": "ohne Tipp",
+    "shareCta": "Knackst du meine Kette?",
+    "noHintBadge": "Ohne Tipp gelöst"
   },
   "about": {
     "goBack": "Zurück",
@@ -107,7 +111,18 @@
   },
   "target": {
     "label": "Ziel",
-    "a11y": "Ziel: %{title} %{year}"
+    "a11y": "Ziel: %{title} %{year}",
+    "hint": {
+      "reveal": "Tipp anzeigen: Regie und Hauptdarsteller",
+      "collapse": "Tipp ausblenden",
+      "describe": "Zeigt Regie und Hauptdarsteller des Zielfilms",
+      "revealed": "Tipp angezeigt",
+      "director": "Regie",
+      "topCast": "Hauptbesetzung",
+      "castMember": "%{name}, Besetzung",
+      "error": "Tipp nicht verfügbar — zum Wiederholen tippen",
+      "none": "Keine Besetzungsdetails verfügbar"
+    }
   },
   "credits": {
     "a11yHint": "Wählt diesen Credit als nächstes Glied in der Kette"

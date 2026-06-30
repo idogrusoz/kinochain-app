@@ -55,7 +55,11 @@
     "playAgain": "Opnieuw spelen",
     "shareResult": "Resultaat delen",
     "home": "Home",
-    "shareText": "KINOCHAIN\n%{from} → %{to}\nOpgelost in %{moves} zetten · %{time}"
+    "shareLinked": "%{from} → %{to}",
+    "shareSolved": "Opgelost in %{moves} zetten · %{time}",
+    "shareNoHint": "zonder hint",
+    "shareCta": "Versla jij mijn keten?",
+    "noHintBadge": "Opgelost zonder hint"
   },
   "about": {
     "goBack": "Ga terug",
@@ -107,7 +111,18 @@
   },
   "target": {
     "label": "Doel",
-    "a11y": "Doel: %{title} %{year}"
+    "a11y": "Doel: %{title} %{year}",
+    "hint": {
+      "reveal": "Hint tonen: regisseur en topcast",
+      "collapse": "Hint verbergen",
+      "describe": "Toont de regisseur en hoofdrolspelers van de doelfilm",
+      "revealed": "Hint onthuld",
+      "director": "Regisseur",
+      "topCast": "Topcast",
+      "castMember": "%{name}, castlid",
+      "error": "Hint niet beschikbaar — tik om opnieuw te proberen",
+      "none": "Geen castgegevens beschikbaar"
+    }
   },
   "credits": {
     "a11yHint": "Selecteert dit credit als volgende schakel in de keten"

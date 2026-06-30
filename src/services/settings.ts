@@ -60,3 +60,7 @@ export function hapticMedium() {
 export function hapticSuccess() {
   if (hapticsEnabled) Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
 }
+
+export function hapticSelection() {
+  if (hapticsEnabled) Haptics.selectionAsync().catch(() => {});
+}

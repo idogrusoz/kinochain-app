@@ -55,7 +55,11 @@
     "playAgain": "Tekrar oyna",
     "shareResult": "Sonucu paylaş",
     "home": "Ana sayfa",
-    "shareText": "KINOCHAIN\n%{from} → %{to}\n%{moves} hamlede çözüldü · %{time}"
+    "shareLinked": "%{from} → %{to}",
+    "shareSolved": "%{moves} hamlede çözüldü · %{time}",
+    "shareNoHint": "ipucusuz",
+    "shareCta": "Zincirimi geçebilir misin?",
+    "noHintBadge": "İpucusuz çözüldü"
   },
   "about": {
     "goBack": "Geri dön",
@@ -107,7 +111,18 @@
   },
   "target": {
     "label": "Hedef",
-    "a11y": "Hedef: %{title} %{year}"
+    "a11y": "Hedef: %{title} %{year}",
+    "hint": {
+      "reveal": "İpucunu göster: yönetmen ve başroller",
+      "collapse": "İpucunu gizle",
+      "describe": "Hedef filmin yönetmenini ve başrol oyuncularını gösterir",
+      "revealed": "İpucu gösterildi",
+      "director": "Yönetmen",
+      "topCast": "Başroller",
+      "castMember": "%{name}, oyuncu",
+      "error": "İpucu kullanılamıyor — yeniden denemek için dokunun",
+      "none": "Oyuncu bilgisi yok"
+    }
   },
   "credits": {
     "a11yHint": "Bu krediyi zincirdeki bir sonraki halka olarak seçer"
