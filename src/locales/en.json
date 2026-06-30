@@ -51,7 +51,14 @@
     "pickPerson": "pick a person"
   },
   "winning": {
-    "title": "That's a wrap!",
+    "titles": [
+      "Congratulations!",
+      "Well done!",
+      "Way to go!",
+      "Nicely done!",
+      "Brilliant!",
+      "Bravo!"
+    ],
     "linked": "You linked %{from} to %{to}.",
     "moves": "moves",
     "time": "time",
@@ -154,5 +161,10 @@
   },
   "path": {
     "a11y": "Path: %{count} moves"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
   }
 }

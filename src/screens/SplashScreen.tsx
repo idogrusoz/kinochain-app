@@ -7,12 +7,13 @@ import TmdbLogo from '../../assets/tmdb-logo.svg';
 import { Wordmark } from '../components/ui/Wordmark';
 import { RootStackParamList } from '../../App';
 import { colors, fonts } from '../../theme';
-import i18n from '../i18n/i18n';
+import i18n, { useLocale } from '../i18n/i18n';
 import { loadSettings } from '../services/settings';
 
 export const ONBOARDED_KEY = 'kinochain.onboarded';
 
 export default function SplashScreen() {
+  useLocale();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {

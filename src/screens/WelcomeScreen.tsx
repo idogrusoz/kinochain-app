@@ -13,7 +13,7 @@ import { DailyCard } from '../components/game/DailyCard';
 import { Difficulty } from '../../types';
 import { colors, fonts, radius, spacing } from '../../theme';
 import { getTodayDaily, getDailyCompletion } from '../services/dailies';
-import i18n from '../i18n/i18n';
+import i18n, { useLocale } from '../i18n/i18n';
 
 const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard'];
 
@@ -46,6 +46,7 @@ function MotifNode({
 }
 
 export default function WelcomeScreen() {
+  useLocale();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [difficulty, setDifficulty] = useState<Difficulty>('medium');
   const [dailyDone, setDailyDone] = useState(false);
@@ -119,7 +120,7 @@ export default function WelcomeScreen() {
           <SectionLabel style={styles.freePlayLabel}>{i18n.t('welcome.freePlay')}</SectionLabel>
           <View style={styles.segment}>
             {DIFFICULTIES.map((d) => {
-              const label = d[0].toUpperCase() + d.slice(1);
+              const label = i18n.t(`difficulty.${d}`);
               const selected = d === difficulty;
               return (
                 <Pressable

@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Icon } from '../components/ui/Icon';
 import { colors, fonts, spacing, radius, type } from '../../theme';
-import i18n from '../i18n/i18n';
+import i18n, { useLocale } from '../i18n/i18n';
 import { loadStats, currentStreakAsOf, Stats } from '../services/stats';
 
 function MetricCard({ value, label }: { value: string; label: string }) {
@@ -16,6 +16,7 @@ function MetricCard({ value, label }: { value: string; label: string }) {
 }
 
 export default function StatsScreen() {
+  useLocale();
   const navigation = useNavigation();
   const [stats, setStats] = useState<Stats | null>(null);
 

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
-import i18n from '../i18n/i18n';
+import i18n, { setI18nLocale } from '../i18n/i18n';
 
 const KEYS = {
   haptics: 'kinochain.haptics',
@@ -17,7 +17,7 @@ export async function loadSettings() {
     ]);
     hapticsEnabled = hapVal !== '0';
     if (locVal) {
-      i18n.locale = locVal;
+      setI18nLocale(locVal);
     }
   } catch {
     // defaults are fine
@@ -35,11 +35,11 @@ export async function setHapticsEnabled(on: boolean) {
 
 export async function setLocale(code: string | null) {
   if (code) {
-    i18n.locale = code;
+    setI18nLocale(code);
     await AsyncStorage.setItem(KEYS.locale, code).catch(() => {});
   } else {
     const { getLocales } = await import('expo-localization');
-    i18n.locale = getLocales()[0]?.languageCode ?? 'en';
+    setI18nLocale(getLocales()[0]?.languageCode ?? 'en');
     await AsyncStorage.removeItem(KEYS.locale).catch(() => {});
   }
 }

@@ -26,7 +26,7 @@ import { CreditsList } from '../components/CreditsList';
 import Loading from '../components/Loading';
 import { ONBOARDED_KEY } from './SplashScreen';
 import { colors, fonts, type, spacing } from '../../theme';
-import i18n from '../i18n/i18n';
+import i18n, { useLocale } from '../i18n/i18n';
 
 // ── Tutorial path (hardcoded TMDB IDs) ─────────────────────────────────
 // Jamie Foxx → Django Unchained → Leonardo DiCaprio → Inception
@@ -84,6 +84,7 @@ function toCredits(
 // ── Main component ─────────────────────────────────────────────────────
 
 export default function OnboardingScreen() {
+  useLocale();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const openedFromApp = navigation.canGoBack();
 

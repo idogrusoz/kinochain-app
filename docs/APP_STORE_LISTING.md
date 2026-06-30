@@ -16,7 +16,9 @@ Secondary: **Entertainment**
 
 Link actors and movies in this cinematic chain puzzle.
 
-Every game starts with a random actor and a target film. Your mission: connect them by hopping between actors and the movies they appeared in. Pick a film from an actor's credits, then pick a co-star or director from that film — and keep alternating until you reach the target. Fewer moves win.
+A new Daily Challenge every day — the same puzzle for everyone. Solve it, build your streak, and share your result spoiler-free. Or jump into unlimited free play any time.
+
+Every game starts with an actor and a target film. Your mission: connect them by hopping between actors and the movies they appeared in. Pick a film from an actor's credits, then pick a co-star or director from that film — and keep alternating until you reach the target. Fewer moves win.
 
 HOW IT WORKS
 • You start with an actor and a target film
@@ -26,14 +28,15 @@ HOW IT WORKS
 • Solve it in as few moves as possible
 
 FEATURES
+• A new Daily Challenge every day — same puzzle for everyone
+• Build a daily streak and track your stats (games played, best solve, hint-free wins)
+• Unlimited free play with three difficulty levels: Easy, Medium, and Hard
 • Powered by a massive real movie database with real posters and credits
-• Three difficulty levels: Easy, Medium, and Hard
+• A hint when you're stuck — reveal the target's director and top cast
 • Guided interactive tutorial — learn by playing, not reading
-• Cinematic dark theme with gold accents
-• Haptic feedback and satisfying win animations
+• Cinematic dark theme with gold accents, haptics, and satisfying win animations
 • Share your results with friends (spoiler-free)
 • No accounts, no ads, no tracking
-• Works offline-aware with graceful error handling
 
 PERFECT FOR
 • Movie buffs and cinephiles
@@ -47,7 +50,7 @@ Built with love for cinema. This product uses the TMDB API but is not endorsed o
 movie,trivia,cinema,actor,film,puzzle,chain,degrees,separation,quiz,hollywood,credits,game,link
 
 ## Promotional Text (170 chars max, can be updated without new build)
-Can you connect Jamie Foxx to Inception in 3 moves? Test your movie knowledge in this addictive chain puzzle.
+A new movie-chain puzzle every day. Link a star to a film in as few moves as you can, build your streak, and share — spoiler-free.
 
 ## Privacy Policy URL
 https://idogrusoz.github.io/kinochain-app/privacy-policy.html
@@ -59,7 +62,12 @@ https://github.com/idogrusoz/kinochain-app/issues
 https://github.com/idogrusoz/kinochain-app
 
 ## Age Rating
-Rated 4+ (no objectionable content, no web access for user-generated content, no gambling, no violence)
+**13+** (calculated). The app authors no objectionable content, but it surfaces real TMDB
+movie posters and titles across genres, so the questionnaire is answered honestly: "Infrequent/
+Mild" for incidental references (mild realistic violence, weapons, alcohol/tobacco, mature themes)
+and "None" for all explicit/graphic rows. No gambling, no loot boxes, no contests (no in-app
+leaderboards yet). Result: 13+, not sold in Afghanistan/Morocco (auto-restricted due to alcohol/
+tobacco references — two negligible markets, none of our target locales).
 
 ## App Store Privacy (Nutrition Label)
 
@@ -84,11 +92,11 @@ Details:
 ## Screenshots Needed
 
 For iPhone 6.9" (iPhone 15 Pro Max / 16 Pro Max):
-1. Welcome screen — shows logo, difficulty selector, "New Game" button
-2. Gameplay (actor screen) — actor's filmography with target banner visible
-3. Gameplay (film screen) — cast & crew list with director in gold
-4. Winning screen — "That's a wrap!" with chain visualization
-5. Onboarding — tutorial step showing interactive filmography
+1. Welcome screen — logo + the gold **Daily card** (hero), free play below. Caption: "Six Degrees of Cinema."
+2. Daily win — "That's a wrap!" with KINOCHAIN #N, the chain reveal, and the streak. Caption: "Solve the Daily. Build your streak."
+3. Gameplay (actor screen) — filmography + target banner + the hint affordance
+4. Gameplay (film screen) — cast & crew list with the director in gold
+5. Stats screen — streak, games played, best solve (or the Onboarding tutorial step)
 
 For iPhone 6.7" (iPhone 14 Plus / 15 Plus):
 - Same 5 screenshots

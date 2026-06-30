@@ -31,8 +31,8 @@
     "letsGo": "C'est parti",
     "goalTitle": "Votre objectif",
     "goalBody": "Chaque partie a un film cible. Atteignez-le en reliant acteurs et films.",
-    "pickFilmTitle": "Faites un coup",
-    "pickFilmBody": "Touchez %{filmName} dans la filmographie.",
+    "pickFilmTitle": "À vous de jouer",
+    "pickFilmBody": "Touchez %{filmName} dans la filmographie pour y accéder.",
     "pickPersonTitle": "Choisissez une personne",
     "pickPersonBody": "Maintenant touchez %{personName} pour continuer la chaîne.",
     "pickTargetTitle": "Presque fini !",
@@ -51,7 +51,14 @@
     "pickPerson": "choisissez une personne"
   },
   "winning": {
-    "title": "C'est dans la boîte !",
+    "titles": [
+      "Félicitations !",
+      "Bien joué !",
+      "Bravo !",
+      "Excellent !",
+      "Magnifique !",
+      "Chapeau !"
+    ],
     "linked": "Vous avez relié %{from} à %{to}.",
     "moves": "coups",
     "time": "temps",
@@ -99,7 +106,7 @@
     "tmdbBody": "Les données et images de films sont fournies par TMDB. Lisez la ",
     "tmdbPolicyLink": "politique de confidentialité de TMDB.",
     "retention": "Conservation et suppression",
-    "retentionBody": "Kinochain n'exploite pas de serveur et ne conserve pas de journaux de requêtes. TMDB gère les informations qu'il reçoit selon sa propre politique de confidentialité. Supprimez l'application pour supprimer vos préférences locales.",
+    "retentionBody": "Kinochain n'exploite pas de serveur et ne conserve pas de journaux de requêtes. TMDB gère les informations qu'il reçoit selon sa propre politique de confidentialité. Supprimez l'application pour effacer sa préférence locale concernant le tutoriel.",
     "contact": "Contact",
     "contactBody": "Pour toute question concernant cette politique de confidentialité, contactez-nous à info@rightword.be."
   },
@@ -124,7 +131,7 @@
     "bestMoves": "Moins de coups",
     "noHintWins": "Victoires sans indice",
     "abandoned": "Abandonnées",
-    "empty": "Joue ta première partie pour commencer à suivre tes statistiques."
+    "empty": "Jouez votre première partie pour commencer à suivre vos statistiques."
   },
   "daily": {
     "label": "Quotidien",
@@ -154,5 +161,10 @@
   },
   "path": {
     "a11y": "Chemin : %{count} coups"
+  },
+  "difficulty": {
+    "easy": "Facile",
+    "medium": "Moyen",
+    "hard": "Difficile"
   }
 }

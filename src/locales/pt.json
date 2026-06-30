@@ -1,7 +1,7 @@
 {
   "splash": {
-    "tagline": "SEIS GRAUS DO CINEMA",
-    "poweredBy": "DESENVOLVIDO POR"
+    "tagline": "SEIS GRAUS DE CINEMA",
+    "poweredBy": "COM TECNOLOGIA"
   },
   "welcome": {
     "streak": "Sequência",
@@ -10,58 +10,65 @@
     "freePlay": "Jogo livre",
     "stats": "Estatísticas",
     "about": "Sobre",
-    "subtitle": "Conecte o ator inicial ao filme alvo no menor número de movimentos.",
+    "subtitle": "Liga o ator inicial ao filme alvo no menor número de jogadas que conseguires.",
     "difficulty": "Dificuldade",
     "difficultyA11y": "Dificuldade %{level}",
     "newGame": "Novo jogo",
     "howToPlay": "Como jogar"
   },
   "onboarding": {
-    "preparing": "Preparando o tutorial…",
+    "preparing": "A preparar o tutorial…",
     "errorTitle": "Não foi possível carregar o tutorial",
-    "errorBody": "Verifique sua conexão e tente novamente.",
-    "skip": "Pular",
-    "skipForNow": "Pular por enquanto",
+    "errorBody": "Verifica a tua ligação e tenta de novo.",
+    "skip": "Ignorar",
+    "skipForNow": "Ignorar por agora",
     "back": "Voltar",
     "goBackA11y": "Voltar",
-    "skipA11y": "Pular tutorial",
-    "yourPath": "Seu caminho",
-    "pickFilm": "escolha um filme",
-    "pickPerson": "escolha uma pessoa",
+    "skipA11y": "Ignorar tutorial",
+    "yourPath": "O teu caminho",
+    "pickFilm": "escolhe um filme",
+    "pickPerson": "escolhe uma pessoa",
     "letsGo": "Vamos lá!",
-    "goalTitle": "Seu objetivo",
-    "goalBody": "Cada jogo tem um filme alvo. Alcance-o conectando atores e filmes.",
-    "pickFilmTitle": "Faça um movimento",
-    "pickFilmBody": "Toque em %{filmName} na filmografia.",
-    "pickPersonTitle": "Escolha uma pessoa",
-    "pickPersonBody": "Agora toque em %{personName} para continuar a cadeia.",
+    "goalTitle": "O teu objetivo",
+    "goalBody": "Cada jogo tem um filme alvo. Chega até ele ligando atores e filmes.",
+    "pickFilmTitle": "Faz uma jogada",
+    "pickFilmBody": "Toca em %{filmName} na filmografia para saltar para lá.",
+    "pickPersonTitle": "Escolhe uma pessoa",
+    "pickPersonBody": "Agora toca em %{personName} para continuar a cadeia.",
     "pickTargetTitle": "Quase lá!",
-    "pickTargetBody": "Toque em %{filmName} — o filme alvo — para completar a cadeia."
+    "pickTargetBody": "Toca em %{filmName} — o filme alvo — para completar a cadeia."
   },
   "game": {
-    "offline": "Você está offline",
-    "offlineBody": "Verifique sua conexão com a internet e tente novamente.",
-    "errorTitle": "Algo deu errado",
-    "errorBody": "Não conseguimos carregar o jogo. Por favor, tente novamente.",
+    "offline": "Estás offline",
+    "offlineBody": "Verifica a tua ligação à internet e tenta de novo.",
+    "errorTitle": "Algo correu mal",
+    "errorBody": "Não foi possível carregar o jogo. Tenta novamente.",
     "goBack": "Voltar",
     "help": "Ajuda",
-    "yourPath": "Seu caminho",
-    "move": "Movimento %{n}",
-    "pickFilm": "escolha um filme",
-    "pickPerson": "escolha uma pessoa"
+    "yourPath": "O teu caminho",
+    "move": "Jogada %{n}",
+    "pickFilm": "escolhe um filme",
+    "pickPerson": "escolhe uma pessoa"
   },
   "winning": {
-    "title": "É um wrap!",
-    "linked": "Você conectou %{from} a %{to}.",
-    "moves": "movimentos",
+    "titles": [
+      "Parabéns!",
+      "Muito bem!",
+      "Boa!",
+      "Excelente!",
+      "Brilhante!",
+      "Bravo!"
+    ],
+    "linked": "Ligaste %{from} a %{to}.",
+    "moves": "jogadas",
     "time": "tempo",
-    "yourChain": "Sua cadeia",
+    "yourChain": "A tua cadeia",
     "startPlaying": "Começar a jogar",
-    "playAgain": "Jogar novamente",
-    "shareResult": "Compartilhar resultado",
+    "playAgain": "Jogar de novo",
+    "shareResult": "Partilhar resultado",
     "home": "Início",
     "shareLinked": "%{from} → %{to}",
-    "shareSolved": "Resolvido em %{moves} movimentos · %{time}",
+    "shareSolved": "Resolvido em %{moves} jogadas · %{time}",
     "shareNoHint": "sem dica",
     "shareCta": "Consegues bater a minha cadeia?",
     "noHintBadge": "Resolvido sem dica",
@@ -71,46 +78,46 @@
     "goBack": "Voltar",
     "title": "Sobre",
     "version": "Versão %{version}",
-    "tmdbDisclaimer": "Este produto usa a API do TMDB, mas não é endossado ou certificado pelo TMDB. Todos os dados, imagens e metadados de filmes são fornecidos pelo The Movie Database (TMDB).",
+    "tmdbDisclaimer": "Este produto usa a API do TMDB, mas não é apoiado nem certificado pelo TMDB. Todos os dados, imagens e metadados de filmes são fornecidos pelo The Movie Database (TMDB).",
     "privacyPolicy": "Política de Privacidade",
     "howToPlay": "Como Jogar",
     "tmdbWebsite": "Site do TMDB",
     "madeBy": "Feito por Rightword Games"
   },
   "settings": {
-    "title": "Configurações",
-    "haptics": "Feedback háptico",
+    "title": "Definições",
+    "haptics": "Resposta tátil",
     "language": "Idioma",
-    "systemDefault": "Padrão do sistema"
+    "systemDefault": "Predefinição do sistema"
   },
   "privacy": {
     "goBack": "Voltar",
     "title": "Política de Privacidade",
     "lastUpdated": "Última atualização: junho de 2026",
-    "dataCollection": "Coleta de Dados",
-    "dataCollectionBody": "Kinochain não requer conta, não cria perfis de usuário e não armazena dados pessoais em banco de dados.",
-    "networkRequests": "Solicitações de Rede",
-    "networkRequestsBody": "Para o jogo, o app envia solicitações HTTPS somente leitura do seu dispositivo para o The Movie Database (TMDB). O TMDB pode receber seu endereço IP e informações técnicas. Kinochain não opera um servidor intermediário e não recebe ou armazena essas informações.",
-    "analytics": "Análise e Rastreamento",
-    "analyticsBody": "O Kinochain usa o Aptabase, um serviço de análise de código aberto e respeitador da privacidade, para recolher estatísticas de utilização anónimas e agregadas — por exemplo, aberturas da aplicação e se um jogo é concluído. Estas informações não estão associadas à sua identidade, não contêm dados pessoais nem identificadores de publicidade, nunca são usadas para o rastrear entre aplicações e nunca são vendidas. O Kinochain não inclui SDKs de publicidade ou de relatórios de falhas.",
+    "dataCollection": "Recolha de Dados",
+    "dataCollectionBody": "O Kinochain não exige conta, não cria perfis de utilizador nem armazena dados pessoais numa base de dados.",
+    "networkRequests": "Pedidos de Rede",
+    "networkRequestsBody": "Para o jogo funcionar, a aplicação envia pedidos HTTPS apenas de leitura, diretamente do teu dispositivo para o The Movie Database (TMDB). O TMDB pode receber o teu endereço IP e informações técnicas do pedido ao processá-los. O Kinochain não opera um servidor intermediário e não recebe nem armazena estas informações.",
+    "analytics": "Análise e Rastreio",
+    "analyticsBody": "O Kinochain usa o Aptabase, um serviço de análise de código aberto e respeitador da privacidade, para recolher estatísticas de utilização anónimas e agregadas — por exemplo, aberturas da aplicação e se um jogo é concluído. Estas informações não estão associadas à tua identidade, não contêm dados pessoais nem identificadores de publicidade, nunca são usadas para te rastrear entre aplicações e nunca são vendidas. O Kinochain não inclui SDKs de publicidade ou de relatórios de falhas.",
     "localStorage": "Armazenamento Local",
-    "localStorageBody": "O app armazena um pequeno indicador no seu dispositivo para lembrar se você concluiu o tutorial. Esses dados nunca saem do seu dispositivo.",
+    "localStorageBody": "A aplicação guarda um pequeno indicador no teu dispositivo para se lembrar se já concluíste o tutorial. Estes dados nunca saem do teu dispositivo.",
     "tmdb": "The Movie Database",
-    "tmdbBody": "Dados e imagens de filmes são fornecidos pelo TMDB. Leia a ",
+    "tmdbBody": "Os dados e imagens de filmes são fornecidos pelo TMDB. Lê a ",
     "tmdbPolicyLink": "política de privacidade do TMDB.",
-    "retention": "Retenção e Exclusão",
-    "retentionBody": "Kinochain não opera servidor nem retém registros de solicitações. O TMDB gerencia as informações que recebe de acordo com sua própria política de privacidade. Exclua o app para remover as preferências locais.",
-    "contact": "Contato",
-    "contactBody": "Se tiver dúvidas sobre esta política de privacidade, entre em contato pelo info@rightword.be."
+    "retention": "Retenção e Eliminação",
+    "retentionBody": "O Kinochain não opera um servidor nem mantém registos de pedidos de rede. O TMDB trata as informações que recebe de acordo com a sua própria política de privacidade. Elimina a aplicação para remover a preferência local do tutorial.",
+    "contact": "Contacto",
+    "contactBody": "Se tiveres questões sobre esta política de privacidade, contacta-nos através de info@rightword.be."
   },
   "error": {
-    "title": "Algo deu errado",
-    "body": "Não foi possível carregar os dados. Verifique sua conexão e tente novamente.",
+    "title": "Algo correu mal",
+    "body": "Não foi possível carregar os dados. Verifica a tua ligação e tenta de novo.",
     "tryAgain": "Tentar novamente",
     "goBack": "Voltar"
   },
   "loading": {
-    "default": "Preparando o cenário…"
+    "default": "A preparar o cenário…"
   },
   "chain": {
     "targetReached": "Alvo alcançado"
@@ -120,32 +127,32 @@
     "goBack": "Voltar",
     "currentStreak": "Sequência atual",
     "gamesPlayed": "Jogos jogados",
-    "longestStreak": "Melhor sequência",
-    "bestMoves": "Menos movimentos",
+    "longestStreak": "Maior sequência",
+    "bestMoves": "Menos jogadas",
     "noHintWins": "Vitórias sem dica",
     "abandoned": "Abandonados",
-    "empty": "Joga o teu primeiro jogo para começar a registar as tuas estatísticas."
+    "empty": "Joga o teu primeiro jogo para começares a registar as tuas estatísticas."
   },
   "daily": {
     "label": "Diário",
     "title": "Kinochain de hoje",
     "tagline": "Uma nova cadeia de filmes todos os dias.",
-    "play": "Jogar o puzzle de hoje",
-    "solved": "Resolvido em %{n} movimentos",
-    "comeBack": "Novo puzzle amanhã"
+    "play": "Jogar o desafio de hoje",
+    "solved": "Resolvido em %{n} jogadas",
+    "comeBack": "Novo desafio amanhã"
   },
   "target": {
     "label": "Alvo",
     "a11y": "Alvo: %{title} %{year}",
     "hint": {
-      "reveal": "Mostrar dica: diretor e elenco principal",
+      "reveal": "Mostrar dica: realizador e elenco principal",
       "collapse": "Ocultar dica",
-      "describe": "Mostra o diretor e os atores principais do filme alvo",
+      "describe": "Mostra o realizador e os atores principais do filme alvo",
       "revealed": "Dica revelada",
-      "director": "Diretor",
+      "director": "Realizador",
       "topCast": "Elenco principal",
-      "castMember": "%{name}, elenco",
-      "error": "Dica indisponível — toque para tentar novamente",
+      "castMember": "%{name}, membro do elenco",
+      "error": "Dica indisponível — toca para tentar de novo",
       "none": "Sem detalhes do elenco disponíveis"
     }
   },
@@ -153,6 +160,11 @@
     "a11yHint": "Seleciona este crédito como o próximo elo da cadeia"
   },
   "path": {
-    "a11y": "Caminho: %{count} movimentos"
+    "a11y": "Caminho: %{count} jogadas"
+  },
+  "difficulty": {
+    "easy": "Fácil",
+    "medium": "Médio",
+    "hard": "Difícil"
   }
 }

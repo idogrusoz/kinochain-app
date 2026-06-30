@@ -7,42 +7,42 @@
     "streak": "Reeks",
     "played": "Gespeeld",
     "best": "Beste",
-    "freePlay": "Vrij spelen",
+    "freePlay": "Vrij spel",
     "stats": "Statistieken",
     "about": "Over",
     "subtitle": "Verbind de startacteur met de doelfilm in zo min mogelijk zetten.",
     "difficulty": "Moeilijkheid",
     "difficultyA11y": "Moeilijkheid %{level}",
     "newGame": "Nieuw spel",
-    "howToPlay": "Hoe te spelen"
+    "howToPlay": "Uitleg"
   },
   "onboarding": {
-    "preparing": "Tutorial voorbereiden…",
-    "errorTitle": "Tutorial kon niet geladen worden",
-    "errorBody": "Controleer je verbinding en probeer opnieuw.",
+    "preparing": "Uitleg voorbereiden…",
+    "errorTitle": "Uitleg kon niet laden",
+    "errorBody": "Controleer je verbinding en probeer het opnieuw.",
     "skip": "Overslaan",
     "skipForNow": "Voorlopig overslaan",
     "back": "Terug",
     "goBackA11y": "Ga terug",
-    "skipA11y": "Tutorial overslaan",
+    "skipA11y": "Uitleg overslaan",
     "yourPath": "Jouw pad",
     "pickFilm": "kies een film",
     "pickPerson": "kies een persoon",
     "letsGo": "Aan de slag",
     "goalTitle": "Je doel",
-    "goalBody": "Elk spel heeft een doelfilm. Bereik die door acteurs en films te verbinden.",
+    "goalBody": "Elk spel heeft een doelfilm. Bereik die door acteurs en films aan elkaar te koppelen.",
     "pickFilmTitle": "Doe een zet",
-    "pickFilmBody": "Tik op %{filmName} in de filmografie.",
+    "pickFilmBody": "Tik op %{filmName} in de filmografie om er naartoe te springen.",
     "pickPersonTitle": "Kies een persoon",
     "pickPersonBody": "Tik nu op %{personName} om de keten voort te zetten.",
-    "pickTargetTitle": "Bijna klaar!",
+    "pickTargetTitle": "Bijna daar!",
     "pickTargetBody": "Tik op %{filmName} — de doelfilm — om de keten te voltooien."
   },
   "game": {
     "offline": "Je bent offline",
-    "offlineBody": "Controleer je internetverbinding en probeer opnieuw.",
+    "offlineBody": "Controleer je internetverbinding en probeer het opnieuw.",
     "errorTitle": "Er ging iets mis",
-    "errorBody": "Het spel kon niet geladen worden. Probeer opnieuw.",
+    "errorBody": "We konden het spel niet laden. Probeer het opnieuw.",
     "goBack": "Ga terug",
     "help": "Help",
     "yourPath": "Jouw pad",
@@ -51,8 +51,15 @@
     "pickPerson": "kies een persoon"
   },
   "winning": {
-    "title": "Dat is een wrap!",
-    "linked": "Je verbond %{from} met %{to}.",
+    "titles": [
+      "Gefeliciteerd!",
+      "Goed gedaan!",
+      "Knap werk!",
+      "Uitstekend!",
+      "Top!",
+      "Bravo!"
+    ],
+    "linked": "Je hebt %{from} met %{to} verbonden.",
     "moves": "zetten",
     "time": "tijd",
     "yourChain": "Jouw keten",
@@ -99,13 +106,13 @@
     "tmdbBody": "Filmgegevens en afbeeldingen worden geleverd door TMDB. Lees het ",
     "tmdbPolicyLink": "TMDB-privacybeleid.",
     "retention": "Bewaring en verwijdering",
-    "retentionBody": "Kinochain beheert geen server en bewaart geen verzoeklogboeken. TMDB verwerkt ontvangen informatie volgens zijn eigen privacybeleid. Verwijder de app om lokale voorkeuren te wissen.",
+    "retentionBody": "Kinochain beheert geen server en bewaart geen logboeken van netwerkverzoeken. TMDB verwerkt ontvangen informatie volgens zijn eigen privacybeleid. Verwijder de app om de lokaal opgeslagen tutorialvoorkeur te wissen.",
     "contact": "Contact",
     "contactBody": "Heb je vragen over dit privacybeleid, neem dan contact op via info@rightword.be."
   },
   "error": {
     "title": "Er ging iets mis",
-    "body": "De gegevens konden niet geladen worden. Controleer je verbinding en probeer opnieuw.",
+    "body": "We konden de gegevens niet laden. Controleer je verbinding en probeer het opnieuw.",
     "tryAgain": "Opnieuw proberen",
     "goBack": "Ga terug"
   },
@@ -117,12 +124,12 @@
   },
   "stats": {
     "title": "Statistieken",
-    "goBack": "Terug",
+    "goBack": "Ga terug",
     "currentStreak": "Huidige reeks",
     "gamesPlayed": "Gespeelde spellen",
     "longestStreak": "Langste reeks",
     "bestMoves": "Minste zetten",
-    "noHintWins": "Overwinningen zonder hint",
+    "noHintWins": "Winst zonder hint",
     "abandoned": "Verlaten",
     "empty": "Speel je eerste spel om je statistieken bij te houden."
   },
@@ -150,9 +157,14 @@
     }
   },
   "credits": {
-    "a11yHint": "Selecteert dit credit als volgende schakel in de keten"
+    "a11yHint": "Selecteert dit als de volgende schakel in de keten"
   },
   "path": {
     "a11y": "Pad: %{count} zetten"
+  },
+  "difficulty": {
+    "easy": "Makkelijk",
+    "medium": "Gemiddeld",
+    "hard": "Moeilijk"
   }
 }

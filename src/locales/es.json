@@ -1,7 +1,7 @@
 {
   "splash": {
     "tagline": "SEIS GRADOS DEL CINE",
-    "poweredBy": "IMPULSADO POR"
+    "poweredBy": "CON TECNOLOGÍA DE"
   },
   "welcome": {
     "streak": "Racha",
@@ -51,7 +51,14 @@
     "pickPerson": "elige una persona"
   },
   "winning": {
-    "title": "¡Eso es todo!",
+    "titles": [
+      "¡Felicidades!",
+      "¡Bien hecho!",
+      "¡Genial!",
+      "¡Bravo!",
+      "¡Excelente!",
+      "¡Así se hace!"
+    ],
     "linked": "Conectaste %{from} con %{to}.",
     "moves": "movimientos",
     "time": "tiempo",
@@ -130,9 +137,9 @@
     "label": "Diario",
     "title": "Kinochain de hoy",
     "tagline": "Una nueva cadena de películas cada día.",
-    "play": "Jugar el puzzle de hoy",
+    "play": "Jugar el reto de hoy",
     "solved": "Resuelto en %{n} movimientos",
-    "comeBack": "Nuevo puzzle mañana"
+    "comeBack": "Nuevo reto mañana"
   },
   "target": {
     "label": "Objetivo",
@@ -144,8 +151,8 @@
       "revealed": "Pista revelada",
       "director": "Director",
       "topCast": "Reparto principal",
-      "castMember": "%{name}, reparto",
-      "error": "Pista no disponible: toca para reintentar",
+      "castMember": "%{name}, miembro del reparto",
+      "error": "Pista no disponible — toca para reintentar",
       "none": "No hay detalles del reparto disponibles"
     }
   },
@@ -154,5 +161,10 @@
   },
   "path": {
     "a11y": "Ruta: %{count} movimientos"
+  },
+  "difficulty": {
+    "easy": "Fácil",
+    "medium": "Medio",
+    "hard": "Difícil"
   }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Share, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { hapticLight, hapticMedium } from '../services/settings';
@@ -15,7 +15,7 @@ import { SectionLabel } from '../components/ui/SectionLabel';
 import { Icon } from '../components/ui/Icon';
 import { ChainView } from '../components/game/ChainView';
 import { colors, fonts, radius, type, spacing } from '../../theme';
-import i18n from '../i18n/i18n';
+import i18n, { useLocale } from '../i18n/i18n';
 
 export type WinningScreenProps = StackScreenProps<RootStackParamList, 'Winning'>;
 
@@ -131,6 +131,15 @@ function Shimmer({ delay }: { delay: number }) {
 // ── Main screen ────────────────────────────────────────────────────────
 
 export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation }) => {
+  const localeVersion = useLocale();
+  // Pick a random celebratory headline once per screen view (re-picks if the
+  // language changes). winning.titles is an array of interchangeable phrases.
+  const title = useMemo(() => {
+    const titles = i18n.t('winning.titles');
+    return Array.isArray(titles)
+      ? titles[Math.floor(Math.random() * titles.length)]
+      : String(titles);
+  }, [localeVersion]);
   const { targetMovie, moves, seconds, chain, fromTutorial, hintUsed, dailyNumber } = route.params;
   const startName = chain[0]?.name ?? '';
   const showNoHintBadge = !fromTutorial && !hintUsed;
@@ -312,7 +321,7 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
           ]}
           maxFontSizeMultiplier={1.5}
         >
-          {i18n.t('winning.title')}
+          {title}
         </Animated.Text>
         <Shimmer delay={P2_START + 400} />
       </View>

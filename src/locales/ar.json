@@ -4,13 +4,13 @@
     "poweredBy": "مدعوم من"
   },
   "welcome": {
-    "streak": "السلسلة",
-    "played": "لُعبت",
+    "streak": "التتابع",
+    "played": "اللعبات",
     "best": "الأفضل",
     "freePlay": "لعب حر",
     "stats": "الإحصاءات",
     "about": "حول",
-    "subtitle": "اربط الممثل بالفيلم المستهدف بأقل عدد من الحركات.",
+    "subtitle": "اربط الممثل بالفيلم المستهدف بأقل عدد ممكن من النقلات.",
     "difficulty": "الصعوبة",
     "difficultyA11y": "صعوبة %{level}",
     "newGame": "لعبة جديدة",
@@ -28,14 +28,14 @@
     "yourPath": "مسارك",
     "pickFilm": "اختر فيلماً",
     "pickPerson": "اختر شخصاً",
-    "letsGo": "!هيا بنا",
+    "letsGo": "هيا بنا!",
     "goalTitle": "هدفك",
     "goalBody": "كل لعبة لها فيلم مستهدف. اوصل إليه بربط الممثلين والأفلام.",
-    "pickFilmTitle": "قم بحركة",
-    "pickFilmBody": "انقر على %{filmName} من قائمة الأفلام.",
+    "pickFilmTitle": "قم بنقلة",
+    "pickFilmBody": "انقر على %{filmName} من قائمة الأفلام للانتقال إليه.",
     "pickPersonTitle": "اختر شخصاً",
     "pickPersonBody": "الآن انقر على %{personName} لمتابعة السلسلة.",
-    "pickTargetTitle": "!أوشكت",
+    "pickTargetTitle": "أوشكت على الوصول!",
     "pickTargetBody": "انقر على %{filmName} — الفيلم المستهدف — لإكمال السلسلة."
   },
   "game": {
@@ -46,14 +46,21 @@
     "goBack": "رجوع",
     "help": "مساعدة",
     "yourPath": "مسارك",
-    "move": "حركة %{n}",
+    "move": "النقلة %{n}",
     "pickFilm": "اختر فيلماً",
     "pickPerson": "اختر شخصاً"
   },
   "winning": {
-    "title": "!انتهى التصوير",
+    "titles": [
+      "تهانينا!",
+      "أحسنت!",
+      "رائع!",
+      "ممتاز!",
+      "أبدعت!",
+      "عمل رائع!"
+    ],
     "linked": "ربطت %{from} بـ %{to}.",
-    "moves": "حركات",
+    "moves": "النقلات",
     "time": "الوقت",
     "yourChain": "سلسلتك",
     "startPlaying": "ابدأ اللعب",
@@ -61,21 +68,21 @@
     "shareResult": "شارك النتيجة",
     "home": "الرئيسية",
     "shareLinked": "%{from} ← %{to}",
-    "shareSolved": "تم الحل في %{moves} حركات · %{time}",
+    "shareSolved": "تم الحل في %{moves} نقلة · %{time}",
     "shareNoHint": "بدون تلميح",
     "shareCta": "هل يمكنك التغلب على سلسلتي؟",
     "noHintBadge": "تم الحل بدون تلميح",
-    "streak": "سلسلة %{n} يوم"
+    "streak": "تتابع %{n} يوم"
   },
   "about": {
     "goBack": "رجوع",
     "title": "حول",
     "version": "الإصدار %{version}",
-    "tmdbDisclaimer": "يستخدم هذا المنتج واجهة TMDB البرمجية ولكنه غير معتمد أو موثق من TMDB. جميع بيانات الأفلام والصور والبيانات الوصفية مقدمة من The Movie Database (TMDB).",
+    "tmdbDisclaimer": "يستخدم هذا المنتج واجهة TMDB البرمجية لكنه غير معتمد أو موثّق من TMDB. جميع بيانات الأفلام والصور والبيانات الوصفية مقدّمة من The Movie Database (TMDB).",
     "privacyPolicy": "سياسة الخصوصية",
     "howToPlay": "كيف تلعب",
     "tmdbWebsite": "موقع TMDB",
-    "madeBy": "صنع بواسطة Rightword Games"
+    "madeBy": "من تطوير Rightword Games"
   },
   "settings": {
     "title": "الإعدادات",
@@ -110,7 +117,7 @@
     "goBack": "رجوع"
   },
   "loading": {
-    "default": "…جارٍ تحضير المشهد"
+    "default": "جارٍ تحضير المشهد…"
   },
   "chain": {
     "targetReached": "تم الوصول للهدف"
@@ -118,20 +125,20 @@
   "stats": {
     "title": "الإحصاءات",
     "goBack": "رجوع",
-    "currentStreak": "السلسلة الحالية",
+    "currentStreak": "التتابع الحالي",
     "gamesPlayed": "الألعاب الملعوبة",
-    "longestStreak": "أطول سلسلة",
-    "bestMoves": "أقل عدد حركات",
-    "noHintWins": "انتصارات بدون تلميح",
-    "abandoned": "تم تركها",
+    "longestStreak": "أطول تتابع",
+    "bestMoves": "أقل عدد نقلات",
+    "noHintWins": "انتصارات بلا تلميح",
+    "abandoned": "متروكة",
     "empty": "العب أول لعبة لك لبدء تتبع إحصاءاتك."
   },
   "daily": {
     "label": "اليومي",
-    "title": "كينوتشين اليوم",
+    "title": "Kinochain اليوم",
     "tagline": "سلسلة أفلام جديدة كل يوم.",
     "play": "العب لغز اليوم",
-    "solved": "تم الحل في %{n} حركات",
+    "solved": "تم الحل في %{n} نقلة",
     "comeBack": "لغز جديد غدًا"
   },
   "target": {
@@ -150,9 +157,14 @@
     }
   },
   "credits": {
-    "a11yHint": "يحدد هذا الاعتماد كحلقة تالية في السلسلة"
+    "a11yHint": "اختيار هذا الاسم كحلقة تالية في السلسلة"
   },
   "path": {
-    "a11y": "المسار: %{count} حركات"
+    "a11y": "المسار: %{count} نقلة"
+  },
+  "difficulty": {
+    "easy": "سهل",
+    "medium": "متوسط",
+    "hard": "صعب"
   }
 }

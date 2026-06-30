@@ -23,7 +23,7 @@
   come from **accounts** (account deletion 5.1.1; Sign in with Apple 4.8) — not backends.
 
 ## Phase 0 — Prereqs
-- [ ] Enroll in Apple Developer Program.
+- [x] Enroll in Apple Developer Program.
 - [x] Confirm app name "Kinochain" + bundle id (`com.rightword.kinochain`).
 - [x] Add `EXPO_PUBLIC_TMDB_API_KEY` to `.env`.
 
@@ -53,12 +53,42 @@
 - [x] App Store listing text drafted (`docs/APP_STORE_LISTING.md`).
 
 ## Phase 4 — Ship to feedback
-- [ ] Enroll in Apple Developer Program ($99/yr).
-- [ ] `eas build --platform ios --profile production` → TestFlight.
-- [ ] Take App Store screenshots (5 screens, iPhone 6.9" + 6.7").
-- [ ] Configure App Store Connect: listing text, screenshots, privacy label ("Data Not Collected"), age rating (4+), export compliance.
-- [ ] Manual device testing: VoiceOver, large text, offline, full flow.
+
+### 4a. Pre-build prerequisites (do first)
+- [ ] **Daily pack runway** — currently only 14 puzzles (repeats after 14 days). Run
+      `node scripts/generate-dailies.js 365` and commit `src/data/dailies.json`.
+- [ ] **Aptabase** — create a free project at aptabase.com, get the app key
+      (`A-EU-…`/`A-US-…`). Add `EXPO_PUBLIC_APTABASE_KEY` to local `.env`. Without it,
+      analytics is silently off (app still works).
+- [ ] **EAS env vars** — `.env` is gitignored, so cloud builds need vars set in EAS for
+      the **production** environment: `EXPO_PUBLIC_TMDB_API_KEY` (mandatory — the app
+      can't load movies without it) and `EXPO_PUBLIC_APTABASE_KEY`. Use
+      `eas env:create --environment production …` or the EAS dashboard.
+- [ ] **Device test the full flow** on a dev/preview build: daily play → win → share
+      sheet; free game; hint expand/collapse; Stats screen; abandoned-game tracking;
+      offline error state; VoiceOver + large text; the redesigned Welcome on a small
+      screen (SE) and a tall screen.
+
+### 4b. Build & submit
+- [x] Enroll in Apple Developer Program ($99/yr).
+- [ ] `eas build --platform ios --profile production` (auto-increments build number).
+- [ ] `eas submit --platform ios --profile production` → TestFlight.
+
+### 4c. App Store Connect
+- [ ] **Privacy nutrition label — UPDATED, no longer "Data Not Collected":** declare
+      **Usage Data → Product Interaction** and **Diagnostics → Other Diagnostic Data**,
+      both **Not Linked to You** and **Not Used for Tracking** (exact spec in
+      `APP_STORE_LISTING.md`). No App Tracking Transparency prompt needed.
+- [ ] Listing text from `docs/APP_STORE_LISTING.md` — consider leading with the **Daily
+      Challenge** in the description + promo text now that it ships.
+- [ ] Screenshots (iPhone 6.9" + 6.7") — include the **Daily card** and a daily
+      result/share; age rating 4+; category Games — Trivia; export compliance already
+      declared (`ITSAppUsesNonExemptEncryption=false`).
+- [ ] Confirm the updated **privacy-policy.html** is deployed to the hosted GitHub Pages URL.
 - [ ] Submit for App Store review.
+
+> Free launch + anonymous analytics is TMDB-compliant. The TMDB commercial license is
+> only required before monetization (see memory: tmdb-commercial-license).
 
 ## Deferred to v2+ (see FUTURE_IDEAS.md)
 Firebase analytics/crashlytics, anonymous auth, persisted puzzle library, daily /

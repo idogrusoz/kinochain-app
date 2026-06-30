@@ -8,7 +8,7 @@ import { Wordmark } from '../components/ui/Wordmark';
 import { Icon } from '../components/ui/Icon';
 import { Surface } from '../components/ui/Surface';
 import { colors, fonts, spacing, radius } from '../../theme';
-import i18n from '../i18n/i18n';
+import i18n, { useLocale } from '../i18n/i18n';
 import {
   getHapticsEnabled,
   setHapticsEnabled,
@@ -32,10 +32,10 @@ const LANGUAGES: { code: string | null; label: string }[] = [
 ];
 
 export default function AboutScreen() {
+  useLocale();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [haptics, setHaptics] = useState(getHapticsEnabled());
   const [langPickerVisible, setLangPickerVisible] = useState(false);
-  const [, forceUpdate] = useState(0);
 
   const toggleHaptics = useCallback((val: boolean) => {
     setHaptics(val);
@@ -45,7 +45,6 @@ export default function AboutScreen() {
   const pickLanguage = useCallback(async (code: string | null) => {
     await setLocale(code);
     setLangPickerVisible(false);
-    forceUpdate((n) => n + 1);
   }, []);
 
   const currentLang = LANGUAGES.find((l) => l.code === getLocale())?.label

@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StyleSheet, Pressable, Linking } from 'react-na
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from '../components/ui/Icon';
 import { colors, fonts, spacing } from '../../theme';
-import i18n from '../i18n/i18n';
+import i18n, { useLocale } from '../i18n/i18n';
 
 type Section = {
   titleKey: string;
@@ -26,6 +26,7 @@ const SECTIONS: Section[] = [
 ];
 
 export default function PrivacyScreen() {
+  useLocale();
   const navigation = useNavigation();
 
   return (

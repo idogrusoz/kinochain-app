@@ -1,6 +1,6 @@
 {
   "splash": {
-    "tagline": "SİNEMANIN ALTI DERECESİ",
+    "tagline": "SİNEMADA ALTI ADIM",
     "poweredBy": "DESTEKLEYEN"
   },
   "welcome": {
@@ -10,7 +10,7 @@
     "freePlay": "Serbest oyun",
     "stats": "İstatistikler",
     "about": "Hakkında",
-    "subtitle": "Başlangıç oyuncusunu hedef filme mümkün olduğunca az hamleyle bağla.",
+    "subtitle": "Başlangıç oyuncusunu hedef filme olabildiğince az hamlede bağla.",
     "difficulty": "Zorluk",
     "difficultyA11y": "%{level} zorluk",
     "newGame": "Yeni oyun",
@@ -30,13 +30,13 @@
     "pickPerson": "bir kişi seç",
     "letsGo": "Başlayalım",
     "goalTitle": "Hedefin",
-    "goalBody": "Her oyunun bir hedef filmi var. Oyuncuları ve filmleri bağlayarak ona ulaş.",
-    "pickFilmTitle": "Bir hamle yap",
-    "pickFilmBody": "Filmografiden %{filmName} filmini seç.",
+    "goalBody": "Her oyunda bir hedef film vardır. Oyuncularla filmleri birbirine bağlayarak ona ulaş.",
+    "pickFilmTitle": "Hamleni yap",
+    "pickFilmBody": "Filmografiden %{filmName} filmine dokunarak ona geç.",
     "pickPersonTitle": "Bir kişi seç",
-    "pickPersonBody": "Şimdi zinciri devam ettirmek için %{personName} ismine dokun.",
-    "pickTargetTitle": "Neredeyse tamam!",
-    "pickTargetBody": "Zinciri tamamlamak için %{filmName} — hedef film — filmini seç."
+    "pickPersonBody": "Şimdi zinciri sürdürmek için %{personName} adına dokun.",
+    "pickTargetTitle": "Az kaldı!",
+    "pickTargetBody": "Zinciri tamamlamak için hedef film olan %{filmName} filmine dokun."
   },
   "game": {
     "offline": "Çevrimdışısın",
@@ -46,13 +46,20 @@
     "goBack": "Geri dön",
     "help": "Yardım",
     "yourPath": "Yolun",
-    "move": "Hamle %{n}",
+    "move": "%{n}. hamle",
     "pickFilm": "bir film seç",
     "pickPerson": "bir kişi seç"
   },
   "winning": {
-    "title": "Bu bir sarma!",
-    "linked": "%{from} ile %{to} arasını bağladın.",
+    "titles": [
+      "Tebrikler!",
+      "Aferin!",
+      "Harika!",
+      "Bravo!",
+      "Müthiş!",
+      "Bir numarasın!"
+    ],
+    "linked": "%{from} ile %{to} filmini birbirine bağladın.",
     "moves": "hamle",
     "time": "süre",
     "yourChain": "Zincirin",
@@ -90,16 +97,16 @@
     "dataCollection": "Veri Toplama",
     "dataCollectionBody": "Kinochain hesap gerektirmez, kullanıcı profili oluşturmaz ve bir veritabanında kişisel veri saklamaz.",
     "networkRequests": "Ağ İstekleri",
-    "networkRequestsBody": "Oyun için uygulama, cihazından The Movie Database'e (TMDB) salt okunur HTTPS istekleri gönderir. TMDB, IP adresini ve teknik istek bilgilerini alabilir. Kinochain bir ara sunucu işletmez ve bu bilgileri almaz veya saklamaz.",
+    "networkRequestsBody": "Oyunu sunabilmek için uygulama, doğrudan cihazından The Movie Database'e (TMDB) salt okunur HTTPS istekleri gönderir. TMDB, bu istekleri işlerken IP adresini ve teknik istek bilgilerini alabilir. Kinochain herhangi bir ara sunucu çalıştırmaz; bu bilgileri almaz veya saklamaz.",
     "analytics": "Analiz ve İzleme",
-    "analyticsBody": "Kinochain, anonim ve toplu kullanım istatistikleri toplamak için açık kaynaklı, gizliliğe saygılı bir analiz hizmeti olan Aptabase'i kullanır — örneğin uygulama açılışları ve bir oyunun tamamlanıp tamamlanmadığı. Bu bilgiler kimliğinizle ilişkilendirilmez, hiçbir kişisel veri veya reklam tanımlayıcısı içermez, uygulamalar arası takip için asla kullanılmaz ve asla satılmaz. Kinochain hiçbir reklam veya çökme raporlama SDK'sı içermez.",
+    "analyticsBody": "Kinochain, anonim ve toplu kullanım istatistikleri toplamak için açık kaynaklı, gizliliğe saygılı bir analiz hizmeti olan Aptabase'i kullanır — örneğin uygulama açılışları ve bir oyunun tamamlanıp tamamlanmadığı gibi. Bu bilgiler kimliğinle ilişkilendirilmez, hiçbir kişisel veri ya da reklam tanımlayıcısı içermez, uygulamalar arası takip için asla kullanılmaz ve asla satılmaz. Kinochain hiçbir reklam ya da çökme raporlama SDK'sı içermez.",
     "localStorage": "Yerel Depolama",
-    "localStorageBody": "Uygulama, eğitimi tamamlayıp tamamlamadığını hatırlamak için cihazında küçük bir işaretçi saklar. Bu veriler asla cihazını terk etmez.",
+    "localStorageBody": "Uygulama, eğitimi tamamlayıp tamamlamadığını hatırlamak için cihazında küçük bir kayıt tutar. Bu veri cihazından asla çıkmaz.",
     "tmdb": "The Movie Database",
-    "tmdbBody": "Film verileri ve görselleri TMDB tarafından sağlanmaktadır. ",
-    "tmdbPolicyLink": "TMDB gizlilik politikasını okuyun.",
+    "tmdbBody": "Film verileri ve görselleri TMDB tarafından sağlanır. ",
+    "tmdbPolicyLink": "TMDB gizlilik politikasını oku.",
     "retention": "Saklama ve Silme",
-    "retentionBody": "Kinochain bir sunucu işletmez ve istek günlükleri tutmaz. TMDB, aldığı bilgileri kendi gizlilik politikasına göre işler. Yerel tercihlerini kaldırmak için uygulamayı sil.",
+    "retentionBody": "Kinochain herhangi bir sunucu çalıştırmaz ve ağ isteği günlükleri tutmaz. TMDB, aldığı bilgileri kendi gizlilik politikasına göre işler. Cihazdaki yerel eğitim tercihini kaldırmak için uygulamayı sil.",
     "contact": "İletişim",
     "contactBody": "Bu gizlilik politikası hakkında soruların varsa, info@rightword.be adresinden bize ulaş."
   },
@@ -117,14 +124,14 @@
   },
   "stats": {
     "title": "İstatistikler",
-    "goBack": "Geri",
+    "goBack": "Geri dön",
     "currentStreak": "Güncel seri",
     "gamesPlayed": "Oynanan oyunlar",
     "longestStreak": "En uzun seri",
     "bestMoves": "En az hamle",
     "noHintWins": "İpucusuz galibiyetler",
     "abandoned": "Yarıda bırakılan",
-    "empty": "İstatistiklerini izlemeye başlamak için ilk oyununu oyna."
+    "empty": "İstatistiklerini takip etmeye başlamak için ilk oyununu oyna."
   },
   "daily": {
     "label": "Günlük",
@@ -145,14 +152,19 @@
       "director": "Yönetmen",
       "topCast": "Başroller",
       "castMember": "%{name}, oyuncu",
-      "error": "İpucu kullanılamıyor — yeniden denemek için dokunun",
+      "error": "İpucu yüklenemedi — yeniden denemek için dokun",
       "none": "Oyuncu bilgisi yok"
     }
   },
   "credits": {
-    "a11yHint": "Bu krediyi zincirdeki bir sonraki halka olarak seçer"
+    "a11yHint": "Bunu zincirdeki bir sonraki halka olarak seçer"
   },
   "path": {
     "a11y": "Yol: %{count} hamle"
+  },
+  "difficulty": {
+    "easy": "Kolay",
+    "medium": "Orta",
+    "hard": "Zor"
   }
 }

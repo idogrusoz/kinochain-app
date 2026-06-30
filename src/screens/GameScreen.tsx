@@ -39,7 +39,7 @@ import Loading from '../components/Loading';
 import { ErrorScreen } from '../components/ui/ErrorScreen';
 import { TmdbError } from '../services/tmdb/client';
 import { colors, fonts, spacing } from '../../theme';
-import i18n from '../i18n/i18n';
+import i18n, { useLocale } from '../i18n/i18n';
 
 function formatTime(total: number): string {
   const m = Math.floor(total / 60);
@@ -91,6 +91,7 @@ function toCredits(
 }
 
 export default function GameScreen() {
+  useLocale();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'Game'>>();
   const difficulty: Difficulty = route.params?.difficulty ?? 'medium';

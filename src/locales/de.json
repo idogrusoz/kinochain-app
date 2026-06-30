@@ -1,6 +1,6 @@
 {
   "splash": {
-    "tagline": "SECHS GRADE DES KINOS",
+    "tagline": "SECHS SCHRITTE DURCHS KINO",
     "poweredBy": "UNTERSTÜTZT VON"
   },
   "welcome": {
@@ -10,7 +10,7 @@
     "freePlay": "Freies Spiel",
     "stats": "Statistiken",
     "about": "Über",
-    "subtitle": "Verbinde den Startschauspieler mit dem Zielfilm in möglichst wenigen Zügen.",
+    "subtitle": "Verbinde den Start-Schauspieler in möglichst wenigen Zügen mit dem Zielfilm.",
     "difficulty": "Schwierigkeit",
     "difficultyA11y": "Schwierigkeit %{level}",
     "newGame": "Neues Spiel",
@@ -31,8 +31,8 @@
     "letsGo": "Los geht's",
     "goalTitle": "Dein Ziel",
     "goalBody": "Jedes Spiel hat einen Zielfilm. Erreiche ihn, indem du Schauspieler und Filme verbindest.",
-    "pickFilmTitle": "Mach einen Zug",
-    "pickFilmBody": "Tippe auf %{filmName} in der Filmografie.",
+    "pickFilmTitle": "Mach deinen Zug",
+    "pickFilmBody": "Tippe in der Filmografie auf %{filmName}, um dorthin zu springen.",
     "pickPersonTitle": "Wähle eine Person",
     "pickPersonBody": "Tippe jetzt auf %{personName}, um die Kette fortzusetzen.",
     "pickTargetTitle": "Fast geschafft!",
@@ -51,7 +51,14 @@
     "pickPerson": "wähle eine Person"
   },
   "winning": {
-    "title": "Das war's!",
+    "titles": [
+      "Glückwunsch!",
+      "Gut gemacht!",
+      "Stark!",
+      "Ausgezeichnet!",
+      "Bravo!",
+      "Klasse!"
+    ],
     "linked": "Du hast %{from} mit %{to} verbunden.",
     "moves": "Züge",
     "time": "Zeit",
@@ -63,7 +70,7 @@
     "shareLinked": "%{from} → %{to}",
     "shareSolved": "Gelöst in %{moves} Zügen · %{time}",
     "shareNoHint": "ohne Tipp",
-    "shareCta": "Knackst du meine Kette?",
+    "shareCta": "Schaffst du meine Kette schneller?",
     "noHintBadge": "Ohne Tipp gelöst",
     "streak": "%{n}-Tage-Serie"
   },
@@ -90,7 +97,7 @@
     "dataCollection": "Datenerhebung",
     "dataCollectionBody": "Kinochain erfordert kein Konto, erstellt keine Benutzerprofile und speichert keine personenbezogenen Daten in einer Datenbank.",
     "networkRequests": "Netzwerkanfragen",
-    "networkRequestsBody": "Für das Spiel sendet die App schreibgeschützte HTTPS-Anfragen von deinem Gerät an The Movie Database (TMDB). TMDB kann deine IP-Adresse und technische Anfrageinformationen erhalten. Kinochain betreibt keinen Zwischenserver und empfängt oder speichert diese Informationen nicht.",
+    "networkRequestsBody": "Damit du spielen kannst, sendet die App ausschließlich lesende HTTPS-Anfragen direkt von deinem Gerät an The Movie Database (TMDB). Bei der Verarbeitung dieser Anfragen erhält TMDB unter Umständen deine IP-Adresse und technische Anfrageinformationen. Kinochain betreibt keinen Zwischenserver und empfängt oder speichert diese Informationen nicht.",
     "analytics": "Analyse und Tracking",
     "analyticsBody": "Kinochain verwendet Aptabase, einen quelloffenen, datenschutzfreundlichen Analysedienst, um anonyme, aggregierte Nutzungsstatistiken zu erfassen — zum Beispiel App-Starts und ob ein Spiel abgeschlossen wurde. Diese Informationen sind nicht mit deiner Identität verknüpft, enthalten keine personenbezogenen Daten oder Werbe-IDs, werden niemals zum app-übergreifenden Tracking verwendet und niemals verkauft. Kinochain enthält keine Werbe- oder Absturzbericht-SDKs.",
     "localStorage": "Lokaler Speicher",
@@ -99,7 +106,7 @@
     "tmdbBody": "Filmdaten und Bilder werden von TMDB bereitgestellt. Lies die ",
     "tmdbPolicyLink": "TMDB-Datenschutzrichtlinie.",
     "retention": "Aufbewahrung und Löschung",
-    "retentionBody": "Kinochain betreibt keinen Server und speichert keine Anfragenprotokolle. TMDB verarbeitet erhaltene Informationen gemäß seiner eigenen Datenschutzrichtlinie. Lösche die App, um lokale Einstellungen zu entfernen.",
+    "retentionBody": "Kinochain betreibt keinen Server und speichert keine Protokolle von Netzwerkanfragen. TMDB verarbeitet erhaltene Informationen gemäß seiner eigenen Datenschutzrichtlinie. Lösche die App, um die lokal gespeicherte Tutorial-Einstellung zu entfernen.",
     "contact": "Kontakt",
     "contactBody": "Bei Fragen zu dieser Datenschutzrichtlinie kontaktiere uns unter info@rightword.be."
   },
@@ -144,8 +151,8 @@
       "revealed": "Tipp angezeigt",
       "director": "Regie",
       "topCast": "Hauptbesetzung",
-      "castMember": "%{name}, Besetzung",
-      "error": "Tipp nicht verfügbar — zum Wiederholen tippen",
+      "castMember": "%{name}, Darsteller/in",
+      "error": "Tipp nicht verfügbar — zum erneuten Versuch tippen",
       "none": "Keine Besetzungsdetails verfügbar"
     }
   },
@@ -154,5 +161,10 @@
   },
   "path": {
     "a11y": "Pfad: %{count} Züge"
+  },
+  "difficulty": {
+    "easy": "Leicht",
+    "medium": "Mittel",
+    "hard": "Schwer"
   }
 }
