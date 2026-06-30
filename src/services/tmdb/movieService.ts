@@ -18,15 +18,18 @@ const WITHOUT_GENRES = '10770,10402,99,16';
 // Keep the film's cast list manageable for the picker.
 const MAX_CAST_IN_DETAILS = 20;
 
-// Difficulty tunes how famous the films are. Higher pages + lower thresholds =
-// deeper into the popularity-sorted list = more obscure.
+// Difficulty tunes how famous the films are via popularity + page depth, but a
+// hard quality floor (votes + rating) keeps every movie recognizable — never a
+// "what is this?" obscurity. Deeper pages = recognizable-but-less-front-of-mind.
+const TARGET_MIN_VOTES = 4000;
+const TARGET_MIN_RATING = 6.5;
 const DIFFICULTY: Record<
   Difficulty,
-  { voteCount: number; minPopularity: number; pageRange: number }
+  { minPopularity: number; pageRange: number }
 > = {
-  easy: { voteCount: 1000, minPopularity: 30, pageRange: 3 },
-  medium: { voteCount: 200, minPopularity: 10, pageRange: 10 },
-  hard: { voteCount: 100, minPopularity: 5, pageRange: 20 },
+  easy: { minPopularity: 30, pageRange: 3 },
+  medium: { minPopularity: 10, pageRange: 10 },
+  hard: { minPopularity: 5, pageRange: 20 },
 };
 
 export async function fetchMovie(
@@ -41,7 +44,8 @@ export async function fetchMovie(
       page,
       'release_date.gte': '1980-01-01',
       sort_by: 'popularity.desc',
-      'vote_count.gte': cfg.voteCount,
+      'vote_count.gte': TARGET_MIN_VOTES,
+      'vote_average.gte': TARGET_MIN_RATING,
       with_original_language: 'en',
       without_genres: WITHOUT_GENRES,
     });

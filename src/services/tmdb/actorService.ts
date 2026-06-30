@@ -8,8 +8,9 @@ import {
   TmdbPersonDetails,
 } from './types';
 
-// Draw the starting actor from the most popular billed cast (TMDB popularity is
-// small, so rank-and-take-top-N rather than threshold).
+// Draw the starting actor from the TOP-BILLED main cast (lowest `order`), not by
+// TMDB popularity — popularity can inflate a bit-part player above the leads,
+// surfacing actors nobody recognizes. Billing order = the actual stars.
 const TOP_CAST_POOL_SIZE = 10;
 
 export async function fetchActorFromMovie(
@@ -17,7 +18,7 @@ export async function fetchActorFromMovie(
 ): Promise<TmdbCastMember | undefined> {
   const credits = await tmdbGet<TmdbMovieCredits>(`/movie/${movieId}/credits`);
   const topCast = [...(credits.cast ?? [])]
-    .sort((a, b) => b.popularity - a.popularity)
+    .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
     .slice(0, TOP_CAST_POOL_SIZE);
   if (topCast.length === 0) return undefined;
   return topCast[Math.floor(Math.random() * topCast.length)];
