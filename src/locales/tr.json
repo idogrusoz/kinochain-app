@@ -65,7 +65,13 @@
     "privacyPolicy": "Gizlilik Politikası",
     "howToPlay": "Nasıl Oynanır",
     "tmdbWebsite": "TMDB Web Sitesi",
-    "madeBy": "Ibrahim Dogrusoz tarafından yapıldı"
+    "madeBy": "Rightword Games tarafından yapıldı"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "haptics": "Dokunsal geri bildirim",
+    "language": "Dil",
+    "systemDefault": "Sistem varsayılanı"
   },
   "privacy": {
     "goBack": "Geri dön",
@@ -105,5 +111,8 @@
   },
   "credits": {
     "a11yHint": "Bu krediyi zincirdeki bir sonraki halka olarak seçer"
+  },
+  "path": {
+    "a11y": "Yol: %{count} hamle"
   }
 }

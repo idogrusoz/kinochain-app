@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Share, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import * as Haptics from 'expo-haptics';
+import { hapticLight, hapticMedium } from '../services/settings';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { BrassButton } from '../components/ui/BrassButton';
@@ -63,7 +63,7 @@ function AnimatedStat({
       const ticks = Math.min(4, targetValue);
       for (let i = 0; i < ticks; i++) {
         setTimeout(
-          () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {}),
+          () => hapticLight(),
           (i * 500) / ticks,
         );
       }
@@ -87,22 +87,30 @@ function AnimatedStat({
 // ── Shimmer overlay for headline ───────────────────────────────────────
 function Shimmer({ delay }: { delay: number }) {
   const translateX = useRef(new Animated.Value(-200)).current;
+  const opacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      Animated.timing(translateX, {
-        toValue: 400,
-        duration: 1500,
-        easing: Easing.inOut(Easing.ease),
-        useNativeDriver: true,
-      }).start();
+      Animated.sequence([
+        Animated.timing(translateX, {
+          toValue: 400,
+          duration: 1500,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ]).start();
     }, delay);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <Animated.View
-      style={[styles.shimmerWrap, { transform: [{ translateX }] }]}
+      style={[styles.shimmerWrap, { opacity, transform: [{ translateX }] }]}
       pointerEvents="none"
     >
       <LinearGradient
@@ -150,12 +158,12 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
 
     // Phase 1 haptic
     setTimeout(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+      hapticLight();
     }, 400);
 
     // ── Phase 2: Title drop (600–1200ms) ──
     setTimeout(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
+      hapticMedium();
       Animated.spring(titleScale, {
         toValue: 1,
         damping: 12,
@@ -313,7 +321,7 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
       {/* Phase 4: Chain */}
       <Animated.View style={[styles.chainSection, { opacity: chainOpacity }]}>
         <SectionLabel style={styles.chainLabel}>{i18n.t('winning.yourChain')}</SectionLabel>
-        <ChainView chain={chain} entranceDelay={P4_START + 200} />
+        <ChainView chain={chain} entranceDelay={P4_START + 200} centered large />
       </Animated.View>
 
       {/* Phase 5: Buttons */}

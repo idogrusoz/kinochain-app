@@ -65,7 +65,13 @@
     "privacyPolicy": "Политика конфиденциальности",
     "howToPlay": "Как играть",
     "tmdbWebsite": "Сайт TMDB",
-    "madeBy": "Сделано Ibrahim Dogrusoz"
+    "madeBy": "Сделано Rightword Games"
+  },
+  "settings": {
+    "title": "Настройки",
+    "haptics": "Тактильная отдача",
+    "language": "Язык",
+    "systemDefault": "Язык системы"
   },
   "privacy": {
     "goBack": "Назад",
@@ -105,5 +111,8 @@
   },
   "credits": {
     "a11yHint": "Выбирает этот кредит как следующее звено в цепочке"
+  },
+  "path": {
+    "a11y": "Путь: %{count} ходов"
   }
 }

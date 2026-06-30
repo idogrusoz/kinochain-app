@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, Animated } from 'react-native';
 import { colors } from '../../../theme';
 import { Icon } from '../ui/Icon';
 import { ChainNode } from '../../../types';
+import i18n from '../../i18n/i18n';
 
 // Show the most recent nodes; collapse older ones into a "‹ N" chip. The current
 // node and the target always stay visible.
@@ -103,7 +104,7 @@ export function PathTracker({
       style={styles.row}
       accessible
       accessibilityRole="summary"
-      accessibilityLabel={`Path: ${Math.max(0, path.length - 1)} moves`}
+      accessibilityLabel={i18n.t('path.a11y', { count: Math.max(0, path.length - 1) })}
     >
       {leading > 0 && (
         <>

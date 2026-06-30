@@ -8,6 +8,7 @@ import { Wordmark } from '../components/ui/Wordmark';
 import { RootStackParamList } from '../../App';
 import { colors, fonts } from '../../theme';
 import i18n from '../i18n/i18n';
+import { loadSettings } from '../services/settings';
 
 export const ONBOARDED_KEY = 'kinochain.onboarded';
 
@@ -16,6 +17,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
+      await loadSettings();
       let onboarded = false;
       try {
         onboarded = (await AsyncStorage.getItem(ONBOARDED_KEY)) === '1';

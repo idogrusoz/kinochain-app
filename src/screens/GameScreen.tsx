@@ -24,7 +24,7 @@ import {
   fetchMovieDetails,
   fetchActorDetails,
 } from '../services/gameService';
-import * as Haptics from 'expo-haptics';
+import { hapticLight } from '../services/settings';
 import NetInfo from '@react-native-community/netinfo';
 import { CreditsList } from '../components/CreditsList';
 import { TargetBanner } from '../components/game/TargetBanner';
@@ -154,7 +154,7 @@ export default function GameScreen() {
   const creditRows = useMemo(() => toCredits(credits, isActor), [credits, isActor]);
 
   const handleCreditSelect = async (creditId: number) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    hapticLight();
     setError(null);
     try {
       if (isActor) {

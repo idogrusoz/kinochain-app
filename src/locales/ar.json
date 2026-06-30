@@ -65,7 +65,13 @@
     "privacyPolicy": "سياسة الخصوصية",
     "howToPlay": "كيف تلعب",
     "tmdbWebsite": "موقع TMDB",
-    "madeBy": "صنع بواسطة إبراهيم دوغروسوز"
+    "madeBy": "صنع بواسطة Rightword Games"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "haptics": "ردود الفعل اللمسية",
+    "language": "اللغة",
+    "systemDefault": "لغة النظام"
   },
   "privacy": {
     "goBack": "رجوع",
@@ -105,5 +111,8 @@
   },
   "credits": {
     "a11yHint": "يحدد هذا الاعتماد كحلقة تالية في السلسلة"
+  },
+  "path": {
+    "a11y": "المسار: %{count} حركات"
   }
 }

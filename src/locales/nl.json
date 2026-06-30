@@ -65,7 +65,13 @@
     "privacyPolicy": "Privacybeleid",
     "howToPlay": "Hoe te spelen",
     "tmdbWebsite": "TMDB Website",
-    "madeBy": "Gemaakt door Ibrahim Dogrusoz"
+    "madeBy": "Gemaakt door Rightword Games"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "haptics": "Haptische feedback",
+    "language": "Taal",
+    "systemDefault": "Systeemstandaard"
   },
   "privacy": {
     "goBack": "Ga terug",
@@ -105,5 +111,8 @@
   },
   "credits": {
     "a11yHint": "Selecteert dit credit als volgende schakel in de keten"
+  },
+  "path": {
+    "a11y": "Pad: %{count} zetten"
   }
 }

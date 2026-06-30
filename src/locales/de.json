@@ -65,7 +65,13 @@
     "privacyPolicy": "Datenschutzrichtlinie",
     "howToPlay": "Spielanleitung",
     "tmdbWebsite": "TMDB-Website",
-    "madeBy": "Erstellt von Ibrahim Dogrusoz"
+    "madeBy": "Erstellt von Rightword Games"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "haptics": "Haptisches Feedback",
+    "language": "Sprache",
+    "systemDefault": "Systemstandard"
   },
   "privacy": {
     "goBack": "Zurück",
@@ -105,5 +111,8 @@
   },
   "credits": {
     "a11yHint": "Wählt diesen Credit als nächstes Glied in der Kette"
+  },
+  "path": {
+    "a11y": "Pfad: %{count} Züge"
   }
 }

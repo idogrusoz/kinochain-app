@@ -65,7 +65,13 @@
     "privacyPolicy": "Política de privacidad",
     "howToPlay": "Cómo jugar",
     "tmdbWebsite": "Sitio web de TMDB",
-    "madeBy": "Hecho por Ibrahim Dogrusoz"
+    "madeBy": "Hecho por Rightword Games"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "haptics": "Respuesta háptica",
+    "language": "Idioma",
+    "systemDefault": "Idioma del sistema"
   },
   "privacy": {
     "goBack": "Volver",
@@ -105,5 +111,8 @@
   },
   "credits": {
     "a11yHint": "Selecciona este crédito como el siguiente eslabón de la cadena"
+  },
+  "path": {
+    "a11y": "Ruta: %{count} movimientos"
   }
 }
