@@ -59,7 +59,8 @@
     "shareSolved": "Résolu en %{moves} coups · %{time}",
     "shareNoHint": "sans indice",
     "shareCta": "Peux-tu battre ma chaîne ?",
-    "noHintBadge": "Résolu sans indice"
+    "noHintBadge": "Résolu sans indice",
+    "streak": "série de %{n} jours"
   },
   "about": {
     "goBack": "Retour",

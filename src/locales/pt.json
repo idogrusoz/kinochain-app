@@ -59,7 +59,8 @@
     "shareSolved": "Resolvido em %{moves} movimentos · %{time}",
     "shareNoHint": "sem dica",
     "shareCta": "Consegues bater a minha cadeia?",
-    "noHintBadge": "Resolvido sem dica"
+    "noHintBadge": "Resolvido sem dica",
+    "streak": "sequência de %{n} dias"
   },
   "about": {
     "goBack": "Voltar",

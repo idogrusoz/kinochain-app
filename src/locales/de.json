@@ -59,7 +59,8 @@
     "shareSolved": "Gelöst in %{moves} Zügen · %{time}",
     "shareNoHint": "ohne Tipp",
     "shareCta": "Knackst du meine Kette?",
-    "noHintBadge": "Ohne Tipp gelöst"
+    "noHintBadge": "Ohne Tipp gelöst",
+    "streak": "%{n}-Tage-Serie"
   },
   "about": {
     "goBack": "Zurück",

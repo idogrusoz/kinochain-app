@@ -59,7 +59,8 @@
     "shareSolved": "Решено за %{moves} ходов · %{time}",
     "shareNoHint": "без подсказки",
     "shareCta": "Сможешь побить мою цепочку?",
-    "noHintBadge": "Решено без подсказки"
+    "noHintBadge": "Решено без подсказки",
+    "streak": "серия %{n} дн."
   },
   "about": {
     "goBack": "Назад",

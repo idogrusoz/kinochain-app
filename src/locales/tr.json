@@ -59,7 +59,8 @@
     "shareSolved": "%{moves} hamlede çözüldü · %{time}",
     "shareNoHint": "ipucusuz",
     "shareCta": "Zincirimi geçebilir misin?",
-    "noHintBadge": "İpucusuz çözüldü"
+    "noHintBadge": "İpucusuz çözüldü",
+    "streak": "%{n} günlük seri"
   },
   "about": {
     "goBack": "Geri dön",

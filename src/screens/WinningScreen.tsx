@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Share, Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { hapticLight, hapticMedium } from '../services/settings';
 import { track } from '../services/analytics';
+import { recordWin } from '../services/stats';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { BrassButton } from '../components/ui/BrassButton';
@@ -134,13 +135,21 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
   const { targetMovie, moves, seconds, chain, fromTutorial, hintUsed } = route.params;
   const startName = chain[0]?.name ?? '';
   const showNoHintBadge = !fromTutorial && !hintUsed;
+  const [streak, setStreak] = useState<number | null>(null);
+  const recorded = useRef(false);
+  const showStreakBadge = streak != null && streak >= 2;
 
   useEffect(() => {
+    if (recorded.current) return; // guard against StrictMode double-invoke
+    recorded.current = true;
     if (fromTutorial) {
       track('tutorial_completed');
-    } else {
-      track('game_won', { moves, seconds, hintUsed: !!hintUsed });
+      return;
     }
+    track('game_won', { moves, seconds, hintUsed: !!hintUsed });
+    recordWin({ moves, hintUsed: !!hintUsed })
+      .then((s) => setStreak(s.currentStreak))
+      .catch(() => {});
   }, []);
 
   // Phase animation values
@@ -265,9 +274,9 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
       '',
       grid,
       solved,
-      '',
-      i18n.t('winning.shareCta'),
     ];
+    if (showStreakBadge) lines.push(`🔥 ${i18n.t('winning.streak', { n: String(streak) })}`);
+    lines.push('', i18n.t('winning.shareCta'));
     if (SHARE_URL) lines.push(SHARE_URL);
     return lines.join('\n');
   };
@@ -360,12 +369,19 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
         <AnimatedStat targetValue={seconds} label={i18n.t('winning.time')} formatFn={formatTime} delay={P3_START} />
       </View>
 
-      {/* No-hint flex badge */}
-      {showNoHintBadge && (
-        <Animated.View style={[styles.noHintWrap, { opacity: chainOpacity }]}>
-          <Text style={styles.noHintBadge} maxFontSizeMultiplier={1.4}>
-            🧠 {i18n.t('winning.noHintBadge')}
-          </Text>
+      {/* Streak + no-hint flex badges */}
+      {(showStreakBadge || showNoHintBadge) && (
+        <Animated.View style={[styles.badgeRow, { opacity: chainOpacity }]}>
+          {showStreakBadge && (
+            <Text style={styles.badge} maxFontSizeMultiplier={1.4}>
+              🔥 {i18n.t('winning.streak', { n: String(streak) })}
+            </Text>
+          )}
+          {showNoHintBadge && (
+            <Text style={styles.badge} maxFontSizeMultiplier={1.4}>
+              🧠 {i18n.t('winning.noHintBadge')}
+            </Text>
+          )}
         </Animated.View>
       )}
 
@@ -430,8 +446,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   stats: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 16 },
-  noHintWrap: { alignItems: 'center', marginTop: 14 },
-  noHintBadge: {
+  badgeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 14,
+  },
+  badge: {
     fontFamily: fonts.text.medium,
     fontSize: 12,
     color: colors.goldBright,

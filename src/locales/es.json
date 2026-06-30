@@ -59,7 +59,8 @@
     "shareSolved": "Resuelto en %{moves} movimientos · %{time}",
     "shareNoHint": "sin pista",
     "shareCta": "¿Puedes superar mi cadena?",
-    "noHintBadge": "Resuelto sin pista"
+    "noHintBadge": "Resuelto sin pista",
+    "streak": "racha de %{n} días"
   },
   "about": {
     "goBack": "Volver",

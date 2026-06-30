@@ -59,7 +59,8 @@
     "shareSolved": "Solved in %{moves} moves · %{time}",
     "shareNoHint": "no hint",
     "shareCta": "Can you beat my chain?",
-    "noHintBadge": "Solved without a hint"
+    "noHintBadge": "Solved without a hint",
+    "streak": "%{n}-day streak"
   },
   "about": {
     "goBack": "Go back",

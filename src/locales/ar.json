@@ -59,7 +59,8 @@
     "shareSolved": "تم الحل في %{moves} حركات · %{time}",
     "shareNoHint": "بدون تلميح",
     "shareCta": "هل يمكنك التغلب على سلسلتي؟",
-    "noHintBadge": "تم الحل بدون تلميح"
+    "noHintBadge": "تم الحل بدون تلميح",
+    "streak": "سلسلة %{n} يوم"
   },
   "about": {
     "goBack": "رجوع",

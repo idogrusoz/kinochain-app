@@ -59,7 +59,8 @@
     "shareSolved": "Opgelost in %{moves} zetten · %{time}",
     "shareNoHint": "zonder hint",
     "shareCta": "Versla jij mijn keten?",
-    "noHintBadge": "Opgelost zonder hint"
+    "noHintBadge": "Opgelost zonder hint",
+    "streak": "%{n} dagen op rij"
   },
   "about": {
     "goBack": "Ga terug",
