@@ -119,6 +119,7 @@
     "longestStreak": "Meilleure série",
     "bestMoves": "Moins de coups",
     "noHintWins": "Victoires sans indice",
+    "abandoned": "Abandonnées",
     "empty": "Joue ta première partie pour commencer à suivre tes statistiques."
   },
   "target": {

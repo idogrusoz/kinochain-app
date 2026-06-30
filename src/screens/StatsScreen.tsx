@@ -73,6 +73,11 @@ export default function StatsScreen() {
             />
             <MetricCard value={String(stats!.noHintWins)} label={i18n.t('stats.noHintWins')} />
           </View>
+
+          <View style={styles.abandonRow}>
+            <Text style={styles.abandonLabel} maxFontSizeMultiplier={1.4}>{i18n.t('stats.abandoned')}</Text>
+            <Text style={styles.abandonValue} maxFontSizeMultiplier={1.4}>{String(stats!.gamesAbandoned)}</Text>
+          </View>
         </ScrollView>
       )}
     </View>
@@ -131,6 +136,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 4,
   },
+
+  // Abandoned is a neutral footnote, not an achievement — muted full-width row.
+  abandonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 18,
+    paddingTop: 14,
+    paddingHorizontal: 4,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderRow,
+  },
+  abandonLabel: { fontFamily: fonts.text.regular, fontSize: 13, color: colors.textMuted },
+  abandonValue: { fontFamily: fonts.display.medium, fontSize: 16, color: colors.textSecondary },
 
   emptyWrap: {
     flex: 1,

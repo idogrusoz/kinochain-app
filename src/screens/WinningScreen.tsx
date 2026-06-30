@@ -10,6 +10,7 @@ import { BrassButton } from '../components/ui/BrassButton';
 import { OutlineButton } from '../components/ui/OutlineButton';
 import { TextButton } from '../components/ui/TextButton';
 import { SectionLabel } from '../components/ui/SectionLabel';
+import { Icon } from '../components/ui/Icon';
 import { ChainView } from '../components/game/ChainView';
 import { colors, fonts, radius, type, spacing } from '../../theme';
 import i18n from '../i18n/i18n';
@@ -369,18 +370,25 @@ export const WinningScreen: React.FC<WinningScreenProps> = ({ route, navigation 
         <AnimatedStat targetValue={seconds} label={i18n.t('winning.time')} formatFn={formatTime} delay={P3_START} />
       </View>
 
-      {/* Streak + no-hint flex badges */}
+      {/* Streak + no-hint flex badges (vector icons — emoji don't render in
+          a custom-font Text; they stay only in the share string) */}
       {(showStreakBadge || showNoHintBadge) && (
         <Animated.View style={[styles.badgeRow, { opacity: chainOpacity }]}>
           {showStreakBadge && (
-            <Text style={styles.badge} maxFontSizeMultiplier={1.4}>
-              🔥 {i18n.t('winning.streak', { n: String(streak) })}
-            </Text>
+            <View style={[styles.badge, styles.badgeStreak]}>
+              <Icon name="flame" size={13} color={colors.goldHighlight} />
+              <Text style={[styles.badgeText, { color: colors.goldHighlight }]} maxFontSizeMultiplier={1.4}>
+                {i18n.t('winning.streak', { n: String(streak) })}
+              </Text>
+            </View>
           )}
           {showNoHintBadge && (
-            <Text style={styles.badge} maxFontSizeMultiplier={1.4}>
-              🧠 {i18n.t('winning.noHintBadge')}
-            </Text>
+            <View style={[styles.badge, styles.badgeMerit]}>
+              <Icon name="ribbon" size={13} color={colors.goldBright} />
+              <Text style={[styles.badgeText, { color: colors.textPrimary }]} maxFontSizeMultiplier={1.4}>
+                {i18n.t('winning.noHintBadge')}
+              </Text>
+            </View>
           )}
         </Animated.View>
       )}
@@ -454,17 +462,18 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   badge: {
-    fontFamily: fonts.text.medium,
-    fontSize: 12,
-    color: colors.goldBright,
-    backgroundColor: colors.goldTintBg,
-    borderColor: colors.borderSubtleGold,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     borderWidth: 1,
     borderRadius: radius.pill,
     paddingHorizontal: 12,
-    paddingVertical: 5,
+    paddingVertical: 6,
     overflow: 'hidden',
   },
+  badgeText: { fontFamily: fonts.text.semibold, fontSize: 12, letterSpacing: 0.2 },
+  badgeStreak: { backgroundColor: colors.goldTintBg, borderColor: colors.goldKeyline },
+  badgeMerit: { backgroundColor: colors.surfaceRaised, borderColor: colors.borderSubtleGold },
   dividerWrap: { justifyContent: 'center' },
   divider: { width: 1, backgroundColor: colors.border },
   chainSection: {

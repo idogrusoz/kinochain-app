@@ -8,6 +8,7 @@ const KEY = 'kinochain.stats';
 
 export type Stats = {
   gamesCompleted: number;
+  gamesAbandoned: number;
   bestMoves: number | null;
   noHintWins: number;
   currentStreak: number;
@@ -17,6 +18,7 @@ export type Stats = {
 
 const EMPTY: Stats = {
   gamesCompleted: 0,
+  gamesAbandoned: 0,
   bestMoves: null,
   noHintWins: 0,
   currentStreak: 0,
@@ -77,6 +79,7 @@ export async function recordWin(opts: {
 
   const next: Stats = {
     gamesCompleted: prev.gamesCompleted + 1,
+    gamesAbandoned: prev.gamesAbandoned,
     bestMoves: prev.bestMoves == null ? opts.moves : Math.min(prev.bestMoves, opts.moves),
     noHintWins: prev.noHintWins + (opts.hintUsed ? 0 : 1),
     currentStreak,
@@ -90,4 +93,18 @@ export async function recordWin(opts: {
     // best-effort; a failed write just means this game isn't counted
   }
   return next;
+}
+
+// Record a game left without completing. Does not touch the streak — a quit
+// neither extends nor breaks it; only the calendar gap does.
+export async function recordAbandon(): Promise<void> {
+  const prev = await loadStats();
+  try {
+    await AsyncStorage.setItem(
+      KEY,
+      JSON.stringify({ ...prev, gamesAbandoned: prev.gamesAbandoned + 1 })
+    );
+  } catch {
+    // best-effort
+  }
 }

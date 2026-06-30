@@ -17,6 +17,7 @@ const MAP = {
   director: 'megaphone-outline',
   flag: 'flag',
   hint: 'bulb-outline',
+  ribbon: 'ribbon-outline',
   daily: 'calendar-outline',
   stats: 'stats-chart-outline',
   flame: 'flame',

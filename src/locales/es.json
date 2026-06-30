@@ -119,6 +119,7 @@
     "longestStreak": "Mejor racha",
     "bestMoves": "Menos movimientos",
     "noHintWins": "Victorias sin pista",
+    "abandoned": "Abandonadas",
     "empty": "Juega tu primera partida para empezar a registrar tus estadísticas."
   },
   "target": {

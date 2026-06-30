@@ -119,6 +119,7 @@
     "longestStreak": "Longest streak",
     "bestMoves": "Fewest moves",
     "noHintWins": "Hint-free wins",
+    "abandoned": "Abandoned",
     "empty": "Play your first game to start tracking your stats."
   },
   "target": {

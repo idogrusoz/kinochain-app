@@ -30,6 +30,7 @@ export type AnalyticsEvent =
   | 'app_open'
   | 'game_started'
   | 'game_won'
+  | 'game_abandoned'
   | 'game_error'
   | 'hint_revealed'
   | 'share_tapped'

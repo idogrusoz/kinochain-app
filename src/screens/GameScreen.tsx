@@ -26,6 +26,7 @@ import {
 } from '../services/gameService';
 import { hapticLight } from '../services/settings';
 import { track } from '../services/analytics';
+import { recordAbandon } from '../services/stats';
 import NetInfo from '@react-native-community/netinfo';
 import { CreditsList } from '../components/CreditsList';
 import { TargetBanner, TargetHint } from '../components/game/TargetBanner';
@@ -108,6 +109,15 @@ export default function GameScreen() {
   const [hintError, setHintError] = useState(false);
   const [hintUsed, setHintUsed] = useState(false);
   const resumeAfterHelp = useRef(false);
+  // Track win + a snapshot of the live game so the abandonment listener (which
+  // fires after this screen is popped) can read the latest values via refs.
+  const wonRef = useRef(false);
+  const abandonSnap = useRef<{
+    game: Game | null;
+    moves: number;
+    seconds: number;
+    busy: boolean;
+  }>({ game: null, moves: 0, seconds: 0, busy: true });
   const [error, setError] = useState<{
     title: string;
     message: string;
@@ -140,6 +150,7 @@ export default function GameScreen() {
     setTargetHint(null);
     setHintError(false);
     setHintUsed(false);
+    wonRef.current = false;
     try {
       await ensureOnline();
       const ng = await startNewGame(difficulty);
@@ -180,6 +191,30 @@ export default function GameScreen() {
 
   const moves = Math.max(0, path.length - 1);
 
+  // Keep the abandonment snapshot current for the beforeRemove listener below.
+  useEffect(() => {
+    abandonSnap.current = { game, moves, seconds, busy: loading || !!error };
+  }, [game, moves, seconds, loading, error]);
+
+  // Leaving the Game screen (back to Welcome) without a win = abandonment.
+  // beforeRemove fires only when this screen is popped — not when Winning or
+  // Onboarding is pushed on top — so it cleanly catches genuine quits.
+  useEffect(() => {
+    const unsub = navigation.addListener('beforeRemove', () => {
+      const s = abandonSnap.current;
+      if (!s.game || s.busy || wonRef.current) return;
+      track('game_abandoned', {
+        moves: s.moves,
+        seconds: s.seconds,
+        difficulty,
+        starting: s.game.starting.name,
+        target: s.game.target.title,
+      });
+      recordAbandon();
+    });
+    return unsub;
+  }, [navigation, difficulty]);
+
   // Stable row identity: only rebuilds when the underlying list/state changes —
   // not on every per-second timer tick — so the list doesn't jump to the top.
   const creditRows = useMemo(() => toCredits(credits, isActor), [credits, isActor]);
@@ -200,6 +235,7 @@ export default function GameScreen() {
               poster: game.target.poster,
             },
           ];
+          wonRef.current = true; // suppress the abandonment listener
           navigation.navigate('Winning', {
             targetMovie: game.target,
             moves: moves + 1,
