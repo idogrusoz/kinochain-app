@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kinochain — App Store screenshot maker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root { color-scheme: dark; }
+  body { margin:0; background:#1b1b1d; color:#F2EEE4; font-family:'Inter',system-ui,sans-serif; display:flex; gap:28px; padding:24px; align-items:flex-start; }
+
+  /* ── Controls ── */
+  .panel { width:320px; flex:none; }
+  .panel h1 { font-family:'Space Grotesk'; font-weight:700; font-size:18px; letter-spacing:1px; color:#E6CC8A; margin:0 0 4px; }
+  .panel p { font-size:12px; line-height:1.5; color:#9A968C; margin:0 0 16px; }
+  label { display:block; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#9A968C; margin:14px 0 5px; }
+  input[type=text] { width:100%; box-sizing:border-box; background:#141414; border:1px solid #2C2C2E; border-radius:8px; color:#F2EEE4; font-family:'Inter'; font-size:14px; padding:9px 11px; }
+  input[type=file] { font-size:12px; color:#9A968C; margin-top:4px; }
+  button { font-family:'Space Grotesk'; font-weight:600; font-size:13px; letter-spacing:.5px; border-radius:10px; padding:11px 14px; border:1px solid #8A7233; background:#C9A24A; color:#15120A; cursor:pointer; width:100%; margin-top:16px; }
+  button.ghost { background:transparent; color:#E6CC8A; border-color:#3A342A; margin-top:8px; }
+  .seg { display:flex; gap:8px; margin-top:6px; }
+  .seg button { margin:0; flex:1; background:#141414; color:#9A968C; border-color:#2C2C2E; }
+  .seg button.on { background:#1C160A; color:#E6CC8A; border-color:#C9A24A; }
+  .presets { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .presets button { width:auto; margin:0; padding:6px 9px; font-size:11px; font-weight:500; background:#1C160A; color:#E6CC8A; border-color:#6F5B29; }
+  .hint { font-size:11px; color:#56544D; margin-top:14px; line-height:1.5; }
+  .dim { font-size:11px; color:#9A968C; margin-top:6px; }
+
+  /* ── Preview (scaled; size set by JS) ── */
+  .stage { flex:none; overflow:hidden; border-radius:14px; box-shadow:0 12px 48px rgba(0,0,0,.5); }
+  .scaler { transform-origin:top left; }
+
+  /* ── The real export node (dimensions set by JS per device) ── */
+  #shot { background:#0E0E10; display:flex; flex-direction:column; align-items:center; box-sizing:border-box; }
+  #cap { font-family:'Space Grotesk'; font-weight:600; line-height:1.15; color:#E6CC8A; text-align:center; padding:0 40px; }
+  #sub { font-family:'Inter'; font-weight:400; line-height:1.3; color:#9A968C; text-align:center; padding:14px 40px 0; }
+  .frame { flex:1; margin-top:90px; border:1px solid #6F5B29; overflow:hidden; background:#0E0E10; display:flex; }
+  #shotImg { width:100%; height:100%; object-fit:contain; object-position:center; }
+  .empty { margin:auto; color:#56544D; font-size:34px; }
+</style>
+</head>
+<body>
+
+  <div class="panel">
+    <h1>KINOCHAIN SHOTS</h1>
+    <p>Drop a raw screenshot, set the caption, download a PNG at the exact App Store size. Repeat for each shot.</p>
+
+    <label>Device</label>
+    <div class="seg" id="deviceSeg">
+      <button data-mode="iphone" class="on">iPhone 6.9"</button>
+      <button data-mode="ipad">iPad 13"</button>
+    </div>
+    <div class="dim" id="dim">1320 × 2868</div>
+
+    <label>Caption</label>
+    <input id="capIn" type="text" value="Connect any actor to any film." />
+    <label>Subtitle (optional)</label>
+    <input id="subIn" type="text" value="" />
+
+    <div class="presets" id="presets"></div>
+
+    <label>Screenshot</label>
+    <input id="file" type="file" accept="image/*" />
+
+    <button id="dl">Download PNG</button>
+    <button class="ghost" id="clear">Clear image</button>
+
+    <p class="hint">Feed each toggle a screenshot taken on the matching simulator: iPhone 16 Pro Max for 6.9", iPad Pro 13" (M4) for iPad. Your app bg is also #0E0E10, so letterboxing blends invisibly. ⌘S saves a shot in the Simulator.</p>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="scaler" id="scaler">
+      <div id="shot">
+        <div id="cap">Connect any actor to any film.</div>
+        <div id="sub"></div>
+        <div class="frame" id="frame">
+          <img id="shotImg" alt="" style="display:none" />
+          <div class="empty" id="empty">Drop your screenshot →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Native App Store sizes. iPad = iPad Pro 13" (M4) portrait.
+  const CONFIG = {
+    iphone: { w:1320, h:2868, padTop:170, padBottom:130, cap:80, sub:40, frameW:1080, frameR:56, scale:0.25 },
+    ipad:   { w:2064, h:2752, padTop:190, padBottom:160, cap:100, sub:50, frameW:1680, frameR:52, scale:0.16 },
+  };
+  let mode = 'iphone';
+
+  const el = (id) => document.getElementById(id);
+  const shot=el('shot'), cap=el('cap'), sub=el('sub'), frame=el('frame'),
+        scaler=el('scaler'), stage=el('stage'), img=el('shotImg'), empty=el('empty');
+
+  function applyMode() {
+    const c = CONFIG[mode];
+    shot.style.width = c.w+'px';
+    shot.style.height = c.h+'px';
+    shot.style.padding = c.padTop+'px 0 '+c.padBottom+'px';
+    cap.style.fontSize = c.cap+'px';
+    cap.style.maxWidth = (c.w-280)+'px';
+    sub.style.fontSize = c.sub+'px';
+    sub.style.maxWidth = (c.w-320)+'px';
+    frame.style.width = c.frameW+'px';
+    frame.style.borderRadius = c.frameR+'px';
+    scaler.style.transform = 'scale('+c.scale+')';
+    stage.style.width = Math.round(c.w*c.scale)+'px';
+    stage.style.height = Math.round(c.h*c.scale)+'px';
+    el('dim').textContent = c.w+' × '+c.h;
+  }
+
+  el('deviceSeg').querySelectorAll('button').forEach((b) => {
+    b.onclick = () => {
+      mode = b.dataset.mode;
+      el('deviceSeg').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
+      applyMode();
+    };
+  });
+
+  function render() {
+    cap.textContent = el('capIn').value;
+    sub.textContent = el('subIn').value;
+    sub.style.display = el('subIn').value ? 'block' : 'none';
+  }
+  el('capIn').addEventListener('input', render);
+  el('subIn').addEventListener('input', render);
+
+  const PRESETS = [
+    'Connect any actor to any film.',
+    'A new puzzle every day. Build your streak.',
+    'Hop through movies and co-stars.',
+    'Pick a co-star or the director.',
+    'Track your streak and stats.',
+  ];
+  const presetsEl = el('presets');
+  PRESETS.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.textContent = 'Shot ' + (i + 1);
+    b.title = p;
+    b.onclick = () => { el('capIn').value = p; render(); };
+    presetsEl.appendChild(b);
+  });
+
+  el('file').addEventListener('change', (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { img.src = r.result; img.style.display = 'block'; empty.style.display = 'none'; };
+    r.readAsDataURL(f);
+  });
+  el('clear').onclick = () => { img.src = ''; img.style.display = 'none'; empty.style.display = 'block'; };
+
+  el('dl').onclick = async () => {
+    const c = CONFIG[mode];
+    scaler.style.transform = 'none'; // capture at full native size
+    try {
+      const canvas = await html2canvas(shot, { backgroundColor: '#0E0E10', scale: 1, width: c.w, height: c.h, windowWidth: c.w, windowHeight: c.h });
+      const a = document.createElement('a');
+      a.download = 'kinochain-' + mode + '-shot.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    } finally {
+      scaler.style.transform = 'scale(' + c.scale + ')';
+    }
+  };
+
+  applyMode();
+  render();
+</script>
+</body>
+</html>

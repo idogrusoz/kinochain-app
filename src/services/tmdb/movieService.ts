@@ -15,8 +15,6 @@ import {
 const MAX_FETCH_ATTEMPTS = 10;
 // Exclude: TV movie, music, documentary, animation.
 const WITHOUT_GENRES = '10770,10402,99,16';
-// Keep the film's cast list manageable for the picker.
-const MAX_CAST_IN_DETAILS = 20;
 
 // Difficulty tunes how famous the films are via popularity + page depth, but a
 // hard quality floor (votes + rating) keeps every movie recognizable — never a
@@ -89,8 +87,16 @@ export async function getMovieDetails(
     crew.push({ id: c.id, name: c.name, poster: c.profile_path, job: c.job });
   }
 
+  // Show the full billed cast (no cap). Sort by billing order explicitly so the
+  // most recognizable leads surface first — TMDB happens to return cast in this
+  // order today, but we don't rely on it. Missing `order` sinks to the bottom.
+  const orderedCast = [...(credits.cast ?? [])].sort(
+    (a, b) =>
+      (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER)
+  );
+
   const cast: MovieDetailsModel['cast'] = [];
-  for (const c of credits.cast ?? []) {
+  for (const c of orderedCast) {
     if (seen.has(c.id)) continue;
     seen.add(c.id);
     cast.push({
@@ -99,7 +105,6 @@ export async function getMovieDetails(
       poster: c.profile_path,
       character: c.character,
     });
-    if (cast.length >= MAX_CAST_IN_DETAILS) break;
   }
 
   return {
