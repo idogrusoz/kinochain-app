@@ -1,0 +1,37 @@
+# EAS uses this INSTEAD of .gitignore for the build upload, so it must repeat
+# the .gitignore excludes AND add build-irrelevant assets (marketing/dev only).
+# Nothing here is imported by the app, so excluding it never affects the build.
+
+# ── mirror of .gitignore ──
+node_modules/
+.expo/
+dist/
+web-build/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+.metro-health-check*
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+.DS_Store
+*.pem
+.env
+.env*.local
+*.tsbuildinfo
+.idea/
+.fake
+/android
+/ios
+.vscode
+
+# ── build-irrelevant assets (not imported by the app) ──
+screenshots/
+docs/
+scripts/
+*.mov
+*.mp4
+*.gif
